@@ -2,5 +2,18 @@
 
 #include "KinjelGame.h"
 #include "Modules/ModuleManager.h"
+#include "UI/Style/KlStyle.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, KinjelGame, "KinjelGame" );
+void FKlGameModule::StartupModule() 
+{
+	// Initialize the style
+	FSlateStyleRegistry::UnRegisterSlateStyle(KlStyle::GetStyleSetName());
+	KlStyle::Initialize();
+}
+
+void FKlGameModule::ShutdownModule() 
+{
+	KlStyle::ShutDown();
+}
+
+IMPLEMENT_PRIMARY_GAME_MODULE(FKlGameModule, KinjelGame, "KinjelGame");

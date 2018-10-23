@@ -14,7 +14,10 @@ class KINJELGAME_API AKlMenuController : public APlayerController
 {
 	GENERATED_BODY()
 	
+public:
+	AKlMenuController();
 	
-	
+protected:
+	virtual void BeginPlay() override;
 	
 };

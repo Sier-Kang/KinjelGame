@@ -14,7 +14,8 @@ class KINJELGAME_API AKlMenuGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
+public:
+	AKlMenuGameMode();
 	
 	
 };

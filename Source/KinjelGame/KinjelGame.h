@@ -4,3 +4,10 @@
 
 #include "CoreMinimal.h"
 
+class FKlGameModule : public FDefaultGameModuleImpl
+{
+public:
+	virtual void StartupModule() override;
+
+	virtual void ShutdownModule() override;
+};

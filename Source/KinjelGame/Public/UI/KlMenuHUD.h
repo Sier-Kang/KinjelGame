@@ -14,7 +14,9 @@ class KINJELGAME_API AKlMenuHUD : public AHUD
 {
 	GENERATED_BODY()
 	
+public:
+	AKlMenuHUD();
 	
-	
-	
+private:
+	TSharedPtr<class SKlMenuHUDWidget> MenuHUDWidget;
 };

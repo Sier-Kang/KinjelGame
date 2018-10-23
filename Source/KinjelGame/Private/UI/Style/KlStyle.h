@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SlateBasics.h"
 
 /**
  * 
@@ -10,6 +11,16 @@
 class KlStyle
 {
 public:
-	KlStyle();
-	~KlStyle();
+	static void Initialize();
+
+	static FName GetStyleSetName();
+
+	static void ShutDown();
+
+	static const ISlateStyle& Get();
+
+private:
+	static TSharedRef<class FSlateStyleSet> Create();
+
+	static TSharedPtr<FSlateStyleSet> KlStyleInstance;
 };
