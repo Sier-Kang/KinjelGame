@@ -7,6 +7,7 @@
 #include "UI/Style/KlStyle.h"
 #include "UI/Style/KlMenuWidgetStyle.h"
 #include "SDPIScaler.h"
+#include "SKlMenuWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuHUDWidget::Construct(const FArguments& InArgs) {
@@ -33,20 +34,10 @@ void SKlMenuHUDWidget::Construct(const FArguments& InArgs) {
 			+ SOverlay::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
-			.Expose(ImageSlot)
 			[
-				SNew(SImage)
-				.Image(&MenuStyle->MenuBackgroundBrush)
-			]
-			+ SOverlay::Slot()
-			.HAlign(HAlign_Left)
-			.VAlign(VAlign_Top)
-			[
-				SNew(SButton)
-				.OnClicked(this, &SKlMenuHUDWidget::OnClicked_Btn)
+				SAssignNew(MenuWidget, SKlMenuWidget)
 			]
 		]
-
 	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -65,9 +56,4 @@ FVector2D SKlMenuHUDWidget::GetViewportSize() const
 	}
 
 	return Result;
-}
-
-FReply SKlMenuHUDWidget::OnClicked_Btn() 
-{
-	return FReply::Handled();
 }

@@ -34,13 +34,6 @@ private:
 	*/
 	FVector2D GetViewportSize() const;
 
-	/**
-	* On button clicked event
-	* @param Comment
-	* @return FReply
-	*/
-	FReply OnClicked_Btn();
-
 private:
 	/** Get the style of menu */
 	const struct FKlMenuStyle* MenuStyle;
@@ -48,6 +41,6 @@ private:
 	/** DPI scale coefficients */
 	TAttribute<float> UIScaler;
 
-	/** Image slot ptr*/
-	SOverlay::FOverlaySlot* ImageSlot;
+	/** Menu Widget Ptr*/
+	TSharedPtr<class SKlMenuWidget> MenuWidget;
 };

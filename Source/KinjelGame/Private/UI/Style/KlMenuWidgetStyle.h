@@ -26,16 +26,34 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	static const FKlMenuStyle& GetDefault();
 
 	/**
-	 * HUD background image
+	 * HUD background image brush.
 	 */
 	UPROPERTY(EditAnywhere, Category = MENUHUD)
 	FSlateBrush MenuHUDBackgroundBrush;
 
 	/**
-	* Menu background image
+	* Menu background image brush.
 	*/
-	UPROPERTY(EditAnywhere, Category = MENUHUD)
+	UPROPERTY(EditAnywhere, Category = MENU)
 	FSlateBrush MenuBackgroundBrush;
+
+	/**
+	* Left icon brush in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = MENU)
+	FSlateBrush LeftIconBrush;
+
+	/**
+	* Right icon brush in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = MENU)
+	FSlateBrush RightIconBrush;
+
+	/**
+	* Title border brush in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = MENU)
+	FSlateBrush TitleBorderBrush;
 };
 
 /**

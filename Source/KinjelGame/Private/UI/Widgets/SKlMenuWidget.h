@@ -17,4 +17,14 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	/** Size box of the menu */
+	TSharedPtr<SBox> RootSizeBox;
+
+	/** Title Text */
+	TSharedPtr<STextBlock> TitleText;
+
+	/** Get the style of menu */
+	const struct FKlMenuStyle* MenuStyle;
 };
