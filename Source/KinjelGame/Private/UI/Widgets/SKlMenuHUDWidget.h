@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SOverlay.h"
 #include "Widgets/SCompoundWidget.h"
 
 /**
@@ -19,6 +20,34 @@ public:
 	void Construct(const FArguments& InArgs);
 
 private:
-	// Get the style of menu
+	/**
+	* UI Scaler principle method
+	* @param Comment
+	* @return Comment
+	*/
+	float GetUIScaler() const;
+
+	/** 
+	* Get viewport size 
+	* @param Comment
+	* @return Viewport size
+	*/
+	FVector2D GetViewportSize() const;
+
+	/**
+	* On button clicked event
+	* @param Comment
+	* @return FReply
+	*/
+	FReply OnClicked_Btn();
+
+private:
+	/** Get the style of menu */
 	const struct FKlMenuStyle* MenuStyle;
+
+	/** DPI scale coefficients */
+	TAttribute<float> UIScaler;
+
+	/** Image slot ptr*/
+	SOverlay::FOverlaySlot* ImageSlot;
 };

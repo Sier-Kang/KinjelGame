@@ -41,5 +41,8 @@ TSharedRef<class FSlateStyleSet> KlStyle::Create()
 		"/Game/UI/Style"
 	);
 
+	// Set font style
+	StyleRef->Set("MenuItemFont", FSlateFontInfo("Robbto-Regular.ttf", 50));
+
 	return StyleRef;
 }

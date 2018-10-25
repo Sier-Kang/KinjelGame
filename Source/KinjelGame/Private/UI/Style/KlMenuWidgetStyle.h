@@ -25,8 +25,17 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	virtual const FName GetTypeName() const override { return TypeName; };
 	static const FKlMenuStyle& GetDefault();
 
+	/**
+	 * HUD background image
+	 */
 	UPROPERTY(EditAnywhere, Category = MENUHUD)
 	FSlateBrush MenuHUDBackgroundBrush;
+
+	/**
+	* Menu background image
+	*/
+	UPROPERTY(EditAnywhere, Category = MENUHUD)
+	FSlateBrush MenuBackgroundBrush;
 };
 
 /**
