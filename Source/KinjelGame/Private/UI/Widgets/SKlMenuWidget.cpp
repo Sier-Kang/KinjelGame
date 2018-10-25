@@ -4,8 +4,10 @@
 #include "SlateOptMacros.h"
 #include "SImage.h"
 #include "SOverlay.h"
+#include "VerticalBox.h"
 #include "UI/Style/KlStyle.h"
 #include "UI/Style/KlMenuWidgetStyle.h"
+#include "SKlMenuItemWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::Construct(const FArguments& InArgs) {
@@ -55,9 +57,17 @@ void SKlMenuWidget::Construct(const FArguments& InArgs) {
 						.VAlign(VAlign_Center)
 						[
 							SAssignNew(TitleText, STextBlock)
-							.Text(NSLOCTEXT("KlMenu", "Game Menu", "Game Menu"))
+							.Font(KlStyle::Get().GetFontStyle("MenuItemFont"))
+							.Text(NSLOCTEXT("KlMenu", "Menu", "Menu"))
 						]
 					]
+				]
+				+SOverlay::Slot()
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Top)
+				.Padding(FMargin(0.f, 130.f, 0.f, 0.f))
+				[
+					SAssignNew(ContentBox, SVerticalBox)
 				]
 			]
 		];

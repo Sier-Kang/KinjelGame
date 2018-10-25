@@ -27,4 +27,7 @@ private:
 
 	/** Get the style of menu */
 	const struct FKlMenuStyle* MenuStyle;
+
+	/** To save vertical list */
+	TSharedPtr<SVerticalBox> ContentBox;
 };
