@@ -17,4 +17,8 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	/** Get the style of menu */
+	const struct FKlMenuStyle* MenuStyle;
 };
