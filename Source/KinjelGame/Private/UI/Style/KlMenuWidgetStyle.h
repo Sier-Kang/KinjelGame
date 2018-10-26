@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
-
+#include "SlateFontInfo.h"
 #include "KlMenuWidgetStyle.generated.h"
 
 /**
@@ -28,32 +28,56 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	/**
 	 * HUD background image brush.
 	 */
-	UPROPERTY(EditAnywhere, Category = MENUHUD)
+	UPROPERTY(EditAnywhere, Category = "HUD")
 	FSlateBrush MenuHUDBackgroundBrush;
 
 	/**
 	* Menu background image brush.
 	*/
-	UPROPERTY(EditAnywhere, Category = MENU)
+	UPROPERTY(EditAnywhere, Category = "Menu")
 	FSlateBrush MenuBackgroundBrush;
 
 	/**
 	* Left icon brush in menu.
 	*/
-	UPROPERTY(EditAnywhere, Category = MENU)
+	UPROPERTY(EditAnywhere, Category = "Menu")
 	FSlateBrush LeftIconBrush;
 
 	/**
 	* Right icon brush in menu.
 	*/
-	UPROPERTY(EditAnywhere, Category = MENU)
+	UPROPERTY(EditAnywhere, Category = "Menu")
 	FSlateBrush RightIconBrush;
 
 	/**
 	* Title border brush in menu.
 	*/
-	UPROPERTY(EditAnywhere, Category = MENU)
+	UPROPERTY(EditAnywhere, Category = "Menu")
 	FSlateBrush TitleBorderBrush;
+
+	/**
+	* Menu item brush in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Menu Item")
+	FSlateBrush MenuItemBrush;
+
+	/**
+	* Font of 60 size in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Common")
+	FSlateFontInfo Font_60;
+
+	/**
+	* Font of 40 size in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Common")
+	FSlateFontInfo Font_40;
+
+	/**
+	* Font of 30 size in menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Common")
+	FSlateFontInfo Font_30;
 };
 
 /**

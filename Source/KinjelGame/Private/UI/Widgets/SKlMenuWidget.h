@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Data/FKlTypes.h"
 
 /**
  * 
@@ -17,6 +18,14 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	/**
+	* Item click event.
+	* @params Item type
+	* @return
+	*/
+	void MenuItemOnClicked(EMenuItem::Type ItemType);
 
 private:
 	/** Size box of the menu */

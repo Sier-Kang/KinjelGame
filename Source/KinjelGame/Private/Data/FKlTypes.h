@@ -21,6 +21,18 @@ namespace EMenuItem
 {
 	enum Type
 	{
+		None,
+		StartGame,
+		GameOption,
+		QuitGame,
 
+		NewGame,
+		LoadRecord,
+
+		StartGameGoBack,
+		NewGameGoBack,
+		ChooseRecordGoBack,
+		EnterGame,
+		EnterRecord,
 	};
 }

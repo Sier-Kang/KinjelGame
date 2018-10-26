@@ -75,5 +75,17 @@ void SKlMenuWidget::Construct(const FArguments& InArgs) {
 	RootSizeBox->SetWidthOverride(600.f);
 	RootSizeBox->SetHeightOverride(510.f);
 
+	ContentBox->AddSlot()
+		[
+			SNew(SKlMenuItemWidget)
+			.ItemText(NSLOCTEXT("KlMenu", "StartGame", "StartGame"))
+			.ItemType(EMenuItem::StartGame)
+			.OnClicked(this, &SKlMenuWidget::MenuItemOnClicked)
+		];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SKlMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType) 
+{
+
+}
