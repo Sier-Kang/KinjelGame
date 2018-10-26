@@ -37,7 +37,7 @@ void SKlMenuItemWidget::Construct(const FArguments& InArgs)
 			[
 				SNew(STextBlock)
 				.Text(InArgs._ItemText)
-				.Font(KlStyle::Get().GetFontStyle("MenuItemFont"))
+				.Font(MenuStyle->Font_60)
 			]
 		]
 	];

@@ -3,13 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/World.h"
 
 /**
  * 
  */
-class KINJELGAME_API FKlHelper
+namespace FKlHelper 
 {
-public:
-	FKlHelper();
-	~FKlHelper();
-};
+	FORCEINLINE void Debug(FString Message, float Duration = 3.f) 
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, Duration, FColor::Yellow, Message);
+		}
+	}
+}

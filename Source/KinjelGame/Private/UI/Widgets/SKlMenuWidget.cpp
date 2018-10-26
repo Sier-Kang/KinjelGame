@@ -8,6 +8,8 @@
 #include "UI/Style/KlStyle.h"
 #include "UI/Style/KlMenuWidgetStyle.h"
 #include "SKlMenuItemWidget.h"
+#include "Common/FKlHelper.h"
+#include "SKlGameOptionWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::Construct(const FArguments& InArgs) {
@@ -77,15 +79,12 @@ void SKlMenuWidget::Construct(const FArguments& InArgs) {
 
 	ContentBox->AddSlot()
 		[
-			SNew(SKlMenuItemWidget)
-			.ItemText(NSLOCTEXT("KlMenu", "StartGame", "StartGame"))
-			.ItemType(EMenuItem::StartGame)
-			.OnClicked(this, &SKlMenuWidget::MenuItemOnClicked)
+			SNew(SKlGameOptionWidget)
 		];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SKlMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType) 
 {
-
+	FKlHelper::Debug(FString("Menu Item On Clicked."), 10.f);
 }
