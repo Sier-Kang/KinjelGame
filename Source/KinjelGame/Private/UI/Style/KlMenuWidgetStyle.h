@@ -62,6 +62,36 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	FSlateBrush MenuItemBrush;
 
 	/**
+	* Game option menu background brush.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Game Option")
+	FSlateBrush GameOptionBGBrush;
+
+	/*
+	* CheckedBox brush when checked.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Game Option")
+	FSlateBrush CheckedBoxBrush;
+
+	/*
+	* Slider bar background brush in GameOption Menu.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Game Option")
+	FSlateBrush SliderBarBrush;
+
+	/*
+	* Slider Style 
+	*/
+	UPROPERTY(EditAnywhere, Category = "Game Option")
+	FSliderStyle SliderStyle;
+
+	/*
+	* CheckedBox brush when unchecked
+	*/
+	UPROPERTY(EditAnywhere, Category = "Game Option")
+	FSlateBrush UnCheckedBoxBrush;
+
+	/**
 	* Font of 60 size in menu.
 	*/
 	UPROPERTY(EditAnywhere, Category = "Common")
@@ -78,6 +108,18 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	*/
 	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_30;
+
+	/*
+	* Color of Black
+	*/
+	UPROPERTY(EditAnywhere, Category = "Common")
+	FLinearColor FontColor_Black;
+
+	/*
+	* Color of White
+	*/
+	UPROPERTY(EditAnywhere, Category = "Common")
+	FLinearColor FontColor_White;
 };
 
 /**

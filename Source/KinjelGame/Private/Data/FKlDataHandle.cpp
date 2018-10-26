@@ -15,6 +15,8 @@ void FKlDataHandle::Initialize()
 
 TSharedPtr<FKlDataHandle> FKlDataHandle::Get() 
 {
+	Initialize();
+
 	return DataInstance;
 }
 
@@ -35,6 +37,14 @@ void FKlDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 	}
 
 	CurrentCulture = Culture;
+}
+
+FKlDataHandle::FKlDataHandle() 
+{
+	CurrentCulture = ECultureTeam::ZH;
+
+	MusicVolume = 0.3f;
+	SoundVolume = 0.5f;
 }
 
 TSharedRef<FKlDataHandle> FKlDataHandle::Create() 

@@ -11,7 +11,14 @@
 class FKlDataHandle
 {
 public:
+	/** Culture that game use */
 	ECultureTeam CurrentCulture;
+
+	/** Music percent volume */
+	float MusicVolume;
+
+	/** Sound percent volume */
+	float SoundVolume;
 
 	static void Initialize();
 
@@ -25,7 +32,7 @@ public:
 	void ChangeLocalizationCulture(ECultureTeam Culture);
 
 private:
-	FKlDataHandle() {};
+	FKlDataHandle();
 
 	/** Create the Singleton */
 	static TSharedRef<FKlDataHandle> Create();
