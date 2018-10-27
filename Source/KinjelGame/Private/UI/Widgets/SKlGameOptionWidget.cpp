@@ -26,6 +26,7 @@ void SKlGameOptionWidget::Construct(const FArguments& InArgs)
 		.WidthOverride(500.f)
 		.HeightOverride(300.f)
 		[
+
 			SNew(SOverlay)
 			// Menu Background
 			+SOverlay::Slot()
