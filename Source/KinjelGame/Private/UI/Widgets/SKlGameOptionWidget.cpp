@@ -115,6 +115,7 @@ void SKlGameOptionWidget::Construct(const FArguments& InArgs)
 								SNew(SImage)
 								.Image(&MenuStyle->SliderBarBrush)
 							]
+							// Music Slider
 							+ SOverlay::Slot()
 							.HAlign(HAlign_Fill)
 							.VAlign(VAlign_Center)
@@ -135,13 +136,61 @@ void SKlGameOptionWidget::Construct(const FArguments& InArgs)
 						.ColorAndOpacity(MenuStyle->FontColor_White)
 					]
 				]
-				// GoBack Setting
+				// Sound Setting
 				+ SVerticalBox::Slot()
 				.HAlign(HAlign_Fill)
 				.VAlign(VAlign_Fill)
 				.FillHeight(1.f)
 				[
 					SNew(SOverlay)
+					// Sound Text
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Center)
+					[
+						SNew(STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_Black)
+						.Text(NSLOCTEXT("KlMenu", "Sound", "Sound"))
+					]
+					// Sound Slider
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					[
+						SNew(SBox)
+						.WidthOverride(240.f)
+						[
+							SNew(SOverlay)
+							// Slider background
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							.Padding(FMargin(30.f, 0.f))
+							[
+								SNew(SImage)
+								.Image(&MenuStyle->SliderBarBrush)
+							]
+							// Music Slider
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							[
+								SAssignNew(SoundSlider, SSlider)
+								.Style(&MenuStyle->SliderStyle)
+								.OnValueChanged(this, &SKlGameOptionWidget::SoundSliderChanged)
+							]
+						]
+					]
+					// Percent text of sound 
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Right)
+					.VAlign(VAlign_Center)
+					[
+						SAssignNew(SoundPercentTextBlock, STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_White)
+					]
 				]
 			]
 		]
@@ -183,7 +232,8 @@ void SKlGameOptionWidget::MusicSliderChanged(float Value)
 
 void SKlGameOptionWidget::SoundSliderChanged(float Value) 
 {
-
+	// Show percent of music 
+	SoundPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(Value * 100)) + FString("%")));
 }
 
 void SKlGameOptionWidget::StyleInitialize() 
@@ -223,8 +273,8 @@ void SKlGameOptionWidget::StyleInitialize()
 	}
 
 	MusicSlider->SetValue(FKlDataHandle::Get()->MusicVolume);
-	//SoundSlider->SetValue(FKlDataHandle::Get()->SoundVolume);
+	SoundSlider->SetValue(FKlDataHandle::Get()->SoundVolume);
 
 	MusicPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(FKlDataHandle::Get()->MusicVolume * 100)) + FString("%")));
-	//SoundPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(FKlDataHandle::Get()->SoundVolume * 100)) + FString("%")));
+	SoundPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(FKlDataHandle::Get()->SoundVolume * 100)) + FString("%")));
 }
