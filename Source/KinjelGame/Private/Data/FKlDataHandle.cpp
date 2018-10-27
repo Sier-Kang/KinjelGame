@@ -5,6 +5,18 @@
 
 TSharedPtr<FKlDataHandle> FKlDataHandle::DataInstance = nullptr;
 
+void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
+{
+	if (MusicVol > 0)
+	{
+		MusicVolume = MusicVol;
+	}
+	if (SoundVol > 0)
+	{
+		SoundVolume = SoundVol;
+	}
+}
+
 void FKlDataHandle::Initialize() 
 {
 	if (!DataInstance.IsValid())

@@ -20,6 +20,14 @@ public:
 	/** Sound percent volume */
 	float SoundVolume;
 
+	/**
+	* Change current music and sound
+	* @param MusicVol SoundVol
+	* @return void
+	*/
+	void ResetMenuVolume(float MusicVol, float SoundVol);
+
+public:
 	static void Initialize();
 
 	static TSharedPtr<FKlDataHandle> Get();

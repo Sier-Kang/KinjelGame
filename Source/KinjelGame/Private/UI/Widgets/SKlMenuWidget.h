@@ -27,6 +27,20 @@ private:
 	*/
 	void MenuItemOnClicked(EMenuItem::Type ItemType);
 
+	/**
+	* Change Culture
+	* @params Culture type
+	* @return
+	*/
+	void ChangeCulture(ECultureTeam Culture);
+
+	/**
+	* Change Musici and Sound
+	* @params 
+	* @return
+	*/
+	void ChangeVolume(const float MusicVolume, const float SoundVolume);
+
 private:
 	/** Size box of the menu */
 	TSharedPtr<SBox> RootSizeBox;

@@ -3,7 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/FKlTypes.h"
 #include "Widgets/SCompoundWidget.h"
+
+// Delegate of Change Culture
+DECLARE_DELEGATE_OneParam(FChangeCulture, const ECultureTeam)
+
+// Delegate of Change Volume
+DECLARE_DELEGATE_TwoParams(FChangeVolume, const float, const float)
 
 class SSlider;
 
@@ -15,6 +22,10 @@ class SKlGameOptionWidget : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SKlGameOptionWidget)
 	{}
+	SLATE_EVENT(FChangeCulture, ChangeCulture)
+
+	SLATE_EVENT(FChangeVolume, ChangeVolume)
+
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
@@ -77,4 +88,9 @@ private:
 
 	/** Percent of Sound text */
 	TSharedPtr<STextBlock> SoundPercentTextBlock;
+
+	/** Delegate */
+	FChangeCulture ChangeCulture;
+
+	FChangeVolume ChangeVolume;
 };

@@ -20,6 +20,10 @@ void SKlGameOptionWidget::Construct(const FArguments& InArgs)
 	// Get Style of the editor
 	MenuStyle = &KlStyle::Get().GetWidgetStyle<FKlMenuStyle>("BPKlMenuStyle");
 
+	ChangeCulture = InArgs._ChangeCulture;
+
+	ChangeVolume = InArgs._ChangeVolume;
+
 	ChildSlot
 	[
 		SNew(SBox)
@@ -210,7 +214,8 @@ void SKlGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
 	EnCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 
 	// Set current culture
-	FKlDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::ZH);
+	// FKlDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::ZH);
+	ChangeCulture.ExecuteIfBound(ECultureTeam::ZH);
 }
 
 void SKlGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
@@ -222,19 +227,26 @@ void SKlGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
 	ZhCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 
 	// Set current culture
-	FKlDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
+	// FKlDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
+	ChangeCulture.ExecuteIfBound(ECultureTeam::EN);
 }
 
 void SKlGameOptionWidget::MusicSliderChanged(float Value) 
 {
 	// Show percent of music 
 	MusicPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(Value * 100)) + FString("%")));
+
+	// FKlDataHandle::Get()->ResetMenuVolume(Value, -1.f);
+	ChangeVolume.ExecuteIfBound(Value, -1.f);
 }
 
 void SKlGameOptionWidget::SoundSliderChanged(float Value) 
 {
 	// Show percent of music 
 	SoundPercentTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(Value * 100)) + FString("%")));
+
+	//FKlDataHandle::Get()->ResetMenuVolume(-1.f, Value);
+	ChangeVolume.ExecuteIfBound(-1.f, Value);
 }
 
 void SKlGameOptionWidget::StyleInitialize() 

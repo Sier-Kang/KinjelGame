@@ -10,6 +10,7 @@
 #include "SKlMenuItemWidget.h"
 #include "Common/FKlHelper.h"
 #include "SKlGameOptionWidget.h"
+#include "Data/FKlDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::Construct(const FArguments& InArgs) {
@@ -80,6 +81,8 @@ void SKlMenuWidget::Construct(const FArguments& InArgs) {
 	ContentBox->AddSlot()
 		[
 			SNew(SKlGameOptionWidget)
+			.ChangeCulture(this, &SKlMenuWidget::ChangeCulture)
+			.ChangeVolume(this, &SKlMenuWidget::ChangeVolume)
 		];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -87,4 +90,14 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType) 
 {
 	FKlHelper::Debug(FString("Menu Item On Clicked."), 10.f);
+}
+
+void SKlMenuWidget::ChangeCulture(ECultureTeam Culture)
+{
+	FKlDataHandle::Get()->ChangeLocalizationCulture(Culture);
+}
+
+void SKlMenuWidget::ChangeVolume(const float MusicVolume, const float SoundVolume)
+{
+	FKlDataHandle::Get()->ResetMenuVolume(MusicVolume, SoundVolume);
 }
