@@ -45,6 +45,15 @@ private:
 	/** Create the Singleton */
 	static TSharedRef<FKlDataHandle> Create();
 
+	/** Get Type String according to Emum Value */
+	template<typename TEnum>
+	FString GetEnumValueString(const FString& Name, TEnum Value);
+
+	template<typename TEnum>
+	TEnum GetEnumValueFromString(const FString& Name, FString Value);
+
 private:
 	static TSharedPtr<FKlDataHandle> DataInstance;
 };
+
+

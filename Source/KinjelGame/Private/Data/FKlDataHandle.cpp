@@ -65,3 +65,25 @@ TSharedRef<FKlDataHandle> FKlDataHandle::Create()
 
 	return DataRef;
 }
+
+template<typename TEnum>
+FString FKlDataHandle::GetEnumValueString(const FString& Name, TEnum Value)
+{
+	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
+	if (!EnumPtr) {
+		return FString("InValid");
+	}
+
+	return EnumPtr->GetEnumName((int32)Value);
+}
+
+template<typename TEnum>
+TEnum FKlDataHandle::GetEnumValueFromString(const FString& Name, FString Value)
+{
+	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
+	if (!EnumPtr) {
+		return TEnum(0);
+	}
+
+	return (TEnum)EnumPtr->GetIndexByName(FName(*FString(Value)));
+}
