@@ -1,16 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SKlMenuWidget.h"
+
+#include "UI/Style/KlStyle.h"
+#include "UI/Style/KlMenuWidgetStyle.h"
+#include "SKlMenuItemWidget.h"
+#include "SKlNewGameWidget.h"
+#include "SKlChooseRecordWidget.h"
+#include "SKlGameOptionWidget.h"
+
+#include "Common/FKlHelper.h"
+#include "Data/FKlDataHandle.h"
+
 #include "SlateOptMacros.h"
 #include "SImage.h"
 #include "SOverlay.h"
 #include "VerticalBox.h"
-#include "UI/Style/KlStyle.h"
-#include "UI/Style/KlMenuWidgetStyle.h"
-#include "SKlMenuItemWidget.h"
-#include "Common/FKlHelper.h"
-#include "SKlGameOptionWidget.h"
-#include "Data/FKlDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::Construct(const FArguments& InArgs) {
@@ -80,9 +85,7 @@ void SKlMenuWidget::Construct(const FArguments& InArgs) {
 
 	ContentBox->AddSlot()
 		[
-			SNew(SKlGameOptionWidget)
-			.ChangeCulture(this, &SKlMenuWidget::ChangeCulture)
-			.ChangeVolume(this, &SKlMenuWidget::ChangeVolume)
+			SNew(SKlChooseRecordWidget)
 		];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

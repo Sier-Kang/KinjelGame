@@ -20,8 +20,11 @@ void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	}
 
 	// Update record data
-	FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(GetEnumValueAsString(FString("ECultureTeam"), CurrentCulture),
-		MusicVolume, SoundVolume, &RecordDataList);
+	FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(
+		GetEnumValueAsString(FString("ECultureTeam"), CurrentCulture),
+		MusicVolume, 
+		SoundVolume, 
+		&RecordDataList);
 }
 
 void FKlDataHandle::InitRecordData()
@@ -36,10 +39,9 @@ void FKlDataHandle::InitRecordData()
 	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
 	//CurrentCulture = Culture;
 
-	// Initialize volume
-
 	// Output data
-	FKlHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) + FString("--") + FString::SanitizeFloat(SoundVolume), 20.f);
+	FKlHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) +
+		FString("--") + FString::SanitizeFloat(SoundVolume), 20.f);
 	for (TArray<FString>::TIterator It(RecordDataList); It; It++)
 	{
 		FKlHelper::Debug(*It, 20.f);
@@ -78,12 +80,21 @@ void FKlDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 	}
 
 	CurrentCulture = Culture;
+
+	// Update record data
+	//FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(
+	//	GetEnumValueAsString(FString("ECultureTeam"), CurrentCulture),
+	//	MusicVolume, 
+	//	SoundVolume, 
+	//	&RecordDataList);
 }
 
 FKlDataHandle::FKlDataHandle() 
 {
 	// Initialize record data
 	InitRecordData();
+
+	RecordName = FString("");
 }
 
 TSharedRef<FKlDataHandle> FKlDataHandle::Create() 

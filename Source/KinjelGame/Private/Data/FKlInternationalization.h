@@ -31,7 +31,7 @@ FKlInternationalization::Register(LOCTEXT("RecordName", "RecordName")); // ´æµµÃ
 FKlInternationalization::Register(LOCTEXT("EnterGame", "EnterGame")); // ½øÈëÓÎÏ·
 FKlInternationalization::Register(LOCTEXT("EnterRecord", "EnterRecord")); // ½øÈë´æµµ
 FKlInternationalization::Register(LOCTEXT("RecordNameHint", "RecordNameHint")); // ÊäÈë´æµµÃû
-FKlInternationalization::Register(LOCTEXT("NameRepeatHint", "NameRepeatHint")); // ÊäÈë´æµµÃû
+FKlInternationalization::Register(LOCTEXT("NameRepeatHint", "NameRepeatHint")); // ÊäÈë´æµµÃûÖØ¸´
 
 /** Game Option */
 FKlInternationalization::Register(LOCTEXT("Chinese", "Chinese")); // ÖĞÎÄ

@@ -20,6 +20,9 @@ public:
 	/** Sound percent volume */
 	float SoundVolume;
 
+	/** Record name in new game menu. */
+	FString RecordName;
+
 	/** Record Data */
 	TArray<FString> RecordDataList;
 
