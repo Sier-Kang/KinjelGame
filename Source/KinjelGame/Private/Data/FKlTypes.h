@@ -30,9 +30,39 @@ namespace EMenuItem
 		LoadRecord,
 
 		StartGameGoBack,
+		GameOptionGoBack,
 		NewGameGoBack,
 		ChooseRecordGoBack,
 		EnterGame,
 		EnterRecord,
+	};
+}
+
+/**
+* Menu type
+*/
+namespace EMenuType
+{
+	enum Type
+	{   
+		None,
+		MainMenu,
+		StartGame,
+		GameOption,
+		NewGame,
+		ChooseRecord
+	};
+}
+
+/**
+* Menu Animation State
+*/
+namespace EMenuAnim
+{
+	enum Type
+	{
+		Stop, // Stop Animation
+		Close, // Close Menu
+		Open  // OpenMenu
 	};
 }
