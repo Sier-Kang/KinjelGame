@@ -2,6 +2,9 @@
 
 #include "FKlDataHandle.h"
 #include "Internationalization.h"
+#include "Data/FKlSingleton.h"
+#include "Data/FKlJsonHandle.h"
+#include "Common/FKlHelper.h"
 
 TSharedPtr<FKlDataHandle> FKlDataHandle::DataInstance = nullptr;
 
@@ -14,6 +17,32 @@ void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	if (SoundVol > 0)
 	{
 		SoundVolume = SoundVol;
+	}
+
+	// Update record data
+	FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(GetEnumValueAsString(FString("ECultureTeam"), CurrentCulture),
+		MusicVolume, SoundVolume, &RecordDataList);
+}
+
+void FKlDataHandle::InitRecordData()
+{
+	// Get Culture
+	FString Culture;
+
+	// Read record
+	FKlSingleton<FKlJsonHandle>::Get()->RecordDataJsonRead(Culture, MusicVolume, SoundVolume, RecordDataList);
+
+	// Initialize culture
+	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
+	//CurrentCulture = Culture;
+
+	// Initialize volume
+
+	// Output data
+	FKlHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) + FString("--") + FString::SanitizeFloat(SoundVolume), 20.f);
+	for (TArray<FString>::TIterator It(RecordDataList); It; It++)
+	{
+		FKlHelper::Debug(*It, 20.f);
 	}
 }
 
@@ -53,10 +82,8 @@ void FKlDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 
 FKlDataHandle::FKlDataHandle() 
 {
-	CurrentCulture = ECultureTeam::ZH;
-
-	MusicVolume = 0.3f;
-	SoundVolume = 0.5f;
+	// Initialize record data
+	InitRecordData();
 }
 
 TSharedRef<FKlDataHandle> FKlDataHandle::Create() 
@@ -67,14 +94,14 @@ TSharedRef<FKlDataHandle> FKlDataHandle::Create()
 }
 
 template<typename TEnum>
-FString FKlDataHandle::GetEnumValueString(const FString& Name, TEnum Value)
+FString FKlDataHandle::GetEnumValueAsString(const FString& Name, TEnum Value)
 {
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
 	if (!EnumPtr) {
 		return FString("InValid");
 	}
 
-	return EnumPtr->GetEnumName((int32)Value);
+	return EnumPtr->GetNameStringByIndex((int32)Value);
 }
 
 template<typename TEnum>

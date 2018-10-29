@@ -20,12 +20,22 @@ public:
 	/** Sound percent volume */
 	float SoundVolume;
 
+	/** Record Data */
+	TArray<FString> RecordDataList;
+
 	/**
 	* Change current music and sound
 	* @param MusicVol SoundVol
 	* @return void
 	*/
 	void ResetMenuVolume(float MusicVol, float SoundVol);
+
+	/**
+	* Initialize record data
+	* @param
+	* @return 
+	*/
+	void InitRecordData();
 
 public:
 	static void Initialize();
@@ -47,7 +57,7 @@ private:
 
 	/** Get Type String according to Emum Value */
 	template<typename TEnum>
-	FString GetEnumValueString(const FString& Name, TEnum Value);
+	FString GetEnumValueAsString(const FString& Name, TEnum Value);
 
 	template<typename TEnum>
 	TEnum GetEnumValueFromString(const FString& Name, FString Value);
