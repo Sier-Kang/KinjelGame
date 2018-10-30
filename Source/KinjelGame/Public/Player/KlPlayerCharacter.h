@@ -26,6 +26,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
-	
+private:
+	/**
+	 * First person skeletal mesh.
+	 */
+	UPROPERTY(VisibleDefaultsOnly, Category = "Kinjel")
+	class USkeletalMeshComponent* MeshFirst;
 };

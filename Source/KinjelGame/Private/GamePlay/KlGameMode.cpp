@@ -23,7 +23,7 @@ AKlGameMode::AKlGameMode()
 
 void AKlGameMode::Tick(float DeltaSeconds)
 {
-
+	
 }
 
 void AKlGameMode::BeginPlay()
