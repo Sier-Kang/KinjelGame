@@ -5,6 +5,9 @@
 #include "Data/FKlSingleton.h"
 #include "Data/FKlJsonHandle.h"
 #include "Common/FKlHelper.h"
+#include "UI/Style/KlStyle.h"
+#include "UI/Style/KlMenuWidgetStyle.h"
+#include "Sound/SoundCue.h"
 
 TSharedPtr<FKlDataHandle> FKlDataHandle::DataInstance = nullptr;
 
@@ -13,10 +16,24 @@ void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	if (MusicVol > 0)
 	{
 		MusicVolume = MusicVol;
+
+		// Loop for set menu background music
+		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Music"))->CreateIterator());
+			It; It++ )
+		{
+			(*It)->VolumeMultiplier = MusicVolume;
+		}
 	}
 	if (SoundVol > 0)
 	{
 		SoundVolume = SoundVol;
+
+		// Loop for set menu background sound
+		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Sound"))->CreateIterator());
+			It; It++ )
+		{
+			(*It)->VolumeMultiplier = SoundVolume;
+		}
 	}
 
 	// Update record data
@@ -46,6 +63,36 @@ void FKlDataHandle::InitRecordData()
 	{
 		FKlHelper::Debug(*It, 20.f);
 	}
+}
+
+void FKlDataHandle::InitializeMenuAudio()
+{
+	// Get Style of the editor
+	MenuStyle = &KlStyle::Get().GetWidgetStyle<FKlMenuStyle>("BPKlMenuStyle");
+
+	// Add resource file
+	TArray<USoundCue*> MusicList;
+	MusicList.Add(
+		Cast<USoundCue>(MenuStyle->MenuBackgroundMusic.GetResourceObject())
+	);
+
+	TArray<USoundCue*> SoundList;
+	SoundList.Add(
+		Cast<USoundCue>(MenuStyle->StartGameSound.GetResourceObject())
+	);
+	SoundList.Add(
+		Cast<USoundCue>(MenuStyle->EndGameSound.GetResourceObject())
+	);
+	SoundList.Add(
+		Cast<USoundCue>(MenuStyle->MenuItemChangedSound.GetResourceObject())
+	);
+
+	// Add resource to map
+	MenuAudioResource.Add(FString("Music"), MusicList);
+	MenuAudioResource.Add(FString("Sound"), SoundList);
+
+	// Reset Audio
+	ResetMenuVolume(MusicVolume, SoundVolume);
 }
 
 void FKlDataHandle::Initialize() 
@@ -93,6 +140,9 @@ FKlDataHandle::FKlDataHandle()
 {
 	// Initialize record data
 	InitRecordData();
+
+	// Initialize sound audio
+	InitializeMenuAudio();
 
 	RecordName = FString("");
 }

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "FKlTypes.h"
 
+class USoundCue;
+
 /**
  * FKlDataHandle Singleton
  */
@@ -26,20 +28,6 @@ public:
 	/** Record Data */
 	TArray<FString> RecordDataList;
 
-	/**
-	* Change current music and sound
-	* @param MusicVol SoundVol
-	* @return void
-	*/
-	void ResetMenuVolume(float MusicVol, float SoundVol);
-
-	/**
-	* Initialize record data
-	* @param
-	* @return 
-	*/
-	void InitRecordData();
-
 public:
 	static void Initialize();
 
@@ -51,6 +39,25 @@ public:
 	* @return 
 	*/
 	void ChangeLocalizationCulture(ECultureTeam Culture);
+
+	/**
+	* Change current music and sound
+	* @param MusicVol SoundVol
+	* @return void
+	*/
+	void ResetMenuVolume(float MusicVol, float SoundVol);
+
+	/**
+	* Initialize record data
+	* @param
+	* @return
+	*/
+	void InitRecordData();
+
+	/**
+	* Initialize music&sound audio
+	*/
+	void InitializeMenuAudio();
 
 private:
 	FKlDataHandle();
@@ -66,7 +73,14 @@ private:
 	TEnum GetEnumValueFromString(const FString& Name, FString Value);
 
 private:
+	/** Get the style of menu */
+	const struct FKlMenuStyle* MenuStyle;
+
+	// Global instance - singleton
 	static TSharedPtr<FKlDataHandle> DataInstance;
+
+	// Audio control
+	TMap<FString, TArray<USoundCue*>> MenuAudioResource;
 };
 
 

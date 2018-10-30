@@ -16,12 +16,17 @@
 #include "SImage.h"
 #include "SOverlay.h"
 #include "VerticalBox.h"
+#include "KlMenuController.h"
+#include "Kismet/GameplayStatics.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlMenuWidget::Construct(const FArguments& InArgs)
 {
 	// Get Style of the editor
 	MenuStyle = &KlStyle::Get().GetWidgetStyle<FKlMenuStyle>("BPKlMenuStyle");
+
+	// Play menu background sound
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuBackgroundMusic);
 
 	ChildSlot
 		[
@@ -135,6 +140,7 @@ void SKlMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 {
 	// If Controller locked, return
 	if (ControlLocked) return;
+
 	// Set controller to lock
 	ControlLocked = true;
 
@@ -142,47 +148,70 @@ void SKlMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 	{
 	case EMenuItem::StartGame:
 		PlayClose(EMenuType::StartGame);
+
 		break;
 	case EMenuItem::GameOption:
 		PlayClose(EMenuType::GameOption);
+
 		break;
 	case EMenuItem::QuitGame:
 		// Quit game, play sound and delay call quitfunc.
-		//FKlHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->ExitGameSound, this, &SSlAiMenuWidget::QuitGame);
+		FKlHelper::PlayerSoundAndCall(
+			UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(),
+			MenuStyle->EndGameSound, 
+			this, 
+			&SKlMenuWidget::QuitGame);
+
 		break;
 	case EMenuItem::NewGame:
 		PlayClose(EMenuType::NewGame);
+
 		break;
 	case EMenuItem::LoadRecord:
 		PlayClose(EMenuType::ChooseRecord);
+
 		break;
 	case EMenuItem::StartGameGoBack:
 		PlayClose(EMenuType::MainMenu);
+
 		break;
 	case EMenuItem::GameOptionGoBack:
 		PlayClose(EMenuType::MainMenu);
+
 		break;
 	case EMenuItem::NewGameGoBack:
 		PlayClose(EMenuType::StartGame);
+
 		break;
 	case EMenuItem::ChooseRecordGoBack:
 		PlayClose(EMenuType::StartGame);
+
 		break;
 	case EMenuItem::EnterGame:
 		// Allow to enter game?
 		if (NewGameWidget->AllowEnterGame())
 		{
-			//FKlHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
+			FKlHelper::PlayerSoundAndCall(
+				UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), 
+				MenuStyle->StartGameSound, 
+				this, 
+				&SKlMenuWidget::EnterGame);
 		}
 		else
 		{
 			// Unlocked
 			ControlLocked = false;
 		}
+
 		break;
 	case EMenuItem::EnterRecord:
 		ChooseRecordWidget->UpdateRecordName();
-		//FKlHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
+		FKlHelper::PlayerSoundAndCall(
+			UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), 
+			MenuStyle->StartGameSound, 
+			this, 
+			&SKlMenuWidget::EnterGame);
+
 		break;
 	}
 }
@@ -380,5 +409,19 @@ void SKlMenuWidget::PlayClose(EMenuType::Type NewMenu)
 	// From 1 to 0.
 	MenuAnimation.PlayReverse(this->AsShared());
 
-	//FSlateApplication::Get().PlaySound(MenuStyle->MenuItemChangeSound);
+	// Play menu item changed sound.
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuItemChangedSound);
+}
+
+void SKlMenuWidget::QuitGame()
+{
+	Cast<AKlMenuController>(UGameplayStatics::GetPlayerController(GWorld, 0))->ConsoleCommand("quit");
+}
+
+void SKlMenuWidget::EnterGame()
+{
+	UGameplayStatics::OpenLevel(
+		UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(),
+		FName("GameMap")
+	);
 }

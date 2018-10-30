@@ -96,6 +96,16 @@ private:
 	*/
 	void PlayClose(EMenuType::Type NewMenu);
 
+	/**
+	* Quit Game.
+	*/
+	void QuitGame();
+
+	/**
+	* Enter Game.
+	*/
+	void EnterGame();
+
 private:
 	/** Size box of the menu */
 	TSharedPtr<SBox> RootSizeBox;

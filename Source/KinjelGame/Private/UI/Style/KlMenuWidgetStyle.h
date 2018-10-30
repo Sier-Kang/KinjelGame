@@ -6,6 +6,7 @@
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
 #include "SlateFontInfo.h"
+#include "SlateSound.h"
 #include "KlMenuWidgetStyle.generated.h"
 
 /**
@@ -84,6 +85,30 @@ struct FKlMenuStyle : public FSlateWidgetStyle
 	*/
 	UPROPERTY(EditAnywhere, Category = "Game Option")
 	FSliderStyle SliderStyle;
+
+	/**
+	* Sound of Start Game
+	*/
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	FSlateSound StartGameSound;
+
+	/**
+	* Sound of End Game
+	*/
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	FSlateSound EndGameSound;
+
+	/**
+	* Sound of change menu item
+	*/
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	FSlateSound MenuItemChangedSound;
+
+	/**
+	* Music of menu background
+	*/
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	FSlateSound MenuBackgroundMusic;
 
 	/*
 	* CheckedBox brush when unchecked
