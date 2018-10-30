@@ -18,4 +18,6 @@ public:
 	AKlMenuGameMode();
 	
 	
+protected:
+	virtual void BeginPlay() override;
 };

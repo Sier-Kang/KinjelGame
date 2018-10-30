@@ -14,7 +14,10 @@ class KINJELGAME_API UKlGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	/**
+	 * Game  Name
+	 */
+	UPROPERTY(VisibleAnywhere, Category = "Game")
+	FString GameName;
 };

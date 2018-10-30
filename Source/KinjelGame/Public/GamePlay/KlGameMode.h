@@ -14,7 +14,9 @@ class KINJELGAME_API AKlGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlGameMode();
+
+protected:
+	virtual void BeginPlay() override;
 };

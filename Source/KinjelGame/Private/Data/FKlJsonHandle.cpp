@@ -15,6 +15,7 @@ void FKlJsonHandle::RecordDataJsonRead(FString& Culture, float& MusicVolume, flo
 {
 	FString JsonValue;
 	LoadStringFromFile(RecordDataFileName, RelativePath, JsonValue);
+	//FKlHelper::Debug(FString("json string") + JsonValue, 100.f);
 
 	TArray<TSharedPtr<FJsonValue>> JsonParsed;
 	TSharedRef<TJsonReader<TCHAR>> JsonReader = TJsonReaderFactory<TCHAR>::Create(JsonValue);
@@ -29,6 +30,7 @@ void FKlJsonHandle::RecordDataJsonRead(FString& Culture, float& MusicVolume, flo
 		for (int i = 0; i < RecordDataArray.Num(); i++) {
 			FString RecordDataName = RecordDataArray[i]->AsObject()->GetStringField(FString::FromInt(i));
 			RecordDataList.Add(RecordDataName);
+			//FKlHelper::Debug(FString("test: ") + RecordDataName, 200.f);
 		}
 	}
 	else {
@@ -56,7 +58,7 @@ void FKlJsonHandle::UpdateRecordData(FString Culture, float MusicVolume, float S
 	TSharedPtr<FJsonValueObject> SoundVolumeValue = MakeShareable(new FJsonValueObject(SoundVolumeObj));
 
 	TArray<TSharedPtr<FJsonValue>> RecordDataArray;
-	for (int i = 0; i < RecordDataArray.Num(); i++) {
+	for (int i = 0; i < RecordDataList->Num(); i++) {
 		TSharedPtr<FJsonObject> RecordItem = MakeShareable(new FJsonObject);
 		RecordItem->SetStringField(FString::FromInt(i), (*RecordDataList)[i]);
 		TSharedPtr<FJsonValueObject> RecordItemValue = MakeShareable(new FJsonValueObject(RecordItem));
