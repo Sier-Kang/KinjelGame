@@ -17,6 +17,8 @@ class KINJELGAME_API AKlGameMode : public AGameModeBase
 public:
 	AKlGameMode();
 
+	virtual void Tick(float DeltaSeconds) override;
+
 protected:
 	virtual void BeginPlay() override;
 };
