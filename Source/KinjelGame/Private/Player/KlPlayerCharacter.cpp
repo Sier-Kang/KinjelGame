@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 // Sets default values
@@ -14,6 +15,10 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	BaseTurnRate = 45.f;
+
+	BaseLookUpRate = 45.f;
 
 	// Set capsule component's collision property
 	GetCapsuleComponent()->SetCollisionProfileName(FName("PlayerProfile"));
@@ -40,6 +45,12 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 
 	MeshFirst->SetRelativeLocation(FVector(0.f, 0.f, -95.f));
 	MeshFirst->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.f, 0.f, -90.f)));
+
+	// Set first person's animation blueprint
+	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticAnimFirst(
+		TEXT("AnimBlueprint'/Game/Blueprint/Player/FirstPalyer_Animation.FirstPalyer_Animation_C'")
+	);
+	MeshFirst->AnimClass = StaticAnimFirst.Class;
 
 	// Set third skeletal mesh to the default mesh component
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> StaticMeshThird(
@@ -91,6 +102,60 @@ void AKlPlayerCharacter::BeginPlay()
 	
 }
 
+void AKlPlayerCharacter::MoveForward(float Value)
+{
+	if (Value != 0.f && Controller) {
+		const FRotator Rotation = Controller->GetControlRotation();
+		FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
+}
+
+void AKlPlayerCharacter::MoveRight(float Value)
+{
+	if (Value != 0) {
+		const FQuat Rotation = GetActorQuat();
+		FVector Direction = FQuatRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		AddMovementInput(Direction, Value);
+	}
+}
+
+void AKlPlayerCharacter::LookUpAtRate(float Value)
+{
+	AddControllerPitchInput(Value *BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AKlPlayerCharacter::Turn(float Value)
+{
+	AddControllerYawInput(Value);
+}
+
+void AKlPlayerCharacter::TurnAtRate(float Value)
+{
+	AddControllerYawInput(Value *BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AKlPlayerCharacter::OnStartJump()
+{
+	bPressedJump = true;
+}
+
+void AKlPlayerCharacter::OnStopJump()
+{
+	bPressedJump = false;
+	StopJumping();
+}
+
+void AKlPlayerCharacter::OnStartRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 375.f;
+}
+
+void AKlPlayerCharacter::OnStopRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+}
+
 // Called every frame
 void AKlPlayerCharacter::Tick(float DeltaTime)
 {
@@ -103,5 +168,17 @@ void AKlPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &AKlPlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AKlPlayerCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &AKlPlayerCharacter::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &AKlPlayerCharacter::LookUpAtRate);
+	PlayerInputComponent->BindAxis("TurnRate", this, &AKlPlayerCharacter::TurnAtRate);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AKlPlayerCharacter::OnStartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AKlPlayerCharacter::OnStopJump);
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AKlPlayerCharacter::OnStartRun);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &AKlPlayerCharacter::OnStopRun);
 }
 

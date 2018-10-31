@@ -46,8 +46,35 @@ public:
 
 private:
 	/**
+	* Character's action
+	*/
+	void MoveForward(float Value);
+
+	void MoveRight(float Value);
+
+	void LookUpAtRate(float Value);
+
+	void Turn(float Value);
+
+	void TurnAtRate(float Value);
+
+	void OnStartJump();
+
+	void OnStopJump();
+
+	void OnStartRun();
+
+	void OnStopRun();
+
+private:
+	/**
 	 * First person skeletal mesh.
 	 */
 	UPROPERTY(VisibleDefaultsOnly, Category = "Kinjel")
 	class USkeletalMeshComponent* MeshFirst;
+
+	// Ratate rate
+	float BaseLookUpRate;
+
+	float BaseTurnRate;
 };
