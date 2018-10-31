@@ -2,6 +2,7 @@
 
 #include "KlThirdPlayerAnim.h"
 
+UKlThirdPlayerAnim::UKlThirdPlayerAnim()
+{
 
-
-
+}

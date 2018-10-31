@@ -14,7 +14,19 @@ class KINJELGAME_API UKlPlayerAnim : public UAnimInstance
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	UKlPlayerAnim();
+
+public:
+	/**
+	 * Character's speed
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PlayAnim")
+	float Speed;
+
+	/**
+	* Character's rotation
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PlayAnim")
+	FRotator SpineRotator;
 };

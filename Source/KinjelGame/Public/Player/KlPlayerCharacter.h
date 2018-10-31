@@ -15,16 +15,34 @@ public:
 	// Sets default values for this character's properties
 	AKlPlayerCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	/**
+	 * Camera Spring
+	 */
+	UPROPERTY(VisibleAnywhere, Category = "Kinjel")
+	class USpringArmComponent* CameraBoom;
+
+	/**
+	* Third person's Camera 
+	*/
+	UPROPERTY(VisibleAnywhere, Category = "Kinjel")
+	class UCameraComponent* ThirdCamera;
+
+	/**
+	* Camera Spring
+	*/
+	UPROPERTY(VisibleAnywhere, Category = "Kinjel")
+	UCameraComponent* FirstCamera;
 
 private:
 	/**
