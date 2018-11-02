@@ -20,6 +20,10 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 
 	BaseLookUpRate = 45.f;
 
+	CharacterViewMode = EGameViewMode::Third;
+
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+
 	// Set capsule component's collision property
 	GetCapsuleComponent()->SetCollisionProfileName(FName("PlayerProfile"));
 	
@@ -93,6 +97,13 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 	FirstCamera->SetupAttachment(RootComponent);
 	FirstCamera->bUsePawnControlRotation = true;
 	FirstCamera->AddLocalOffset(FVector(0.f, 0.f, 60.f));
+
+	// Set visible
+	FirstCamera->SetActive(false);
+	ThirdCamera->SetActive(true);
+	
+	MeshFirst->SetOwnerNoSee(true);
+	GetMesh()->SetOwnerNoSee(false);
 }
 
 // Called when the game starts or when spawned
@@ -100,6 +111,58 @@ void AKlPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+// Called every frame
+void AKlPlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+// Called to bind functionality to input
+void AKlPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &AKlPlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AKlPlayerCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &AKlPlayerCharacter::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &AKlPlayerCharacter::LookUpAtRate);
+	PlayerInputComponent->BindAxis("TurnRate", this, &AKlPlayerCharacter::TurnAtRate);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AKlPlayerCharacter::OnStartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AKlPlayerCharacter::OnStopJump);
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AKlPlayerCharacter::OnStartRun);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &AKlPlayerCharacter::OnStopRun);
+}
+
+void AKlPlayerCharacter::ChangeView(EGameViewMode::Type NewCharacterView)
+{
+	CharacterViewMode = NewCharacterView;
+
+	switch (NewCharacterView)
+	{
+	case EGameViewMode::First:
+		FirstCamera->SetActive(true);
+		ThirdCamera->SetActive(false);
+		MeshFirst->SetOwnerNoSee(false);
+		GetMesh()->SetOwnerNoSee(true);
+
+		break;
+	case EGameViewMode::Third:
+		FirstCamera->SetActive(false);
+		ThirdCamera->SetActive(true);
+		MeshFirst->SetOwnerNoSee(true);
+		GetMesh()->SetOwnerNoSee(false);
+
+		break;
+	default:
+
+		break;
+	}
 }
 
 void AKlPlayerCharacter::MoveForward(float Value)
@@ -154,31 +217,5 @@ void AKlPlayerCharacter::OnStartRun()
 void AKlPlayerCharacter::OnStopRun()
 {
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
-}
-
-// Called every frame
-void AKlPlayerCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
-void AKlPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	check(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis("MoveForward", this, &AKlPlayerCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AKlPlayerCharacter::MoveRight);
-	PlayerInputComponent->BindAxis("Turn", this, &AKlPlayerCharacter::Turn);
-	PlayerInputComponent->BindAxis("LookUp", this, &AKlPlayerCharacter::LookUpAtRate);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AKlPlayerCharacter::TurnAtRate);
-
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AKlPlayerCharacter::OnStartJump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AKlPlayerCharacter::OnStopJump);
-	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AKlPlayerCharacter::OnStartRun);
-	PlayerInputComponent->BindAction("Run", IE_Released, this, &AKlPlayerCharacter::OnStopRun);
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Data/FKlTypes.h"
 #include "KlPlayerController.generated.h"
 
 /**
@@ -14,7 +15,41 @@ class KINJELGAME_API AKlPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	/**
+	* Constructor
+	*/
+	AKlPlayerController();
+
+	/**
+	* Tick
+	*/
+	virtual void Tick(float DeltaSeconds) override;
+
+	/**
+	* Input Action/Axis
+	*/
+	virtual void SetupInputComponent() override;
+
+public:
+	class AKlPlayerCharacter* PlayerCharacter;
+
+protected:
+	/**
+	* Begin play
+	*/
+	virtual void BeginPlay() override;
+
+private:
+	/** Change view */
+	void ChangeView();
+
+	/** Mouse press&release events.*/
+	void LeftEventStart();
+
+	void LeftEventStop();
+
+	void RightEventStart();
+
+	void RightEventStop();
 };

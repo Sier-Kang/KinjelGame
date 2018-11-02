@@ -29,4 +29,10 @@ public:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PlayAnim")
 	float Direction;
+
+protected:
+	/**
+	* Override update parameters of current character
+	*/
+	virtual void UpdateParameters() override;
 };

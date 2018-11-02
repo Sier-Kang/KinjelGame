@@ -17,6 +17,7 @@ class KINJELGAME_API UKlPlayerAnim : public UAnimInstance
 public:
 	UKlPlayerAnim();
 
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 public:
 	/**
 	 * Character's speed
@@ -29,4 +30,18 @@ public:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PlayAnim")
 	FRotator SpineRotator;
+
+protected:
+	/** 
+	* Initialize Player Character.
+	*/
+	void InitPlayerCharacter();
+
+	/**
+	* Update Anim property variables
+	*/
+	virtual void UpdateParameters();
+
+protected:
+	class AKlPlayerCharacter* PlayerCharacter;
 };

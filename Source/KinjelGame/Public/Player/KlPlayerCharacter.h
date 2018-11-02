@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Data/FKlTypes.h"
 #include "KlPlayerCharacter.generated.h"
 
 UCLASS()
@@ -20,6 +21,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/** Change character's view */
+	void ChangeView(EGameViewMode::Type NewCharacterView);
 
 protected:
 	// Called when the game starts or when spawned
@@ -43,6 +47,9 @@ public:
 	*/
 	UPROPERTY(VisibleAnywhere, Category = "Kinjel")
 	UCameraComponent* FirstCamera;
+
+	/** Character view mode */
+	EGameViewMode::Type CharacterViewMode;
 
 private:
 	/**
