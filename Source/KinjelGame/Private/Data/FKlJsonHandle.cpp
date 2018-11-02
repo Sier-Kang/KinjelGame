@@ -8,6 +8,7 @@
 FKlJsonHandle::FKlJsonHandle()
 {
 	RecordDataFileName = FString("RecordData.json");
+	ObjectAttrFileName = FString("ObjectAttribute.json");
 	RelativePath = FString("Res/ConfigData/");
 }
 

@@ -16,7 +16,7 @@ public:
 	FKlJsonHandle();
 
 	/**
-	* Parse json string to game info.
+	* Parse record string to game info.
 	*
 	* @param Culture Current culture.
 	* @param MusicVolume Music volume.
@@ -63,6 +63,9 @@ private:
 private:
 	// Document name
 	FString RecordDataFileName;
+
+	// Object attribute file name
+	FString ObjectAttrFileName;
 
 	// Relative path
 	FString RelativePath;
