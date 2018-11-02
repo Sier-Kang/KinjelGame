@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Data/FKlTypes.h"
+
 #include "KlPlayerAnim.generated.h"
 
 /**
@@ -44,4 +46,20 @@ protected:
 
 protected:
 	class AKlPlayerCharacter* PlayerCharacter;
+
+	/** Montage resources */
+	UAnimMontage* PlayerHitMontage;
+
+	UAnimMontage* PlayerFightMontage;
+
+	UAnimMontage* PlayerPunchMontage;
+
+	UAnimMontage* PlayerEatMontage;
+
+	UAnimMontage* PlayerPickUpMontage;
+
+	UAnimMontage* CurrentMontage;
+
+	/** Animation View Mode */
+	EGameViewMode::Type AnimView;
 };

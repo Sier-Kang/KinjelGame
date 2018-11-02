@@ -14,7 +14,10 @@ class KINJELGAME_API UKlFirstPlayerAnim : public UKlPlayerAnim
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+	/**
+	* Constructor
+	*/
+	UKlFirstPlayerAnim();
 	
 };
