@@ -17,4 +17,18 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	/** Bind to UIScaler */
+	float GetUIScaler() const;
+
+public:
+	TSharedPtr<class SKlShotcutWidget> ShotcutWidget;
+
+private:
+	// Get screen size
+	FVector2D GetViewportSize() const;
+
+private:
+	// DPI Setting
+	TAttribute<float> UIScaler;
 };

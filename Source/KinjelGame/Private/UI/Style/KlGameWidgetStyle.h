@@ -24,6 +24,84 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	static const FName TypeName;
 	virtual const FName GetTypeName() const override { return TypeName; };
 	static const FKlGameStyle& GetDefault();
+
+	// Grid Panel with shotcut brush default
+	UPROPERTY(EditAnywhere, Category = Package)
+	FSlateBrush NormalContainerBrush;
+
+	// Grid Panel with shotcut brush when choose
+	UPROPERTY(EditAnywhere, Category = Package)
+	FSlateBrush ChoosedContainerBrush;
+
+	// Empty contain Brush
+	UPROPERTY(EditAnywhere, Category = Package)
+	FSlateBrush EmptyBrush;
+
+	/*
+	* Font of 60
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_60;
+
+	/*
+	* Font of 50 with outline
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_Outline_50;
+
+	/*
+	* Font of 40
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_40;
+
+	/*
+	* Font of 40 with outline
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_Outline_40;
+
+	/*
+	* Font of 30
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_30;
+
+	/*
+	* Font of 20
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_20;
+
+	/*
+	* Font of 20 with outline
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_Outline_20;
+
+	/*
+	* Font of 16 with outline
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_Outline_16;
+
+	/*
+	* Font of 16
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FSlateFontInfo Font_16;
+
+	/*
+	* White color
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FLinearColor FontColor_White;
+
+	/*
+	* Black color
+	*/
+	UPROPERTY(EditAnywhere, Category = Common)
+	FLinearColor FontColor_Black;
 };
 
 /**

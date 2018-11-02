@@ -14,7 +14,9 @@ class KINJELGAME_API AKlGameHUD : public AHUD
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlGameHUD();
+
+protected:
+	TSharedPtr<class SKlGameHUDWidget> GameHUDWidget;
 };
