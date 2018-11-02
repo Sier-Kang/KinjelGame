@@ -8,6 +8,8 @@
 
 #include "KlPlayerAnim.generated.h"
 
+class UAnimMontage;
+
 /**
  * 
  */
@@ -44,7 +46,17 @@ protected:
 	*/
 	virtual void UpdateParameters();
 
+	/**
+	* Update action with play montage
+	*/
+	void UpdateMontage();
+
+	/**
+	* Allowed view change
+	*/
+	void AllowViewChange(bool IsAllowed);
 protected:
+	/** Anim owner character */
 	class AKlPlayerCharacter* PlayerCharacter;
 
 	/** Montage resources */

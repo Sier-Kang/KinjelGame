@@ -52,4 +52,11 @@ private:
 	void RightEventStart();
 
 	void RightEventStop();
+
+private:
+	/** Left pre action */
+	EUpperBody::Type LeftUpperType;
+
+	/** Right pre action */
+	EUpperBody::Type RightUpperType;
 };

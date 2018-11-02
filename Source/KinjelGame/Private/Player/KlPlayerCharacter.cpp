@@ -17,10 +17,12 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseTurnRate = 45.f;
-
 	BaseLookUpRate = 45.f;
 
 	CharacterViewMode = EGameViewMode::Third;
+	bAllowedSwitchViewMode = true;
+
+	UpperBodyMode = EUpperBody::None;
 
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 

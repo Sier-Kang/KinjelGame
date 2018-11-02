@@ -78,3 +78,19 @@ namespace EGameViewMode
 		Third
 	};
 }
+
+/**
+* Character upper body animation status.
+*/
+namespace EUpperBody
+{
+	enum Type
+	{
+		None,
+		Punch,
+		Hit,
+		Fight,
+		PickUp,
+		Eat
+	};
+}

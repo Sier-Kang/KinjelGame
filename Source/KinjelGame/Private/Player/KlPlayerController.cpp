@@ -2,6 +2,7 @@
 
 #include "KlPlayerController.h"
 #include "Player/KlPlayerCharacter.h"
+#include "FKlHelper.h"
 
 AKlPlayerController::AKlPlayerController()
 {
@@ -22,6 +23,10 @@ void AKlPlayerController::BeginPlay()
 	FInputModeGameOnly InputMode;
 	InputMode.SetConsumeCaptureMouseDown(true);
 	SetInputMode(InputMode);
+
+	// Set upper body status
+	LeftUpperType = EUpperBody::Punch;
+	RightUpperType = EUpperBody::PickUp;
 }
 
 void AKlPlayerController::Tick(float DeltaSeconds)
@@ -43,10 +48,10 @@ void AKlPlayerController::SetupInputComponent()
 
 void AKlPlayerController::ChangeView()
 {
-	if (!PlayerCharacter)
-	{
-		return;
-	}
+	if (!PlayerCharacter) return;
+
+	// If do not allow to switch view mode, immediately return
+	if (!PlayerCharacter->bAllowedSwitchViewMode) return;
 
 	switch (PlayerCharacter->CharacterViewMode) 
 	{
@@ -66,21 +71,22 @@ void AKlPlayerController::ChangeView()
 
 void AKlPlayerController::LeftEventStart()
 {
-
+	PlayerCharacter->UpperBodyMode = LeftUpperType;
 }
 
 void AKlPlayerController::LeftEventStop()
 {
-
+	PlayerCharacter->UpperBodyMode = EUpperBody::None;
 }
 
 void AKlPlayerController::RightEventStart()
 {
-
+	// FKlHelper::Debug(FString("Right Event start....l"), 10.f);
+	PlayerCharacter->UpperBodyMode = RightUpperType;
 }
 
 void AKlPlayerController::RightEventStop()
 {
-
+	PlayerCharacter->UpperBodyMode = EUpperBody::None;
 }
 

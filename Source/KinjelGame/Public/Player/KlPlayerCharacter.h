@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Data/FKlTypes.h"
+
 #include "KlPlayerCharacter.generated.h"
 
 UCLASS()
@@ -51,6 +52,11 @@ public:
 	/** Character view mode */
 	EGameViewMode::Type CharacterViewMode;
 
+	/** Character's upper body status */
+	EUpperBody::Type UpperBodyMode;
+
+	/** Whether allow to switch view mode */
+	bool bAllowedSwitchViewMode;
 private:
 	/**
 	* Character's action

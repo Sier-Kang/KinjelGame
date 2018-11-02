@@ -17,7 +17,7 @@ UKlThirdPlayerAnim::UKlThirdPlayerAnim()
 
 	// Bind Montage resources
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerHitMon(
-		TEXT("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/Player_Hit.Player_Hit'")
+		TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerHitMontage.PlayerHitMontage'")
 	);
 	PlayerHitMontage = PlayerHitMon.Object;
 
