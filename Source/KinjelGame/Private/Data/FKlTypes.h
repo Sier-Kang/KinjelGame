@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SBorder.h"
+#include "STextBlock.h"
+#include "SlateBrush.h"
 
 /**
  * Culture type
@@ -146,7 +149,7 @@ struct ShotcutContainer
 	int ObjectIndex;
 	int ObjectNum;
 
-	TSharedPtr<SBorder> ContainerBorder;
+	TSharedPtr<class SBorder> ContainerBorder;
 	TSharedPtr<SBorder> ObjectImage;
 	TSharedPtr<STextBlock> ObjectNumText;
 

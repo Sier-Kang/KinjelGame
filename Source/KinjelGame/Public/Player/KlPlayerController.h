@@ -53,10 +53,19 @@ private:
 
 	void RightEventStop();
 
+	void ScrollUpEvent();
+
+	void ScrollDownEvent();
+
 private:
 	/** Left pre action */
 	EUpperBody::Type LeftUpperType;
 
 	/** Right pre action */
 	EUpperBody::Type RightUpperType;
+
+	/** Mouse left/right button down flag. */
+	bool bIsLeftButtonDown;
+
+	bool bIsRightButtonDown;
 };

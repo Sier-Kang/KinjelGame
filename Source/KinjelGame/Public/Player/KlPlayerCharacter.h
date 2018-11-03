@@ -86,7 +86,13 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Kinjel")
 	class USkeletalMeshComponent* MeshFirst;
 
-	// Ratate rate
+	/**
+	 *Object in hand
+	 */
+	UPROPERTY(VisibleAnywhere, Category = "Kinjel")
+	class UChildActorComponent* HandObject;
+
+	// Rotate rate
 	float BaseLookUpRate;
 
 	float BaseTurnRate;

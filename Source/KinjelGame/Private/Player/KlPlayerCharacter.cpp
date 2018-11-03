@@ -8,7 +8,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
+#include "Components/ChildActorComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/Controller.h"
+#include "Animation/AnimInstance.h"
+#include "ConstructorHelpers.h"
+#include "Hand/KlHandObject.h"
 
 // Sets default values
 AKlPlayerCharacter::AKlPlayerCharacter()
@@ -106,6 +111,8 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 	
 	MeshFirst->SetOwnerNoSee(true);
 	GetMesh()->SetOwnerNoSee(false);
+
+	HandObject = CreateDefaultSubobject<UChildActorComponent>(TEXT("HandObject"));
 }
 
 // Called when the game starts or when spawned
@@ -113,6 +120,11 @@ void AKlPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Bind tools to skeleton bone's socket
+	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+		FName("RHSocket"));
+
+	HandObject->SetChildActorClass(AKlHandObject::StaticClass());
 }
 
 // Called every frame

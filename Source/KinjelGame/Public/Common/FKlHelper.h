@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "SlateSound.h"
 #include "TimerManager.h"
+#include "Engine.h"
 
 /**
  * 

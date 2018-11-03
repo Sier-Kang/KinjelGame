@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "KlPlayerState.h"
+#include "Data/FKlDataHandle.h"
 
 AKlPlayerState::AKlPlayerState()
 {
@@ -45,18 +46,28 @@ void AKlPlayerState::ChangeShotcut(bool IsPre)
 	CurrentShotcutIndex = NextIndex;
 }
 
+int AKlPlayerState::GetCurrentHandObjectIndex() const
+{
+	if (ShortcutContainerList.Num() == 0) return 0;
+
+	return ShortcutContainerList[CurrentShotcutIndex]->ObjectIndex;
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
-	//TSharedPtr<ObjectAttribute> ObjectAttr;
-	//ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
-	//switch (FKlDataHandle::Get()->CurrentCulture)
-	//{
-	//case ECultureTeam::EN:
-	//	return ObjectAttr->EN;
-	//case ECultureTeam::ZH:
-	//	return ObjectAttr->ZH;
-	//}
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+	switch (FKlDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ObjectAttr->EN;
 
-	//return ObjectAttr->ZH;
-	return FText::FromString("Test");
+		break;
+	case ECultureTeam::ZH:
+		return ObjectAttr->ZH;
+
+		break;
+	}
+
+	return ObjectAttr->ZH;
 }

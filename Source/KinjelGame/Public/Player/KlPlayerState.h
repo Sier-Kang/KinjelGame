@@ -32,6 +32,11 @@ public:
 	*/
 	void ChangeShotcut(bool IsPre);
 
+	/**
+	* Get Current HandObject Index
+	*/
+	int GetCurrentHandObjectIndex() const;
+
 public:
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;
