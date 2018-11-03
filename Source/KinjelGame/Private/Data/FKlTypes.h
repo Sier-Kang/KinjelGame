@@ -136,3 +136,74 @@ struct ObjectAttribute
 		TexPath = TP;
 	}
 };
+
+/**
+* Shotcut container struct
+*/
+struct ShotcutContainer
+{
+	// Object ID
+	int ObjectIndex;
+	int ObjectNum;
+
+	TSharedPtr<SBorder> ContainerBorder;
+	TSharedPtr<SBorder> ObjectImage;
+	TSharedPtr<STextBlock> ObjectNumText;
+
+	const FSlateBrush* NormalContainerBrush;
+	const FSlateBrush* ChoosedContainerBrush;
+	TArray<const FSlateBrush*>* ObjectBrushList;
+
+	ShotcutContainer(TSharedPtr<SBorder> CB, TSharedPtr<SBorder> OI, TSharedPtr<STextBlock> ONT,
+		const FSlateBrush* NCB, const FSlateBrush* CCB, TArray<const FSlateBrush*>* OBL)
+	{
+		ContainerBorder = CB;
+		ObjectImage = OI;
+		ObjectNumText = ONT;
+		NormalContainerBrush = NCB;
+		ChoosedContainerBrush = CCB;
+		ObjectBrushList = OBL;
+
+		// Initialize display settings
+		ObjectIndex = 0;
+		ObjectNum = 0;
+		ContainerBorder->SetBorderImage(NormalContainerBrush);
+		ObjectImage->SetBorderImage((*ObjectBrushList)[0]);
+	}
+
+	// Whether choose current object, choose is true, unchoose is false
+	int SetChoosed(bool Option)
+	{
+		if (Option)
+		{
+			ContainerBorder->SetBorderImage(ChoosedContainerBrush);
+		}
+		else {
+			ContainerBorder->SetBorderImage(NormalContainerBrush);
+		}
+		return ObjectIndex;
+	}
+
+	// Set Index
+	ShotcutContainer* SetObject(int NewIndex)
+	{
+		ObjectIndex = NewIndex;
+		ObjectImage->SetBorderImage((*ObjectBrushList)[ObjectIndex]);
+		return this;
+	}
+
+	// Set number
+	ShotcutContainer* SetObjectNum(int Num = 0)
+	{
+		ObjectNum = Num;
+		// If number is 0 or 1, undisplay number
+		if (ObjectNum == 0 || ObjectNum == 1) {
+			ObjectNumText->SetText(FString(""));
+		}
+		else {
+			ObjectNumText->SetText(FString::FromInt(ObjectNum));
+		}
+
+		return this;
+	}
+};

@@ -7,6 +7,7 @@
 #include "Common/FKlHelper.h"
 #include "UI/Style/KlStyle.h"
 #include "UI/Style/KlMenuWidgetStyle.h"
+#include "UI/Style/KlGameWidgetStyle.h"
 #include "Sound/SoundCue.h"
 
 TSharedPtr<FKlDataHandle> FKlDataHandle::DataInstance = nullptr;
@@ -93,6 +94,33 @@ void FKlDataHandle::InitializeMenuAudio()
 
 	// Reset Audio
 	ResetMenuVolume(MusicVolume, SoundVolume);
+}
+
+void FKlDataHandle::InitObjectAttr()
+{
+	FKlSingleton<FKlJsonHandle>::Get()->ObjectAttributeJsonRead(ObjectAttrMap);
+	FKlHelper::Debug(ObjectAttrMap[0]->TexPath, 30.f);
+
+	//获取GameStyle
+	GameStyle = &KlStyle::Get().GetWidgetStyle<FKlGameStyle>("BPKlGameStyle");
+
+	//填充笔刷数组
+	ObjectBrushList.Add(&GameStyle->EmptyBrush);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_1);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_2);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_3);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_4);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_5);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_6);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
+}
+
+void FKlDataHandle::InitializeGameData()
+{
+	// Initialize object attribute
+	InitObjectAttr();
+
+	// Initialize game audio data
 }
 
 void FKlDataHandle::Initialize() 

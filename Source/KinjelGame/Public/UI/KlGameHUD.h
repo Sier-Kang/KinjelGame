@@ -17,6 +17,13 @@ class KINJELGAME_API AKlGameHUD : public AHUD
 public:
 	AKlGameHUD();
 
+public:
+	/** Game Mode interface */
+	class AKlGameMode* GM;
+
+protected:
+	virtual void BeginPlay() override;
+
 protected:
 	TSharedPtr<class SKlGameHUDWidget> GameHUDWidget;
 };

@@ -26,9 +26,21 @@ void AKlGameMode::Tick(float DeltaSeconds)
 	
 }
 
+void AKlGameMode::InitGamePlayModule()
+{
+	if (KlPC) return;
+
+	KlPC = Cast<AKlPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	KlPlayerState = Cast<AKlPlayerState>(KlPC->PlayerState);
+	KlPlayerCharacter = Cast<AKlPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+}
+
 void AKlGameMode::BeginPlay()
 {
-	FKlHelper::Debug(FString("DataHandle: ") + FKlDataHandle::Get()->RecordName, 30.f);
+	// Initialize game data
+	FKlDataHandle::Get()->InitializeGameData();
 
-	Cast<UKlGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GameName;
+	if (!KlPC) {
+		InitGamePlayModule();
+	}
 }

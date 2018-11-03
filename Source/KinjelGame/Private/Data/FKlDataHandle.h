@@ -28,6 +28,12 @@ public:
 	/** Record Data */
 	TArray<FString> RecordDataList;
 
+	/** Object attribute information */
+	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
+
+	/** Object texture resources */
+	TArray<const FSlateBrush*> ObjectBrushList;
+
 public:
 	static void Initialize();
 
@@ -59,13 +65,23 @@ public:
 	*/
 	void InitializeMenuAudio();
 
+	/**
+	* Initialize Object attribute
+	*/
+	void InitObjectAttr();
+
+	/**
+	* Game data initialize
+	*/
+	void InitializeGameData();
+
 private:
 	FKlDataHandle();
 
 	/** Create the Singleton */
 	static TSharedRef<FKlDataHandle> Create();
 
-	/** Get Type String according to Emum Value */
+	/** Get Type String according to Enum Value */
 	template<typename TEnum>
 	FString GetEnumValueAsString(const FString& Name, TEnum Value);
 
@@ -75,6 +91,9 @@ private:
 private:
 	/** Get the style of menu */
 	const struct FKlMenuStyle* MenuStyle;
+
+	/** Get the style of Game */
+	const struct FKlGameStyle* GameStyle;
 
 	// Global instance - singleton
 	static TSharedPtr<FKlDataHandle> DataInstance;

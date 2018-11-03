@@ -9,6 +9,7 @@
 #include "STextBlock.h"
 #include "SUniformGridPanel.h"
 #include "SBorder.h"
+#include "Data/FKlDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlShotcutWidget::Construct(const FArguments& InArgs)
@@ -59,6 +60,8 @@ void SKlShotcutWidget::Tick(const FGeometry& AllottedGeometry, const double InCu
 
 void SKlShotcutWidget::InitializeContainer()
 {
+	TArray<TSharedPtr<ShotcutContainer>> ContainerList;
+
 	for (int i = 0; i < 9; i++) {
 		// Create container
 		TSharedPtr<SBorder> Container;
@@ -86,5 +89,26 @@ void SKlShotcutWidget::InitializeContainer()
 		[
 			Container->AsShared()
 		];
+
+		// Add container instance
+		TSharedPtr<ShotcutContainer> ContainerInstance = MakeShareable(
+			new ShotcutContainer(
+				Container, 
+				ObjectImage, 
+				ObjectNumText, 
+				&GameStyle->NormalContainerBrush, 
+				&GameStyle->ChoosedContainerBrush, 
+				&FKlDataHandle::Get()->ObjectBrushList
+			)
+		);
+
+		if (i == 0)
+		{
+			ContainerInstance->SetChoosed(true);
+		}
+		ContainerList.Add(ContainerInstance);
 	}
+
+	// Bind shotcut container to register delegate
+	RegisterShotcutContainer.ExecuteIfBound(&ContainerList, ShotcutInfo);
 }

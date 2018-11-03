@@ -3,7 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/FKlTypes.h"
 #include "Widgets/SCompoundWidget.h"
+
+// Register container to GameState's delegate
+DECLARE_DELEGATE_TwoParams(FRegisterShotcutContainer, TArray<TSharedPtr<ShotcutContainer>>*, TSharedPtr<STextBlock>)
 
 /**
  * 
@@ -19,6 +23,9 @@ public:
 	void Construct(const FArguments& InArgs);
 
 	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
+public:
+	FRegisterShotcutContainer RegisterShotcutContainer;
 
 private:
 	/**

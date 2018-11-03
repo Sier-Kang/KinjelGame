@@ -3,6 +3,10 @@
 #include "KlGameHUD.h"
 #include "Widgets/SKlGameHUDWidget.h"
 #include "SWeakWidget.h"
+#include "KlGameMode.h"
+#include "Widgets/SKlShotcutWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "KlPlayerState.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -13,4 +17,19 @@ AKlGameHUD::AKlGameHUD()
 			.PossiblyNullContent(GameHUDWidget.ToSharedRef())
 		);
 	}
+}
+
+void AKlGameHUD::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GM = Cast<AKlGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (!GM) return;
+
+	GM->InitGamePlayModule();
+
+	GameHUDWidget->ShotcutWidget->RegisterShotcutContainer.BindUObject(
+		GM->KlPlayerState, 
+		&AKlPlayerState::RegisterShotcunContainer
+	);
 }

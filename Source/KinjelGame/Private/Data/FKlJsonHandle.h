@@ -16,7 +16,7 @@ public:
 	FKlJsonHandle();
 
 	/**
-	* Parse record string to game info.
+	* Parse record data to game info.
 	*
 	* @param Culture Current culture.
 	* @param MusicVolume Music volume.
@@ -27,9 +27,22 @@ public:
 	void RecordDataJsonRead(FString& Culture, float& MusicVolume,
 		float& SoundVolume, TArray<FString>& RecordDataList);
 
+	/**
+	* Update record data to game info.
+	*
+	* @param Culture Current culture.
+	* @param MusicVolume Music volume.
+	* @param SoundVolume Sound volume.
+	* @param RecordDataList Record data list.
+	* @return
+	*/
 	void UpdateRecordData(FString Culture, float MusicVolume, float SoundVolume, TArray<FString>*
 		RecordDataList);
 
+	/**
+	* Parse Object attribute information
+	*/
+	void ObjectAttributeJsonRead(TMap<int, TSharedPtr<ObjectAttribute>>& ObjectAttrMap);
 private:
 	/**
 	* Read json file to string.
@@ -59,6 +72,11 @@ private:
 	*@return Success or not
 	*/
 	bool GetFStringInJsonData(const TSharedPtr<FJsonObject>& JsonObj, FString& JsonStr);
+
+	/**
+	* Convert Object Type info from string to enum
+	*/
+	EObjectType::Type StringToObjectType(const FString ArgStr);
 
 private:
 	// Document name

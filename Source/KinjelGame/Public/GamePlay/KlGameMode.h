@@ -19,6 +19,18 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	/**
+	* Use to invoked by HUD
+	*/
+	void InitGamePlayModule();
+
+public:
+	class AKlPlayerController* KlPC;
+
+	class AKlPlayerState* KlPlayerState;
+
+	class AKlPlayerCharacter* KlPlayerCharacter;
+
 protected:
 	virtual void BeginPlay() override;
 };
