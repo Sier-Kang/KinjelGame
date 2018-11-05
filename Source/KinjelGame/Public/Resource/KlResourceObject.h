@@ -23,6 +23,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-	
+	// Resource ID
+	int ResourceIndex;
+
+protected:
+	// Root component
+	USceneComponent * RootScene;
+
+	// Static mesh
+	UStaticMeshComponent* BaseMesh;
+
+	// Resource address, used to brush resource in random.
+	TArray<FString> ResourcePath;
 };

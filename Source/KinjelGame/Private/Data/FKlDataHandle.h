@@ -49,6 +49,11 @@ public:
 	void InitObjectAttr();
 
 	/**
+	* Initialize Resource attribute
+	*/
+	void InitResourceAttr();
+
+	/**
 	* Game data initialize
 	*/
 	void InitializeGameData();
@@ -71,6 +76,9 @@ public:
 
 	/** Object attribute information */
 	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
+
+	/** Resource attribute information */
+	TMap<int, TSharedPtr<ResourceAttribute>> ResourceAttrMap;
 
 	/** Object texture resources */
 	TArray<const FSlateBrush*> ObjectBrushList;

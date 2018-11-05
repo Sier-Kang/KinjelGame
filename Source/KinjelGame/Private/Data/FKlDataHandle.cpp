@@ -115,10 +115,18 @@ void FKlDataHandle::InitObjectAttr()
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
 }
 
+void FKlDataHandle::InitResourceAttr()
+{
+	FKlSingleton<FKlJsonHandle>::Get()->ResourceAttrJsonRead(ResourceAttrMap);
+}
+
 void FKlDataHandle::InitializeGameData()
 {
 	// Initialize object attribute
 	InitObjectAttr();
+
+	// Initialize resource attribute
+	InitResourceAttr();
 
 	// Initialize game audio data
 }
