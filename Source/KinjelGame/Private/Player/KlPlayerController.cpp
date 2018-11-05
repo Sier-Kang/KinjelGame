@@ -4,6 +4,7 @@
 #include "Player/KlPlayerCharacter.h"
 #include "FKlHelper.h"
 #include "KlPlayerState.h"
+#include "KlHandObject.h"
 
 AKlPlayerController::AKlPlayerController()
 {
@@ -35,7 +36,10 @@ void AKlPlayerController::BeginPlay()
 
 void AKlPlayerController::Tick(float DeltaSeconds)
 {
+	Super::Tick(DeltaSeconds);
 
+	// temp code
+	ChangePreUpperType(EUpperBody::None);
 }
 
 void AKlPlayerController::SetupInputComponent()
@@ -51,6 +55,15 @@ void AKlPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &AKlPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Pressed, this, &AKlPlayerController::ScrollDownEvent);
+}
+
+void AKlPlayerController::ChangeHandObject()
+{
+	PlayerCharacter->ChangeHandObject(
+		AKlHandObject::SpawnHandObject(
+			Cast<AKlPlayerState>(PlayerState)->GetCurrentHandObjectIndex()
+		)
+	);
 }
 
 void AKlPlayerController::ChangeView()
@@ -112,6 +125,8 @@ void AKlPlayerController::ScrollUpEvent()
 	if (bIsLeftButtonDown || bIsRightButtonDown) return;
 
 	Cast<AKlPlayerState>(PlayerState)->ChangeShotcut(true);
+
+	ChangeHandObject();
 }
 
 void AKlPlayerController::ScrollDownEvent()
@@ -121,5 +136,36 @@ void AKlPlayerController::ScrollDownEvent()
 	if (bIsLeftButtonDown || bIsRightButtonDown) return;
 
 	Cast<AKlPlayerState>(PlayerState)->ChangeShotcut(false);
+
+	ChangeHandObject();
+}
+
+void AKlPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpperBody::None)
+{
+	// Change pre montage action according to current object type
+	switch (Cast<AKlPlayerState>(PlayerState)->GetCurrentObjectType())
+	{
+	case EObjectType::Normal:
+		LeftUpperType = EUpperBody::Punch;
+		RightUpperType = RightType;
+
+		break;
+	case EObjectType::Food:
+		LeftUpperType = EUpperBody::Punch;
+		// If RightType is PickUp, then ignore Eat, for it has priority higher.
+		RightUpperType = RightType == EUpperBody::None ? EUpperBody::Eat : RightType;
+
+		break;
+	case EObjectType::Tool:
+		LeftUpperType = EUpperBody::Hit;
+		RightUpperType = RightType;
+
+		break;
+	case EObjectType::Weapon:
+		LeftUpperType = EUpperBody::Fight;
+		RightUpperType = RightType;
+
+		break;
+	}
 }
 

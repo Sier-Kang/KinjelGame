@@ -53,6 +53,14 @@ int AKlPlayerState::GetCurrentHandObjectIndex() const
 	return ShortcutContainerList[CurrentShotcutIndex]->ObjectIndex;
 }
 
+EObjectType::Type AKlPlayerState::GetCurrentObjectType() const
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+
+	return ObjectAttr->ObjectType;
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

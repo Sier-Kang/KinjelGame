@@ -13,28 +13,6 @@ class USoundCue;
 class FKlDataHandle
 {
 public:
-	/** Culture that game use */
-	ECultureTeam CurrentCulture;
-
-	/** Music percent volume */
-	float MusicVolume;
-
-	/** Sound percent volume */
-	float SoundVolume;
-
-	/** Record name in new game menu. */
-	FString RecordName;
-
-	/** Record Data */
-	TArray<FString> RecordDataList;
-
-	/** Object attribute information */
-	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
-
-	/** Object texture resources */
-	TArray<const FSlateBrush*> ObjectBrushList;
-
-public:
 	static void Initialize();
 
 	static TSharedPtr<FKlDataHandle> Get();
@@ -74,6 +52,28 @@ public:
 	* Game data initialize
 	*/
 	void InitializeGameData();
+
+public:
+	/** Culture that game use */
+	ECultureTeam CurrentCulture;
+
+	/** Music percent volume */
+	float MusicVolume;
+
+	/** Sound percent volume */
+	float SoundVolume;
+
+	/** Record name in new game menu. */
+	FString RecordName;
+
+	/** Record Data */
+	TArray<FString> RecordDataList;
+
+	/** Object attribute information */
+	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
+
+	/** Object texture resources */
+	TArray<const FSlateBrush*> ObjectBrushList;
 
 private:
 	FKlDataHandle();

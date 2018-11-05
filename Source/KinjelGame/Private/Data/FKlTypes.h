@@ -210,3 +210,44 @@ struct ShotcutContainer
 		return this;
 	}
 };
+
+// Resource type
+namespace EResourceType
+{
+	enum Type
+	{
+		Plant = 0,
+		Metal,
+		Animal
+	};
+}
+
+/**
+* Resource Attribute Struct
+*/
+struct ResourceAttribute
+{
+	FText EN;// English name
+	FText ZH;// Chinese name
+	EResourceType::Type ResourceType;
+	int HP;
+	TArray<TArray<int>> FlobObjectInfo;
+
+	ResourceAttribute(const FText ENName, const FText ZHName, const EResourceType::Type RT, 
+		const int HPValue, TArray<TArray<int>>* FOI)
+	{
+		EN = ENName;
+		ZH = ZHName;
+		ResourceType = RT;
+		HP = HPValue;
+
+		// Deep copy
+		for (TArray<TArray<int>>::TIterator It(*FOI); It; ++It) {
+			TArray<int> FlobObjectInfoItem;
+			for (TArray<int>::TIterator Ih(*It); Ih; ++Ih) {
+				FlobObjectInfoItem.Add(*Ih);
+			}
+			FlobObjectInfo.Add(FlobObjectInfoItem);
+		}
+	}
+};

@@ -17,6 +17,13 @@ void UKlPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 	UpdateMontage();
 }
 
+void UKlPlayerAnim::ChangeDetection(bool IsOpen)
+{
+	if (!PlayerCharacter) return;
+
+	PlayerCharacter->ChangeHandObjectDetection(IsOpen);
+}
+
 void UKlPlayerAnim::InitPlayerCharacter()
 {
 	if (!PlayerCharacter)

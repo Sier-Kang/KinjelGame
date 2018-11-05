@@ -6,6 +6,15 @@
 #include "Engine/StaticMesh.h"
 #include "Components/SceneComponent.h"
 #include "Components/BoxComponent.h"
+#include "KlHandNone.h"
+#include "KlHandWood.h"
+#include "KlHandStone.h"
+#include "KlHandApple.h"
+#include "KlHandMeat.h"
+#include "KlHandAxe.h"
+#include "KlHandHammer.h"
+#include "KlHandSword.h"
+#include "FKlHelper.h"
 
 
 // Sets default values
@@ -29,7 +38,8 @@ AKlHandObject::AKlHandObject()
 	AffectCollision->SetCollisionProfileName(FName("ToolProfile"));
 
 	// Close overlap query(¼ì²â) when begin
-	// AffectCollision->bGenerateOverlapEvents = false;
+	AffectCollision->SetGenerateOverlapEvents(false);
+
 	FScriptDelegate OverlayBegin;
 	OverlayBegin.BindUFunction(this, FName("OnOverlayBegin"));
 	AffectCollision->OnComponentBeginOverlap.Add(OverlayBegin);
@@ -48,12 +58,12 @@ void AKlHandObject::BeginPlay()
 
 void AKlHandObject::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	FKlHelper::Debug(FString("OverlayBegin"), 3.f);
 }
 
 void AKlHandObject::OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-
+	FKlHelper::Debug(FString("OverlayEnd"), 3.f);
 }
 
 // Called every frame
@@ -63,3 +73,39 @@ void AKlHandObject::Tick(float DeltaTime)
 
 }
 
+TSubclassOf<AActor> AKlHandObject::SpawnHandObject(int ObjectID)
+{
+	switch (ObjectID)
+	{
+	case 0:
+		return AKlHandNone::StaticClass();
+
+	case 1:
+		return AKlHandWood::StaticClass();
+
+	case 2:
+		return AKlHandStone::StaticClass();
+
+	case 3:
+		return AKlHandApple::StaticClass();
+
+	case 4:
+		return AKlHandMeat::StaticClass();
+
+	case 5:
+		return AKlHandAxe::StaticClass();
+
+	case 6:
+		return AKlHandHammer::StaticClass();
+
+	case 7:
+		return AKlHandSword::StaticClass();
+	}
+
+	return AKlHandNone::StaticClass();
+}
+
+void AKlHandObject::ChangeOverlayDetect(bool IsOpen)
+{
+	AffectCollision->SetGenerateOverlapEvents(IsOpen);
+}

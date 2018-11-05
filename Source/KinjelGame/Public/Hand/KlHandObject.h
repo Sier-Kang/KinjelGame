@@ -19,6 +19,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/**
+	* Generate object according to its id
+	*/
+	static TSubclassOf<AActor> SpawnHandObject(int ObjectID);
+
+	/**
+	* Change overlap detection open/close
+	*/
+	void ChangeOverlayDetect(bool IsOpen);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

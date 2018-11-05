@@ -37,6 +37,11 @@ public:
 	*/
 	int GetCurrentHandObjectIndex() const;
 
+	/**
+	* Get current object's type
+	*/
+	EObjectType::Type GetCurrentObjectType() const;
+
 public:
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;

@@ -26,6 +26,16 @@ public:
 	/** Change character's view */
 	void ChangeView(EGameViewMode::Type NewCharacterView);
 
+	/**
+	* Change current hand object 
+	*/
+	void ChangeHandObject(TSubclassOf<AActor> HandObjectClass);
+
+	/**
+	* Change hand object collision
+	*/
+	void ChangeHandObjectDetection(bool IsOpen);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

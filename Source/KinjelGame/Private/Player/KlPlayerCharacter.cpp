@@ -14,6 +14,7 @@
 #include "Animation/AnimInstance.h"
 #include "ConstructorHelpers.h"
 #include "Hand/KlHandObject.h"
+#include "KlHandSword.h"
 
 // Sets default values
 AKlPlayerCharacter::AKlPlayerCharacter()
@@ -124,7 +125,8 @@ void AKlPlayerCharacter::BeginPlay()
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale,
 		FName("RHSocket"));
 
-	HandObject->SetChildActorClass(AKlHandObject::StaticClass());
+	// Hand have no object by default
+	HandObject->SetChildActorClass(AKlHandObject::SpawnHandObject(0));
 }
 
 // Called every frame
@@ -164,6 +166,8 @@ void AKlPlayerCharacter::ChangeView(EGameViewMode::Type NewCharacterView)
 		ThirdCamera->SetActive(false);
 		MeshFirst->SetOwnerNoSee(false);
 		GetMesh()->SetOwnerNoSee(true);
+		HandObject->AttachToComponent(MeshFirst, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+			FName("RHSocket"));
 
 		break;
 	case EGameViewMode::Third:
@@ -171,11 +175,33 @@ void AKlPlayerCharacter::ChangeView(EGameViewMode::Type NewCharacterView)
 		ThirdCamera->SetActive(true);
 		MeshFirst->SetOwnerNoSee(true);
 		GetMesh()->SetOwnerNoSee(false);
+		HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+			FName("RHSocket"));
 
 		break;
 	default:
 
 		break;
+	}
+}
+
+void AKlPlayerCharacter::ChangeHandObject(TSubclassOf<AActor> HandObjectClass = nullptr)
+{
+	if (!HandObjectClass) {
+		HandObject->DestroyChildActor();
+
+		return;
+	}
+
+	HandObject->SetChildActorClass(HandObjectClass);
+}
+
+void AKlPlayerCharacter::ChangeHandObjectDetection(bool IsOpen)
+{
+	AKlHandObject* HandObjectClass = Cast<AKlHandObject>(HandObject->GetChildActor());
+	if (HandObjectClass)
+	{
+		HandObjectClass->ChangeOverlayDetect(IsOpen);
 	}
 }
 

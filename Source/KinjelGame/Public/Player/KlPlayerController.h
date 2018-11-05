@@ -31,6 +31,11 @@ public:
 	*/
 	virtual void SetupInputComponent() override;
 
+	/**
+	* Change hand object of the character
+	*/
+	void ChangeHandObject();
+
 public:
 	class AKlPlayerCharacter* PlayerCharacter;
 
@@ -56,6 +61,11 @@ private:
 	void ScrollUpEvent();
 
 	void ScrollDownEvent();
+
+	/**
+	* Change pre upper body action
+	*/
+	void ChangePreUpperType(EUpperBody::Type RightType);
 
 private:
 	/** Left pre action */

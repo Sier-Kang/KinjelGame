@@ -43,6 +43,11 @@ public:
 	* Parse Object attribute information
 	*/
 	void ObjectAttributeJsonRead(TMap<int, TSharedPtr<ObjectAttribute>>& ObjectAttrMap);
+
+	/**
+	* Parse Resource attribute information
+	*/
+	void ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>>& ResourceAttrMap);
 private:
 	/**
 	* Read json file to string.
@@ -78,12 +83,20 @@ private:
 	*/
 	EObjectType::Type StringToObjectType(const FString ArgStr);
 
+	/**
+	* Convert to resource type from string
+	*/
+	EResourceType::Type StringToResourceType(const FString ArgStr);
+
 private:
 	// Document name
 	FString RecordDataFileName;
 
 	// Object attribute file name
 	FString ObjectAttrFileName;
+
+	// Resource attribute file name
+	FString ResourceAttrFileName;
 
 	// Relative path
 	FString RelativePath;

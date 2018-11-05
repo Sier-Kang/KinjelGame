@@ -22,6 +22,12 @@ public:
 	UKlPlayerAnim();
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+	/**
+	* Open/Close detection through its overlap event
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Kinjel")
+	void ChangeDetection(bool IsOpen);
 public:
 	/**
 	 * Character's speed
