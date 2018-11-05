@@ -14,7 +14,9 @@ class KINJELGAME_API AKlHandSword : public AKlHandObject
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlHandSword();
+
+protected:
+	virtual void BeginPlay() override;
 };

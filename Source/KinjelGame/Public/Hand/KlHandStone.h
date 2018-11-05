@@ -13,8 +13,10 @@ UCLASS()
 class KINJELGAME_API AKlHandStone : public AKlHandObject
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+
+public:
+	AKlHandStone();
+
+protected:
+	virtual void BeginPlay() override;
 };

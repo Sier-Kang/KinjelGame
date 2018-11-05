@@ -15,15 +15,45 @@ public:
 	// Sets default values for this actor's properties
 	AKlHandObject();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* 
+		OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	virtual void OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent*
+		OtherComp, int32 OtherBodyIndex);
+
+public:
+	/**
+	* Object index
+	*/
+	int ObjectIndex;
+
+protected:
+	/**
+	 * Root Component
+	 */
+	UPROPERTY(EditAnywhere, Category = "Kinjel")
+	class USceneComponent* RootScene;
+
+	/**
+	 * Object
+	 */
 	UPROPERTY(EditAnywhere, Category = "Kinjel")
 	class UStaticMeshComponent* BaseMesh;
+
+	/**
+	 * Object collision
+	 */
+	UPROPERTY(EditAnywhere, Category = "Kinjel")
+	class UBoxComponent* AffectCollision;
+
 };

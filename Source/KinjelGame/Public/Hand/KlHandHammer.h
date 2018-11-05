@@ -14,7 +14,13 @@ class KINJELGAME_API AKlHandHammer : public AKlHandObject
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlHandHammer();
+
+protected:
+	virtual void BeginPlay() override;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	class UStaticMeshComponent* ExtendMesh;
 };

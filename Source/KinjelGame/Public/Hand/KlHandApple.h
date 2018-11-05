@@ -14,7 +14,10 @@ class KINJELGAME_API AKlHandApple : public AKlHandObject
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlHandApple();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 };
