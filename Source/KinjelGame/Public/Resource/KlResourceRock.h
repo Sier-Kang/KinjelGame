@@ -14,7 +14,6 @@ class KINJELGAME_API AKlResourceRock : public AKlResourceObject
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlResourceRock();
 };
