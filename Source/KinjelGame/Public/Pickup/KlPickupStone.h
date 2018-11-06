@@ -14,7 +14,8 @@ class KINJELGAME_API AKlPickupStone : public AKlPickupObject
 {
 	GENERATED_BODY()
 	
-	
+public:
+	AKlPickupStone();
 	
 	
 };

@@ -5,6 +5,9 @@
 #include "SKlShotcutWidget.h"
 #include "SDPIScaler.h"
 #include "SOverlay.h"
+#include "SKlRayInfoWidget.h"
+#include "Engine.h"
+#include "Engine/Engine.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlGameHUDWidget::Construct(const FArguments& InArgs)
@@ -22,6 +25,12 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Bottom)
 			[
 				SAssignNew(ShotcutWidget, SKlShotcutWidget)
+			]
+			+SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(RayInfoWidget, SKlRayInfoWidget)
 			]
 		]
 	];

@@ -14,7 +14,7 @@ class KINJELGAME_API AKlPickupWood : public AKlPickupObject
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+	AKlPickupWood();
 	
 };

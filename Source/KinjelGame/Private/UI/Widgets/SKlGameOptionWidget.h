@@ -72,19 +72,19 @@ private:
 	const struct FKlMenuStyle* MenuStyle;
 
 	/** CheckBox of English */
-	TSharedPtr<SCheckBox> EnCheckBox;
+	TSharedPtr<class SCheckBox> EnCheckBox;
 
 	/** CheckBox of Chinese */
-	TSharedPtr<SCheckBox> ZhCheckBox;
+	TSharedPtr<class SCheckBox> ZhCheckBox;
 
 	/** Music Slider */
-	TSharedPtr<SSlider> MusicSlider;
+	TSharedPtr<class SSlider> MusicSlider;
 
 	/** Sound Slider */
 	TSharedPtr<SSlider> SoundSlider;
 
 	/** Percent of Music text */
-	TSharedPtr<STextBlock> MusicPercentTextBlock;
+	TSharedPtr<class STextBlock> MusicPercentTextBlock;
 
 	/** Percent of Sound text */
 	TSharedPtr<STextBlock> SoundPercentTextBlock;

@@ -59,6 +59,12 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Package)
 	FSlateBrush ObjectBrush_7;
 
+	/**
+	* Object name that ray cast
+	*/
+	UPROPERTY(EditAnywhere, Category = "RayCast")
+	FSlateBrush RayInfoBrush;
+
 	/*
 	* Font of 60
 	*/

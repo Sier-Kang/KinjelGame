@@ -10,6 +10,7 @@
 #include "SUniformGridPanel.h"
 #include "SBorder.h"
 #include "Data/FKlDataHandle.h"
+#include "Data/FKlTypes.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlShotcutWidget::Construct(const FArguments& InArgs)

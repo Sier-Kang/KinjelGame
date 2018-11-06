@@ -42,6 +42,11 @@ public:
 	*/
 	EObjectType::Type GetCurrentObjectType() const;
 
+	/**
+	* RayInfoWdidget RegisterRayInfo Event
+	*/
+	void RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock);
+
 public:
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;
@@ -52,10 +57,18 @@ private:
 	*/
 	FText GetShotcutInfoText() const;
 
+	/**
+	* Get Ray info Text
+	*/
+	FText GetRayInfoText() const;
+
 private:
 	/** Shortcut information text */
-	TAttribute<FText> ShotcutInfoText;
+	TAttribute<FText> ShotcutInfoAttr;
 
 	/** Shotcut container list. */
 	TArray<TSharedPtr<ShotcutContainer>> ShortcutContainerList;
+
+	/** Ray cast info atrribute */
+	TAttribute<FText> RayInfoTextAttr;
 };

@@ -14,9 +14,9 @@ void AKlPlayerState::RegisterShotcunContainer(TArray<TSharedPtr<ShotcutContainer
 		ShortcutContainerList.Add(*It);
 	}
 
-	ShotcutInfoText.BindUObject(this, &AKlPlayerState::GetShotcutInfoText);
+	ShotcutInfoAttr.BindUObject(this, &AKlPlayerState::GetShotcutInfoText);
 
-	ShotcutInfoTextBlock->SetText(ShotcutInfoText);
+	ShotcutInfoTextBlock->SetText(ShotcutInfoAttr);
 
 	// Test data
 	ShortcutContainerList[1]->SetObject(2)->SetObjectNum(10);
@@ -61,6 +61,13 @@ EObjectType::Type AKlPlayerState::GetCurrentObjectType() const
 	return ObjectAttr->ObjectType;
 }
 
+void AKlPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock)
+{
+	RayInfoTextAttr.BindUObject(this, &AKlPlayerState::GetRayInfoText);
+
+	RayInfoTextBlock->SetText(RayInfoTextAttr);
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;
@@ -78,4 +85,10 @@ FText AKlPlayerState::GetShotcutInfoText() const
 	}
 
 	return ObjectAttr->ZH;
+}
+
+FText AKlPlayerState::GetRayInfoText() const
+{
+	// Ray Cast info test
+	return FText::FromString("Text");
 }

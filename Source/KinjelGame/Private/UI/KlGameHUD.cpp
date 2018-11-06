@@ -7,6 +7,9 @@
 #include "Widgets/SKlShotcutWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "KlPlayerState.h"
+#include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
+#include "Widgets/SKlRayInfoWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -28,8 +31,9 @@ void AKlGameHUD::BeginPlay()
 
 	GM->InitGamePlayModule();
 
-	GameHUDWidget->ShotcutWidget->RegisterShotcutContainer.BindUObject(
-		GM->KlPlayerState, 
-		&AKlPlayerState::RegisterShotcunContainer
-	);
+	GameHUDWidget->ShotcutWidget->RegisterShotcutContainer.BindUObject(GM->KlPlayerState, 
+		&AKlPlayerState::RegisterShotcunContainer);
+
+	GameHUDWidget->RayInfoWidget->RegisterRayInfoEvent.BindUObject(GM->KlPlayerState,
+		&AKlPlayerState::RegisterRayInfoEvent);
 }

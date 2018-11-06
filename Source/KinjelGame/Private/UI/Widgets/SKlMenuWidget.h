@@ -108,16 +108,16 @@ private:
 
 private:
 	/** Size box of the menu */
-	TSharedPtr<SBox> RootSizeBox;
+	TSharedPtr<class SBox> RootSizeBox;
 
 	/** Title Text */
-	TSharedPtr<STextBlock> TitleText;
+	TSharedPtr<class STextBlock> TitleText;
 
 	/** Get the style of menu */
 	const struct FKlMenuStyle* MenuStyle;
 
 	/** To save vertical list */
-	TSharedPtr<SVerticalBox> ContentBox;
+	TSharedPtr<class SVerticalBox> ContentBox;
 
 	// Menu Group
 	TMap<EMenuType::Type, TSharedPtr<MenuGroup>> MenuMap;

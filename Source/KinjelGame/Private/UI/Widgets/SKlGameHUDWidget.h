@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SlateBasics.h"
 #include "Widgets/SCompoundWidget.h"
 
 /**
@@ -23,6 +24,8 @@ public:
 
 public:
 	TSharedPtr<class SKlShotcutWidget> ShotcutWidget;
+
+	TSharedPtr<class SKlRayInfoWidget> RayInfoWidget;
 
 private:
 	// Get screen size
