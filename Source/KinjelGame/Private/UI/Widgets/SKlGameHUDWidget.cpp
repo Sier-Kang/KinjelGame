@@ -8,6 +8,7 @@
 #include "SKlRayInfoWidget.h"
 #include "Engine.h"
 #include "Engine/Engine.h"
+#include "SKlPointerWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlGameHUDWidget::Construct(const FArguments& InArgs)
@@ -20,17 +21,26 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 		.DPIScale(UIScaler)
 		[
 			SNew(SOverlay)
+			// Shortcut panel
 			+SOverlay::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Bottom)
 			[
 				SAssignNew(ShotcutWidget, SKlShotcutWidget)
 			]
+			// Ray cast object text
 			+SOverlay::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Top)
 			[
 				SAssignNew(RayInfoWidget, SKlRayInfoWidget)
+			]
+			// Pointer insight widget
+			+SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SAssignNew(PointerWidget, SKlPointerWidget)
 			]
 		]
 	];
