@@ -19,6 +19,14 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
+public:
+	/**
+	* Update Pointer insight
+	*/
+	void UpdatePointer(bool IsAim, float Range);
+
 private:
 	// Set Root box's width and height
 	FOptionalSize GetBoxWidth() const;
@@ -36,4 +44,7 @@ private:
 
 	/** Dynamic material inst */
 	class UMaterialInstanceDynamic* PointerMaterial;
+
+	/** Is character aimed at object */
+	bool bIsAimed;
 };

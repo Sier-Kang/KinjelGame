@@ -24,7 +24,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Resource ID
-	int ResourceIndex;
+	int ObjectIndex;
+
+	/**
+	* Get Pickup object's name
+	*/
+	FText GetInfoText() const;
 
 protected:
 	// Root component

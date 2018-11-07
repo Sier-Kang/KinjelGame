@@ -30,5 +30,5 @@ AKlResourceTree::AKlResourceTree()
 
 	BaseMesh->SetStaticMesh(StaticMesh.Object);
 
-	ResourceIndex = 1;
+	ObjectIndex = 1;
 }

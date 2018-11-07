@@ -26,6 +26,11 @@ public:
 	// Pickup object ID
 	int ObjectIndex;
 
+	/** 
+	* Get Pickup object's name 
+	*/
+	FText GetInfoText() const;
+
 protected:
 	// Root component
 	USceneComponent * RootScene;

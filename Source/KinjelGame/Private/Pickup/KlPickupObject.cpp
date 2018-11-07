@@ -3,6 +3,7 @@
 #include "KlPickupObject.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Data/FKlDataHandle.h"
 
 
 // Sets default values
@@ -34,5 +35,21 @@ void AKlPickupObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+FText AKlPickupObject::GetInfoText() const
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+
+	switch (FKlDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ObjectAttr->EN;
+	
+	case ECultureTeam::ZH:
+		return ObjectAttr->ZH;
+	}
+
+	return FText::FromString(" ");
 }
 

@@ -51,6 +51,9 @@ public:
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;
 
+	// Ray cast Text,PlayerController update.
+	FText RayInfoText;
+
 private:
 	/**
 	* Get Shotcut Information Text

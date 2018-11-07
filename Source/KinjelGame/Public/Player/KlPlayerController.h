@@ -7,6 +7,9 @@
 #include "Data/FKlTypes.h"
 #include "KlPlayerController.generated.h"
 
+/** Pointer insight delegate */
+DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
+
 /**
  * 
  */
@@ -39,6 +42,9 @@ public:
 public:
 	class AKlPlayerCharacter* PlayerCharacter;
 
+	// Delegate of pointer insight
+	FUpdatePointer UpdatePointer;
+
 protected:
 	/**
 	* Begin play
@@ -67,6 +73,21 @@ private:
 	*/
 	void ChangePreUpperType(EUpperBody::Type RightType);
 
+	/**
+	* View ray cast
+	*/
+	FHitResult RayGetHitResult(FVector TraceStart, FVector TraceEnd);
+
+	/**
+	* Draw ray line
+	*/
+	void DrawRayLine(FVector StartPos, FVector EndPos, float Duration);
+
+	/**
+	* Ray cast of view
+	*/
+	void RunRayCast();
+
 private:
 	/** Left pre action */
 	EUpperBody::Type LeftUpperType;
@@ -78,4 +99,7 @@ private:
 	bool bIsLeftButtonDown;
 
 	bool bIsRightButtonDown;
+
+	/** View ray cast actor */
+	AActor* RayCastActor;
 };

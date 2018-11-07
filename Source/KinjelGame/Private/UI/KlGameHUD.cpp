@@ -10,6 +10,8 @@
 #include "Engine/Engine.h"
 #include "Engine/GameViewportClient.h"
 #include "Widgets/SKlRayInfoWidget.h"
+#include "KlPlayerController.h"
+#include "Widgets/SKlPointerWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -31,9 +33,14 @@ void AKlGameHUD::BeginPlay()
 
 	GM->InitGamePlayModule();
 
+	// Shortcut panel
 	GameHUDWidget->ShotcutWidget->RegisterShotcutContainer.BindUObject(GM->KlPlayerState, 
 		&AKlPlayerState::RegisterShotcunContainer);
 
+	// Ray cast object
 	GameHUDWidget->RayInfoWidget->RegisterRayInfoEvent.BindUObject(GM->KlPlayerState,
 		&AKlPlayerState::RegisterRayInfoEvent);
+
+	// Pointer insight delegate
+	GM->KlPC->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SKlPointerWidget::UpdatePointer);
 }

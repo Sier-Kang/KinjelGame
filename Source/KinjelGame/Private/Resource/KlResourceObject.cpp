@@ -3,6 +3,7 @@
 #include "KlResourceObject.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "Data/FKlDataHandle.h"
 
 
 // Sets default values
@@ -33,5 +34,21 @@ void AKlResourceObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+FText AKlResourceObject::GetInfoText() const
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+
+	switch (FKlDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ObjectAttr->EN;
+
+	case ECultureTeam::ZH:
+		return ObjectAttr->ZH;
+	}
+
+	return FText::FromString(" ");
 }
 

@@ -90,5 +90,5 @@ FText AKlPlayerState::GetShotcutInfoText() const
 FText AKlPlayerState::GetRayInfoText() const
 {
 	// Ray Cast info test
-	return FText::FromString("Text");
+	return RayInfoText;
 }

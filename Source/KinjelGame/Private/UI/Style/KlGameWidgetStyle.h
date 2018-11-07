@@ -68,6 +68,7 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	/**
 	* Pointer insight brush
 	*/
+	UPROPERTY(EditAnywhere, Category = "RayCast")
 	FSlateBrush PointerBrush;
 
 	/*

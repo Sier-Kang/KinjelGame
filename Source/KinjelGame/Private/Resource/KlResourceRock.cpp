@@ -25,5 +25,5 @@ AKlResourceRock::AKlResourceRock()
 	ConstructorHelpers::FObjectFinder<UStaticMesh> StaticBaseMesh(*ResourcePath[RandIndex]);
 	BaseMesh->SetStaticMesh(StaticBaseMesh.Object);
 
-	ResourceIndex = 2;
+	ObjectIndex = 2;
 }

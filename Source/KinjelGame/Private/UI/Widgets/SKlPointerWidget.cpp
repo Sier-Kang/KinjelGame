@@ -18,6 +18,8 @@ void SKlPointerWidget::Construct(const FArguments& InArgs)
 
 	CurrentSize = 100.f;
 
+	bIsAimed = false;
+
 	ChildSlot
 	[
 		SAssignNew(RootBox, SBox)
@@ -36,7 +38,21 @@ void SKlPointerWidget::Construct(const FArguments& InArgs)
 
 	PointerMaterial = (UMaterialInstanceDynamic*)StaticPointerMaterialInstance.Object;
 }
+
+void SKlPointerWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	CurrentSize = bIsAimed ? FMath::FInterpTo(CurrentSize, 130.f, InDeltaTime, 10.f) :
+		FMath::FInterpTo(CurrentSize, 20.f, InDeltaTime, 10.f);
+}
+
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SKlPointerWidget::UpdatePointer(bool IsAim, float Range)
+{
+	bIsAimed = IsAim;
+
+	PointerMaterial->SetScalarParameterValue(FName("Range"), Range);
+}
 
 FOptionalSize SKlPointerWidget::GetBoxWidth() const
 {
