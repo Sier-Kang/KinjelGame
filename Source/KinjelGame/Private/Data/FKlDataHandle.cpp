@@ -17,24 +17,10 @@ void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	if (MusicVol > 0)
 	{
 		MusicVolume = MusicVol;
-
-		// Loop for set menu background music
-		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Music"))->CreateIterator());
-			It; It++ )
-		{
-			(*It)->VolumeMultiplier = MusicVolume;
-		}
 	}
 	if (SoundVol > 0)
 	{
 		SoundVolume = SoundVol;
-
-		// Loop for set menu background sound
-		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Sound"))->CreateIterator());
-			It; It++ )
-		{
-			(*It)->VolumeMultiplier = SoundVolume;
-		}
 	}
 
 	// Update record data
@@ -176,9 +162,6 @@ FKlDataHandle::FKlDataHandle()
 {
 	// Initialize record data
 	InitRecordData();
-
-	// Initialize sound audio
-	InitializeMenuAudio();
 
 	RecordName = FString("");
 }

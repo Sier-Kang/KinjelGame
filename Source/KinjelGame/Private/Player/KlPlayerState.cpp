@@ -68,6 +68,38 @@ void AKlPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBloc
 	RayInfoTextBlock->SetText(RayInfoTextAttr);
 }
 
+int AKlPlayerState::GetAffectRange() const
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+
+	return ObjectAttr->AffectRange;
+}
+
+int AKlPlayerState::GetDamageValue(EResourceType::Type ResourceType) const
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+
+	switch (ResourceType)
+	{
+	case EResourceType::Plant:
+		return ObjectAttr->PlantAttack;
+
+		break;
+	case EResourceType::Metal:
+		return ObjectAttr->MetalAttack;
+
+		break;
+	case EResourceType::Animal:
+		return ObjectAttr->AnimalAttack;
+
+		break;
+	}
+
+	return ObjectAttr->PlantAttack;
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

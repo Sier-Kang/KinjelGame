@@ -4,6 +4,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Data/FKlDataHandle.h"
+#include "Engine/Engine.h"
 
 
 // Sets default values
@@ -26,7 +27,34 @@ AKlResourceObject::AKlResourceObject()
 void AKlResourceObject::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	TSharedPtr<ResourceAttribute> ResourceAttr = 
+		*FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	HP = BaseHP = ResourceAttr->HP;
+}
+
+void AKlResourceObject::CreateFlobObject()
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = 
+		*FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	for (TArray<TArray<int>>::TIterator It(ResourceAttr->FlobObjectInfo); It; ++It) {
+		// Random seed
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+
+		// Number of flob object
+		int Num = Stream.RandRange((*It)[1], (*It)[2]);
+
+		if (GetWorld()) {
+			for (int i = 0; i < Num; ++i) {
+				// Spawn flobs
+				//ASlAiFlobObject* FlobObject = GetWorld()->SpawnActor<ASlAiFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 20.f), FRotator::ZeroRotator);
+				//FlobObject->CreateFlobObject((*It)[0]);
+			}
+		}
+	}
 }
 
 // Called every frame
@@ -38,17 +66,50 @@ void AKlResourceObject::Tick(float DeltaTime)
 
 FText AKlResourceObject::GetInfoText() const
 {
-	TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+	TSharedPtr<ResourceAttribute> ResourceAttr = 
+		*FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
 
 	switch (FKlDataHandle::Get()->CurrentCulture)
 	{
 	case ECultureTeam::EN:
-		return ObjectAttr->EN;
+		return ResourceAttr->EN;
 
+		break;
 	case ECultureTeam::ZH:
-		return ObjectAttr->ZH;
+		return ResourceAttr->ZH;
+
+		break;
 	}
 
-	return FText::FromString(" ");
+	return ResourceAttr->ZH;
+}
+
+EResourceType::Type AKlResourceObject::GetResourceType() const
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr =
+		*FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	return ResourceAttr->ResourceType;
+}
+
+float AKlResourceObject::GetHPRange() const
+{
+	return FMath::Clamp<float>((float)HP / (float)BaseHP, 0.f, 1.f);
+}
+
+AKlResourceObject* AKlResourceObject::TakeObjectDamage(int Damage)
+{
+	HP = FMath::Clamp<int>(HP - Damage, 0, BaseHP);
+
+	if (HP <= 0) {
+		// Detect fail
+		BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+		// Create drop down object
+		//CreateFlobObject();
+		// Destroy object
+		GetWorld()->DestroyActor(this);
+	}
+
+	return this;
 }
 

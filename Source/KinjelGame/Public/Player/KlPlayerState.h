@@ -47,6 +47,16 @@ public:
 	*/
 	void RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock);
 
+	/**
+	* Get Affect Range of the object in character's hand
+	*/
+	int GetAffectRange() const;
+
+	/**
+	* Get damage value of object in character's hand
+	*/
+	int GetDamageValue(EResourceType::Type ResourceType) const;
+
 public:
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;

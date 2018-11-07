@@ -41,11 +41,11 @@ void AKlPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	// temp code
-	ChangePreUpperType(EUpperBody::None);
-
 	// View ray cast
-	RunRayCast();
+	//RunRayCast();
+
+	// Update state machine
+	// StateMachine();
 }
 
 void AKlPlayerController::SetupInputComponent()
@@ -187,7 +187,7 @@ FHitResult AKlPlayerController::RayGetHitResult(FVector TraceStart, FVector Trac
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_GameTraceChannel1,
 		TraceParams))
 	{
-		DrawRayLine(TraceStart, TraceEnd, 5.f);
+		//DrawRayLine(TraceStart, TraceEnd, 5.f);
 		//FKlHelper::Debug(FString("Line info: ") + TraceStart.ToString() + FString("___") + TraceEnd.ToString(), 10.f);
 	}
 
@@ -200,6 +200,7 @@ void AKlPlayerController::DrawRayLine(FVector StartPos, FVector EndPos, float Du
 	if (LineBatcher != nullptr)
 	{
 		float LineDuration = (Duration > 0.f) ? Duration : LineBatcher->DefaultLifeTime;
+
 		LineBatcher->DrawLine(StartPos, EndPos, FLinearColor::Red, 10, 0.f, LineDuration);	
 	}
 }
@@ -243,5 +244,43 @@ void AKlPlayerController::RunRayCast()
 		Cast<AKlPlayerState>(PlayerState)->RayInfoText =
 			Cast<AKlResourceObject>(RayCastActor)->GetInfoText();
 	}
+
+	if (!IsDetected)
+	{
+		Cast<AKlPlayerState>(PlayerState)->RayInfoText = FText();
+	}
+}
+
+void AKlPlayerController::StateMachine()
+{
+	// temp code
+	ChangePreUpperType(EUpperBody::None);
+
+	if (!Cast<AKlResourceObject>(RayCastActor) && !Cast<AKlPickupObject>(RayCastActor))
+	{
+		UpdatePointer.ExecuteIfBound(false, 1.f);
+	}
+
+	/*if (Cast<AKlResourceObject>(RayCastActor))
+	{
+		// Left button of mouse if pressed
+		if (!bIsLeftButtonDown)
+		{
+			UpdatePointer.ExecuteIfBound(false, 0.f);
+		}
+		if (bIsLeftButtonDown && 
+			FVector::Distance(RayCastActor->GetActorLocation(), PlayerCharacter->GetActorLocation()) < 
+			Cast<AKlPlayerState>(PlayerState)->GetAffectRange())
+		{
+			// Get tool damage
+			int Damage = Cast<AKlPlayerState>(PlayerState)->GetDamageValue(
+				Cast<AKlResourceObject>(RayCastActor)->GetResourceType()
+			);
+			// RayCastActor take damage, and get HP percent value
+			float Range = Cast<AKlResourceObject>(RayCastActor)->TakeObjectDamage(Damage)->GetHPRange();
+
+			UpdatePointer.ExecuteIfBound(true, Range);
+		}
+	}*/
 }
 

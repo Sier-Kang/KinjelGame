@@ -88,6 +88,11 @@ private:
 	*/
 	void RunRayCast();
 
+	/**
+	* Character's state machine of its action
+	*/
+	void StateMachine();
+
 private:
 	/** Left pre action */
 	EUpperBody::Type LeftUpperType;
