@@ -6,6 +6,7 @@
 #include "Data/FKlDataHandle.h"
 #include "Engine/Engine.h"
 #include "FKlHelper.h"
+#include "Flob/KlFlobObject.h"
 
 
 // Sets default values
@@ -60,8 +61,9 @@ void AKlResourceObject::CreateFlobObject()
 		if (GetWorld()) {
 			for (int i = 0; i < Num; ++i) {
 				// Spawn flobs
-				//ASlAiFlobObject* FlobObject = GetWorld()->SpawnActor<ASlAiFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 20.f), FRotator::ZeroRotator);
-				//FlobObject->CreateFlobObject((*It)[0]);
+				AKlFlobObject* FlobObject = 
+					GetWorld()->SpawnActor<AKlFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 20.f), FRotator::ZeroRotator);
+				FlobObject->CreateFlobObject((*It)[0]);
 			}
 		}
 	}
@@ -115,7 +117,7 @@ AKlResourceObject* AKlResourceObject::TakeObjectDamage(int Damage)
 		// Detect fail
 		BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
 		// Create drop down object
-		//CreateFlobObject();
+		CreateFlobObject();
 		// Destroy object
 		GetWorld()->DestroyActor(this);
 	}
