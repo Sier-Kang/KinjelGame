@@ -5,6 +5,8 @@
 
 AKlPlayerState::AKlPlayerState()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	CurrentShotcutIndex = 0;
 }
 

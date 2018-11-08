@@ -31,6 +31,11 @@ public:
 	*/
 	FText GetInfoText() const;
 
+	/**
+	* Picked up, return its ID
+	*/
+	int TakePickup();
+
 protected:
 	// Root component
 	USceneComponent * RootScene;

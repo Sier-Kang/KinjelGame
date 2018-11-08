@@ -4,6 +4,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Data/FKlDataHandle.h"
+#include "Engine/Engine.h"
 
 
 // Sets default values
@@ -51,5 +52,14 @@ FText AKlPickupObject::GetInfoText() const
 	}
 
 	return FText::FromString(" ");
+}
+
+int AKlPickupObject::TakePickup()
+{
+	BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	if (GetWorld()) GetWorld()->DestroyActor(this);
+
+	return ObjectIndex;
 }
 

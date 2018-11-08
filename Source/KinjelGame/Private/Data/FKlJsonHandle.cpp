@@ -174,6 +174,9 @@ void FKlJsonHandle::ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>
 			TSharedPtr<ResourceAttribute> ResourceAttrPtr = MakeShareable(new ResourceAttribute(EN, ZH, ResourceType, HP, &FlobObjectInfoArray));
 
 			ResourceAttrMap.Add(i + 1, ResourceAttrPtr);
+			
+			// Debug Info
+			// FKlHelper::Debug(ResourceAttrPtr->ToString(), 10.f);
 		}
 	}
 	else

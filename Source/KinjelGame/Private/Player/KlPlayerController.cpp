@@ -42,10 +42,10 @@ void AKlPlayerController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	// View ray cast
-	//RunRayCast();
+	RunRayCast();
 
 	// Update state machine
-	// StateMachine();
+	StateMachine();
 }
 
 void AKlPlayerController::SetupInputComponent()
@@ -261,7 +261,7 @@ void AKlPlayerController::StateMachine()
 		UpdatePointer.ExecuteIfBound(false, 1.f);
 	}
 
-	/*if (Cast<AKlResourceObject>(RayCastActor))
+	if (Cast<AKlResourceObject>(RayCastActor))
 	{
 		// Left button of mouse if pressed
 		if (!bIsLeftButtonDown)
@@ -281,6 +281,20 @@ void AKlPlayerController::StateMachine()
 
 			UpdatePointer.ExecuteIfBound(true, Range);
 		}
-	}*/
+	}
+	// Ray cast Pickup object
+	if (Cast<AKlPickupObject>(RayCastActor) &&
+			FVector::Distance(RayCastActor->GetActorLocation(), PlayerCharacter->GetActorLocation()) < 300.f)
+	{
+		// Change right button of mouse's state
+		ChangePreUpperType(EUpperBody::PickUp);
+
+		UpdatePointer.ExecuteIfBound(false, 0);
+
+		// Right button down of the mouse
+		if (bIsRightButtonDown) {
+			Cast<AKlPickupObject>(RayCastActor)->TakePickup();
+		}
+	}
 }
 

@@ -38,6 +38,7 @@ void AKlGameMode::InitGamePlayModule()
 void AKlGameMode::BeginPlay()
 {
 	// Initialize game data
+	// FKlHelper::Debug(FString("AKlGameMode::BeginPlay runs.", 30.f));
 	FKlDataHandle::Get()->InitializeGameData();
 
 	if (!KlPC) {

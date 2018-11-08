@@ -5,6 +5,7 @@
 #include "Components/SceneComponent.h"
 #include "Data/FKlDataHandle.h"
 #include "Engine/Engine.h"
+#include "FKlHelper.h"
 
 
 // Sets default values
@@ -21,6 +22,8 @@ AKlResourceObject::AKlResourceObject()
 	BaseMesh->SetCollisionProfileName(FName("ResourceProfile"));
 
 	BaseMesh->SetGenerateOverlapEvents(true);
+
+	HP = BaseHP = 100;
 }
 
 // Called when the game starts or when spawned
@@ -28,8 +31,15 @@ void AKlResourceObject::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TSharedPtr<ResourceAttribute> ResourceAttr = 
+	if (FKlDataHandle::Get()->ResourceAttrMap.Num() == 0)
+	{
+		FKlDataHandle::Get()->InitResourceAttr();
+	}
+
+	TSharedPtr<ResourceAttribute> ResourceAttr =
 		*FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	FKlHelper::Debug(ResourceAttr->ToString(), 30.f);
 
 	HP = BaseHP = ResourceAttr->HP;
 }

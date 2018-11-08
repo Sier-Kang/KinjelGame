@@ -104,6 +104,10 @@ void FKlDataHandle::InitObjectAttr()
 void FKlDataHandle::InitResourceAttr()
 {
 	FKlSingleton<FKlJsonHandle>::Get()->ResourceAttrJsonRead(ResourceAttrMap);
+	// Debug
+	//for (auto& Elem : ResourceAttrMap) {
+	//	FKlHelper::Debug((Elem.Value)->ToString(), 30.f);
+	//}
 }
 
 void FKlDataHandle::InitializeGameData()
@@ -111,6 +115,7 @@ void FKlDataHandle::InitializeGameData()
 	// Initialize object attribute
 	InitObjectAttr();
 
+	FKlHelper::Debug(FString("FKlDataHandle::InitResourceAttr runs.", 30.f));
 	// Initialize resource attribute
 	InitResourceAttr();
 
