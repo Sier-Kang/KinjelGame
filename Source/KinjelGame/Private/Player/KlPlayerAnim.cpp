@@ -24,6 +24,13 @@ void UKlPlayerAnim::ChangeDetection(bool IsOpen)
 	PlayerCharacter->ChangeHandObjectDetection(IsOpen);
 }
 
+void UKlPlayerAnim::RenderHandObject(bool bIsRender)
+{
+	if (!PlayerCharacter) return;
+
+	PlayerCharacter->RenderHandObject(bIsRender);
+}
+
 void UKlPlayerAnim::InitPlayerCharacter()
 {
 	if (!PlayerCharacter)

@@ -28,6 +28,13 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Kinjel")
 	void ChangeDetection(bool IsOpen);
+
+	/**
+	* Hide hand object when character is picking up.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Kinjel")
+	void RenderHandObject(bool bIsRender);
+
 public:
 	/**
 	 * Character's speed

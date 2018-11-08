@@ -205,6 +205,13 @@ void AKlPlayerCharacter::ChangeHandObjectDetection(bool IsOpen)
 	}
 }
 
+void AKlPlayerCharacter::RenderHandObject(bool bIsRender)
+{
+	if (!!HandObject->GetChildActor()) return;
+
+	HandObject->GetChildActor()->SetActorHiddenInGame(!bIsRender);
+}
+
 void AKlPlayerCharacter::MoveForward(float Value)
 {
 	if (Value != 0.f && Controller) {

@@ -36,6 +36,11 @@ public:
 	*/
 	void ChangeHandObjectDetection(bool IsOpen);
 
+	/**
+	* Render hand object or not
+	*/
+	void RenderHandObject(bool bIsRender);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
