@@ -32,6 +32,9 @@ public:
 	/** Pointer insight in game - Center/Center */
 	TSharedPtr<class SKlPointerWidget> PointerWidget;
 
+	/** Player State widget */
+	TSharedPtr<class SKlPlayerStateWidget> PlayerStateWidget;
+
 private:
 	// Get screen size
 	FVector2D GetViewportSize() const;
