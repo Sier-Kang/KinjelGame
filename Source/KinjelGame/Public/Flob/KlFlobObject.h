@@ -29,6 +29,16 @@ protected:
 private:
 	void RenderTexture();
 
+	/**
+	* Detect player character timer event
+	*/
+	void DetectPlayer();
+
+	/**
+	* Destroy Event
+	*/
+	void DestroyEvent();
+
 private:
 	class UBoxComponent* BoxCollision;
 
@@ -40,4 +50,13 @@ private:
 
 	/** Object type ID */
 	int ObjectIndex;
+
+	/** Player Character */
+	class AKlPlayerCharacter* PlayerCharacter;
+
+	/** Detect Timer handle */
+	FTimerHandle DetectTimer;
+
+	/** Destroy Timer Handle */
+	FTimerHandle DestroyTimer;
 };
