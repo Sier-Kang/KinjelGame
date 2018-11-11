@@ -10,6 +10,9 @@
 
 class STextBlock;
 
+// Update player state widget delegate
+DECLARE_DELEGATE_TwoParams(FUpdateStateWidget, float, float)
+
 /**
  * 
  */
@@ -19,6 +22,11 @@ class KINJELGAME_API AKlPlayerState : public APlayerState
 	GENERATED_BODY()
 public:
 	AKlPlayerState();
+
+	virtual void Tick(float DeltaSeconds) override;
+
+protected:
+	virtual void BeginPlay() override;
 
 public:
 	/**
@@ -58,12 +66,17 @@ public:
 	int GetDamageValue(EResourceType::Type ResourceType) const;
 
 public:
+	/** Player Controller */
+	class AKlPlayerController* PlayerController;
+
 	/** Current shotcut object index */
 	int CurrentShotcutIndex;
 
 	// Ray cast Text,PlayerController update.
 	FText RayInfoText;
 
+	/** Player state widget delegate */
+	FUpdateStateWidget UpdateStateWidget;
 private:
 	/**
 	* Get Shotcut Information Text
@@ -84,4 +97,12 @@ private:
 
 	/** Ray cast info atrribute */
 	TAttribute<FText> RayInfoTextAttr;
+
+	/** HP and Hunger */
+	float HP;
+
+	float Hunger;
+
+	/** Player Dead Flag */
+	bool IsDead;
 };

@@ -2,12 +2,58 @@
 
 #include "KlPlayerState.h"
 #include "Data/FKlDataHandle.h"
+#include "KlPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 AKlPlayerState::AKlPlayerState()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 	CurrentShotcutIndex = 0;
+
+	HP = 500.f;
+
+	Hunger = 600.f;
+
+	IsDead = false;
+}
+
+void AKlPlayerState::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// If Hunger reduce to 0, keeping reduce HP
+	if (Hunger <= 0) {
+		HP -= DeltaSeconds * 2;
+	}
+	else {
+		if (!IsDead) {
+			// If Hunger is not 0, reduce 2 per second
+			Hunger -= DeltaSeconds * 2;
+			// Keep increment HP, 1 per second
+			HP += DeltaSeconds;
+		}
+	}
+	// Set range
+	HP = FMath::Clamp<float>(HP, 0.f, 500.f);
+	Hunger = FMath::Clamp<float>(Hunger, 0.f, 600.f);
+	// Run player state delegate
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+
+	if (HP == 0.f && !IsDead) {
+		//if (PlayerController)SPController->PlayerDead();
+
+		IsDead = true;
+	}
+}
+
+void AKlPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Set Player Controller
+	PlayerController = Cast<AKlPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 void AKlPlayerState::RegisterShotcunContainer(TArray<TSharedPtr<ShotcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShotcutInfoTextBlock)

@@ -9,6 +9,7 @@
 #include "Engine.h"
 #include "Engine/Engine.h"
 #include "SKlPointerWidget.h"
+#include "SKlPlayerStateWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlGameHUDWidget::Construct(const FArguments& InArgs)
@@ -41,6 +42,13 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Center)
 			[
 				SAssignNew(PointerWidget, SKlPointerWidget)
+			]
+			// Player state widget
+			+SOverlay::Slot()
+			.HAlign(HAlign_Left)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(PlayerStateWidget, SKlPlayerStateWidget)
 			]
 		]
 	];

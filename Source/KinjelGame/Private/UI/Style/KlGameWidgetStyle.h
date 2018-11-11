@@ -26,37 +26,37 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	static const FKlGameStyle& GetDefault();
 
 	// Grid Panel with shotcut brush default
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush NormalContainerBrush;
 
 	// Grid Panel with shotcut brush when choose
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ChoosedContainerBrush;
 
 	// Empty contain Brush
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush EmptyBrush;
 
 	// Object texture brush
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_1;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_2;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_3;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_4;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_5;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_6;
 
-	UPROPERTY(EditAnywhere, Category = Package)
+	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_7;
 
 	/**
@@ -71,70 +71,95 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = "RayCast")
 	FSlateBrush PointerBrush;
 
+	// Character icon in minimap
+	UPROPERTY(EditAnywhere, Category = "MiniMap")
+	FSlateBrush PawnPointBrush;
+
+
+	// Player state background
+	UPROPERTY(EditAnywhere, Category = "PlayerState")
+	FSlateBrush PlayerStateBGBrush;
+
+	// Background image of character's head
+	UPROPERTY(EditAnywhere, Category = "PlayerState")
+	FSlateBrush PlayerHeadBGBrush;
+
+	// HP Brush
+	UPROPERTY(EditAnywhere, Category = "PlayerState")
+	FSlateBrush HPBrush;
+
+	// Hungry Brush
+	UPROPERTY(EditAnywhere, Category = "PlayerState")
+	FSlateBrush HungerBrush;
+
+	// Player character's head
+	UPROPERTY(EditAnywhere, Category = "PlayerState")
+	FSlateBrush PlayerHeadBrush;
+
 	/*
 	* Font of 60
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_60;
 
 	/*
 	* Font of 50 with outline
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_Outline_50;
 
 	/*
 	* Font of 40
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_40;
 
 	/*
 	* Font of 40 with outline
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_Outline_40;
 
 	/*
 	* Font of 30
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 		FSlateFontInfo Font_30;
 
 	/*
 	* Font of 20
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_20;
 
 	/*
 	* Font of 20 with outline
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_Outline_20;
 
 	/*
 	* Font of 16 with outline
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_Outline_16;
 
 	/*
 	* Font of 16
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FSlateFontInfo Font_16;
 
 	/*
 	* White color
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FLinearColor FontColor_White;
 
 	/*
 	* Black color
 	*/
-	UPROPERTY(EditAnywhere, Category = Common)
+	UPROPERTY(EditAnywhere, Category = "Common")
 	FLinearColor FontColor_Black;
 };
 

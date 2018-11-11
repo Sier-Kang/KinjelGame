@@ -12,6 +12,7 @@
 #include "Widgets/SKlRayInfoWidget.h"
 #include "KlPlayerController.h"
 #include "Widgets/SKlPointerWidget.h"
+#include "Widgets/SKlPlayerStateWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -43,4 +44,6 @@ void AKlGameHUD::BeginPlay()
 
 	// Pointer insight delegate
 	GM->KlPC->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SKlPointerWidget::UpdatePointer);
+
+	(Cast<AKlPlayerState>(GM->KlPC->PlayerState))->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SKlPlayerStateWidget::UpdateStateWidget);
 }

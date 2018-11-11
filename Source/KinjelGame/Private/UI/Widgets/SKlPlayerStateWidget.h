@@ -18,4 +18,19 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	/**
+	* Update player state
+	*/
+	void UpdateStateWidget(float HPValue, float HungerValue);
+
+private:
+	/** Game style */
+	const struct FKlGameStyle* GameStyle;
+
+	/** HP Bar*/
+	TSharedPtr<class SProgressBar> HPBar;
+
+	/** Hungry Bar */
+	TSharedPtr<SProgressBar> HungerBar;
 };
