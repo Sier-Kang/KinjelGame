@@ -279,3 +279,17 @@ namespace EGameUIType
 		ChatRoom // Chat room, between player and enemy
 	};
 }
+
+/**
+* Package container type
+*/
+namespace EContainerType
+{
+	enum Type
+	{
+		Output,// Compositor Output
+		Input, // Compositor Input
+		Normal,// Normal container
+		Shortcut,// Shortcut container
+	};
+}
