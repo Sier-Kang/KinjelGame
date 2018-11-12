@@ -46,4 +46,6 @@ void AKlGameHUD::BeginPlay()
 	GM->KlPC->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SKlPointerWidget::UpdatePointer);
 
 	(Cast<AKlPlayerState>(GM->KlPC->PlayerState))->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SKlPlayerStateWidget::UpdateStateWidget);
+
+	GM->KlPC->ShowGameUI.BindRaw(GameHUDWidget.Get(), &SKlGameHUDWidget::ShowGameUI);
 }

@@ -30,6 +30,8 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 
 	UpperBodyMode = EUpperBody::None;
 
+	IsInputLocked = false;
+
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 
 	// Set capsule component's collision property
@@ -157,6 +159,8 @@ void AKlPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void AKlPlayerCharacter::ChangeView(EGameViewMode::Type NewCharacterView)
 {
+	if (IsInputLocked) return;
+
 	CharacterViewMode = NewCharacterView;
 
 	switch (NewCharacterView)
@@ -187,6 +191,8 @@ void AKlPlayerCharacter::ChangeView(EGameViewMode::Type NewCharacterView)
 
 void AKlPlayerCharacter::ChangeHandObject(TSubclassOf<AActor> HandObjectClass = nullptr)
 {
+	if (IsInputLocked) return;
+
 	if (!HandObjectClass) {
 		HandObject->DestroyChildActor();
 
@@ -198,6 +204,8 @@ void AKlPlayerCharacter::ChangeHandObject(TSubclassOf<AActor> HandObjectClass = 
 
 void AKlPlayerCharacter::ChangeHandObjectDetection(bool IsOpen)
 {
+	if (IsInputLocked) return;
+
 	AKlHandObject* HandObjectClass = Cast<AKlHandObject>(HandObject->GetChildActor());
 	if (HandObjectClass)
 	{
@@ -214,6 +222,8 @@ void AKlPlayerCharacter::RenderHandObject(bool bIsRender)
 
 void AKlPlayerCharacter::MoveForward(float Value)
 {
+	if (IsInputLocked) return;
+
 	if (Value != 0.f && Controller) {
 		const FRotator Rotation = Controller->GetControlRotation();
 		FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
@@ -223,6 +233,8 @@ void AKlPlayerCharacter::MoveForward(float Value)
 
 void AKlPlayerCharacter::MoveRight(float Value)
 {
+	if (IsInputLocked) return;
+
 	if (Value != 0) {
 		const FQuat Rotation = GetActorQuat();
 		FVector Direction = FQuatRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
@@ -232,37 +244,51 @@ void AKlPlayerCharacter::MoveRight(float Value)
 
 void AKlPlayerCharacter::LookUpAtRate(float Value)
 {
+	if (IsInputLocked) return;
+
 	AddControllerPitchInput(Value *BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AKlPlayerCharacter::Turn(float Value)
 {
+	if (IsInputLocked) return;
+
 	AddControllerYawInput(Value);
 }
 
 void AKlPlayerCharacter::TurnAtRate(float Value)
 {
+	if (IsInputLocked) return;
+
 	AddControllerYawInput(Value *BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AKlPlayerCharacter::OnStartJump()
 {
+	if (IsInputLocked) return;
+
 	bPressedJump = true;
 }
 
 void AKlPlayerCharacter::OnStopJump()
 {
+	if (IsInputLocked) return;
+
 	bPressedJump = false;
 	StopJumping();
 }
 
 void AKlPlayerCharacter::OnStartRun()
 {
+	if (IsInputLocked) return;
+
 	GetCharacterMovement()->MaxWalkSpeed = 375.f;
 }
 
 void AKlPlayerCharacter::OnStopRun()
 {
+	if (IsInputLocked) return;
+
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 }
 

@@ -35,6 +35,8 @@ void AKlPlayerController::BeginPlay()
 
 	bIsLeftButtonDown = false;
 	bIsRightButtonDown = false;
+
+	CurrentUIType = EGameUIType::Game;
 }
 
 void AKlPlayerController::Tick(float DeltaSeconds)
@@ -61,6 +63,15 @@ void AKlPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &AKlPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Pressed, this, &AKlPlayerController::ScrollDownEvent);
+
+	// Bind Escape Event, keep running when pause game
+	InputComponent->BindAction("EscEvent", IE_Pressed, this, &AKlPlayerController::EscEvent).bExecuteWhenPaused = true;
+
+	// Bind Package Event
+	InputComponent->BindAction("PackageEvent", IE_Pressed, this, &AKlPlayerController::PackageEvent);
+
+	// Bind  ChatRoom Event
+	InputComponent->BindAction("ChatRoomEvent", IE_Pressed, this, &AKlPlayerController::ChatRoomEvent);
 }
 
 void AKlPlayerController::ChangeHandObject()
@@ -97,6 +108,8 @@ void AKlPlayerController::ChangeView()
 
 void AKlPlayerController::LeftEventStart()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	PlayerCharacter->UpperBodyMode = LeftUpperType;
 
 	bIsLeftButtonDown = true;
@@ -104,6 +117,8 @@ void AKlPlayerController::LeftEventStart()
 
 void AKlPlayerController::LeftEventStop()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	PlayerCharacter->UpperBodyMode = EUpperBody::None;
 
 	bIsLeftButtonDown = false;
@@ -111,6 +126,8 @@ void AKlPlayerController::LeftEventStop()
 
 void AKlPlayerController::RightEventStart()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	// FKlHelper::Debug(FString("Right Event start....l"), 10.f);
 	PlayerCharacter->UpperBodyMode = RightUpperType;
 
@@ -119,6 +136,8 @@ void AKlPlayerController::RightEventStart()
 
 void AKlPlayerController::RightEventStop()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	PlayerCharacter->UpperBodyMode = EUpperBody::None;
 
 	bIsRightButtonDown = false;
@@ -126,6 +145,8 @@ void AKlPlayerController::RightEventStop()
 
 void AKlPlayerController::ScrollUpEvent()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	if (!PlayerCharacter->bAllowedSwitchViewMode) return;
 
 	if (bIsLeftButtonDown || bIsRightButtonDown) return;
@@ -137,6 +158,8 @@ void AKlPlayerController::ScrollUpEvent()
 
 void AKlPlayerController::ScrollDownEvent()
 {
+	if (PlayerCharacter->IsInputLocked) return;
+
 	if (!PlayerCharacter->bAllowedSwitchViewMode) return;
 
 	if (bIsLeftButtonDown || bIsRightButtonDown) return;
@@ -296,5 +319,110 @@ void AKlPlayerController::StateMachine()
 			Cast<AKlPickupObject>(RayCastActor)->TakePickup();
 		}
 	}
+}
+
+void AKlPlayerController::EscEvent()
+{
+	switch (CurrentUIType)
+	{
+	case EGameUIType::Game:
+		// Set pause
+		SetPause(true);
+		// Set game mode to GameAndUI
+		SwitchInputMode(false);
+		// Update game ui
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Pause);
+		// Set current game ui
+		CurrentUIType = EGameUIType::Pause;
+		// Lock game input
+		LockedInput(true);
+
+		break;
+	case EGameUIType::Pause:
+	case EGameUIType::Package:
+	case EGameUIType::ChatRoom:
+		// Unlock pause
+		SetPause(false);
+		// Set game mode to Game
+		SwitchInputMode(true);
+		// Update Game UI
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Game);
+		// Update current UI
+		CurrentUIType = EGameUIType::Game;
+		// Unlocked Input
+		LockedInput(false);
+
+		break;
+	}
+}
+
+void AKlPlayerController::PackageEvent()
+{
+	switch (CurrentUIType)
+	{
+	case EGameUIType::Game:
+		SwitchInputMode(false);
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Package);
+		CurrentUIType = EGameUIType::Package;
+		LockedInput(true);
+
+		break;
+	case EGameUIType::Package:
+		SwitchInputMode(true);
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Game);
+		CurrentUIType = EGameUIType::Game;
+		LockedInput(false);
+
+		break;
+	}
+}
+
+void AKlPlayerController::ChatRoomEvent()
+{
+	switch (CurrentUIType)
+	{
+	case EGameUIType::Game:
+		SwitchInputMode(false);
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::ChatRoom);
+		CurrentUIType = EGameUIType::ChatRoom;
+		LockedInput(true);
+
+		break;
+	case EGameUIType::ChatRoom:
+		SwitchInputMode(true);
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Game);
+		CurrentUIType = EGameUIType::Game;
+		LockedInput(false);
+
+		break;
+	}
+}
+
+void AKlPlayerController::SwitchInputMode(bool bIsGameOnly)
+{
+	if (bIsGameOnly)
+	{
+		// Hide mouse cursor
+		bShowMouseCursor = false;
+		// Set Game Mode to OnlyGame
+		FInputModeGameOnly InputMode;
+		InputMode.SetConsumeCaptureMouseDown(true);
+		SetInputMode(InputMode);
+	}
+	else
+	{
+		// Display mouse cursor
+		bShowMouseCursor = true;
+		// Set Game Mode to GameAndUI
+		FInputModeGameAndUI InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
+		InputMode.SetHideCursorDuringCapture(false);
+		SetInputMode(InputMode);
+	}
+}
+
+void AKlPlayerController::LockedInput(bool bLockedInput)
+{
+	PlayerCharacter->IsInputLocked = bLockedInput;
 }
 

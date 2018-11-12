@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "SlateBasics.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Data/FKlTypes.h"
 
 /**
  * 
@@ -22,6 +23,13 @@ public:
 	/** Bind to UIScaler */
 	float GetUIScaler() const;
 
+	/**
+	* Display Game UI
+	* @param PreUI current UI
+	* @param NextUI UI comes to display
+	*/
+	void ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type NextUI);
+
 public:
 	/** Shortcut Panel in game menu - Center/Bottom */
 	TSharedPtr<class SKlShotcutWidget> ShotcutWidget;
@@ -35,11 +43,32 @@ public:
 	/** Player State widget */
 	TSharedPtr<class SKlPlayerStateWidget> PlayerStateWidget;
 
+	/** Game menu in game */
+	TSharedPtr<class SKlGameMenuWidget> GameMenuWidget;
+
+	/** ChatRoom Widget */
+	TSharedPtr<class SKlChatRoomWidget> ChatRoomWidget;
+
+	/** Package Widget */
+	TSharedPtr<class SKlPackageWidget> PackageWidget;
 private:
-	// Get screen size
+	/**
+	* Get screen size
+	*/
 	FVector2D GetViewportSize() const;
+
+	/**
+	* Initialize Game UI map
+	*/
+	void InitUIMap();
 
 private:
 	// DPI Setting
 	TAttribute<float> UIScaler;
+
+	// Black Mask
+	TSharedPtr<class SBorder> BlackShade;
+
+	/** UI Map */
+	TMap<EGameUIType::Type, TSharedPtr<SCompoundWidget>> UIMap;
 };

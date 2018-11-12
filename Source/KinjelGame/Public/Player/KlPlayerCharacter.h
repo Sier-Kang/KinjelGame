@@ -72,6 +72,9 @@ public:
 
 	/** Whether allow to switch view mode */
 	bool bAllowedSwitchViewMode;
+
+	/** Input locked flag */
+	bool IsInputLocked;
 private:
 	/**
 	* Character's action

@@ -264,3 +264,18 @@ struct ResourceAttribute
 		return EN.ToString() + FString("--") + ZH.ToString() + FString("--") + FString::FromInt((int)ResourceType) + FString("--") + FString::FromInt(HP) + FString("--") + InfoStr;
 	}
 };
+
+/**
+* Game menu type
+*/
+namespace EGameUIType
+{
+	enum Type
+	{
+		Game, // Game mode
+		Pause, // Game pause
+		Lose, // Player dead
+		Package, // Player's package
+		ChatRoom // Chat room, between player and enemy
+	};
+}

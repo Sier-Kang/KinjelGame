@@ -10,6 +10,9 @@
 /** Pointer insight delegate */
 DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
 
+/** Switch game ui delegate */
+DECLARE_DELEGATE_TwoParams(FShowGameUI, EGameUIType::Type, EGameUIType::Type)
+
 /**
  * 
  */
@@ -40,10 +43,14 @@ public:
 	void ChangeHandObject();
 
 public:
+	/** Player controller ptr */
 	class AKlPlayerCharacter* PlayerCharacter;
 
-	// Delegate of pointer insight
+	/** pointer insight */ 
 	FUpdatePointer UpdatePointer;
+
+	/** Switch game ui delegate */
+	FShowGameUI ShowGameUI;
 
 protected:
 	/**
@@ -93,6 +100,31 @@ private:
 	*/
 	void StateMachine();
 
+	/**
+	* Escape Event
+	*/
+	void EscEvent();
+
+	/**
+	* Package Event
+	*/
+	void PackageEvent();
+
+	/**
+	* ChatRoom Event
+	*/
+	void ChatRoomEvent();
+
+	/**
+	* Switch game mode 
+	*/
+	void SwitchInputMode(bool bIsGameOnly);
+
+	/**
+	* Set Input locked
+	*/
+	void LockedInput(bool bLockedInput);
+
 private:
 	/** Left pre action */
 	EUpperBody::Type LeftUpperType;
@@ -107,4 +139,7 @@ private:
 
 	/** View ray cast actor */
 	AActor* RayCastActor;
+
+	/** Current Game UI Type */
+	EGameUIType::Type CurrentUIType;
 };
