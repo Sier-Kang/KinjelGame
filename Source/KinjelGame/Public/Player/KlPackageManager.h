@@ -75,7 +75,7 @@ private:
 	void CompoundOutput(int ObjectID, int Num);
 
 	/** Compound Input Event */
-	void CompoundInput(int ObjectID, int Num);
+	void CompoundInput();
 
 	/** Change event of shortcut */
 	void PackShortChange(int ShortcutID, int ObjectID, int ObjectNum);

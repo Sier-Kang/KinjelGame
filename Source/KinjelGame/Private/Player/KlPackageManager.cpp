@@ -37,7 +37,7 @@ void KlPackageManager::InsertContainer(TSharedPtr<class SKlContainerBaseWidget> 
 
 		break;
 	case EContainerType::Input:
-		//Container->CompoundInput.BindRaw(this, &KlPackageManager::CompoundInput);
+		Container->CompoundInput.BindRaw(this, &KlPackageManager::CompoundInput);
 		InputContainerList.Add(Container);
 
 		break;
@@ -179,7 +179,7 @@ void KlPackageManager::CompoundOutput(int ObjectID, int Num)
 	}
 }
 
-void KlPackageManager::CompoundInput(int ObjectID, int Num)
+void KlPackageManager::CompoundInput()
 {
 	TArray<int> IDMap;
 	TArray<int> NumMap;

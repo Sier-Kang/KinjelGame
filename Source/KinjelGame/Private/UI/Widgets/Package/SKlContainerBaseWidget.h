@@ -52,6 +52,42 @@ public:
 	*/
 	static TSharedPtr<SKlContainerBaseWidget> CreateContainer(EContainerType::Type NeedType, int WorkID);
 
+	/**
+	* Update mouse cursor hovered
+	*/
+	void UpdateHovered(bool IsHovered);
+
+	/**
+	* Reset self attribute
+	*/
+	virtual void ResetContainerPara(int ObjectID, int Num);
+
+	/**
+	* Get Object's Index and Num
+	*/
+	int GetIndex() const;
+
+	int GetNum() const;
+
+	/**
+	* Left mouse button event
+	*/
+	virtual void LeftOperate(int InputID, int InputNum, int& OutputID, int& OutputNum);
+
+	/**
+	* Right mouse button event
+	*/
+	virtual void RightOperate(int InputID, int InputNum, int& OutputID, int& OutputNum);
+
+	/** Is container empty */
+	bool IsEmpty();
+
+	/** Is container has space */
+	bool RemainSpace(int ObjectID);
+
+	/** Add an element of object */
+	void AddObject(int ObjectID);
+
 public:
 	/** Compositor Input Delegate */
 	FCompoundInput CompoundInput;
@@ -64,6 +100,10 @@ public:
 
 	/** Shortcut Updated Delegate */
 	FPackShortChange PackShortChange;
+
+protected:
+	/** Is Multiplyalbe */
+	bool MultiplyAble(int ObjectID);
 
 protected:
 	/** Get Game Style */
