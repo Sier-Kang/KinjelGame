@@ -157,6 +157,18 @@ int32 SKlPackageWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 
 FReply SKlPackageWidget::OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {
+
+	if (!bInitPackageMgr) return FReply::Handled();
+
+	// Left button Event
+	if (MouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton)) {
+		KlPackageManager::Get()->LeftOption(MousePosition, MyGeometry);
+	}
+	// Right button Event
+	if (MouseEvent.IsMouseButtonDown(EKeys::RightMouseButton)) {
+		KlPackageManager::Get()->RightOption(MousePosition, MyGeometry);
+	}
+
 	return FReply::Handled();
 }
 
