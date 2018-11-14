@@ -75,11 +75,14 @@ void SKlContainerBaseWidget::UpdateHovered(bool IsHovered)
 {
 	if (IsHovered)
 	{
-		if (!IsHover) ContainerBorder->SetBorderImage(&GameStyle->ChoosedContainerBrush);
+		// If already hovered in previous frame
+		if (!IsHover) 
+			ContainerBorder->SetBorderImage(&GameStyle->ChoosedContainerBrush);
 	}
 	else
 	{
-		if (IsHover) ContainerBorder->SetBorderImage(&GameStyle->NormalContainerBrush);
+		if (IsHover) 
+			ContainerBorder->SetBorderImage(&GameStyle->NormalContainerBrush);
 	}
 
 	IsHover = IsHovered;
