@@ -6,11 +6,9 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlContainerShortcutWidget::Construct(const FArguments& InArgs)
 {
-	/*
-	ChildSlot
-	[
-		// Populate the widget
-	];
-	*/
+	SKlContainerBaseWidget::Construct(
+		SKlContainerBaseWidget::FArguments()
+		.WorkIndex(InArgs._WorkIndex)
+	);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

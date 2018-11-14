@@ -14,6 +14,9 @@ class SKlContainerNormalWidget : public SKlContainerBaseWidget
 public:
 	SLATE_BEGIN_ARGS(SKlContainerNormalWidget)
 	{}
+
+	SLATE_ATTRIBUTE(int, WorkIndex)
+
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */

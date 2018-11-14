@@ -37,6 +37,14 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush EmptyBrush;
 
+	// Package BG Brush
+	UPROPERTY(EditAnywhere, Category = "Package")
+	FSlateBrush PackageBGBrush;
+
+	// Compositor Arrow Brush
+	UPROPERTY(EditAnywhere, Category = "Package")
+	FSlateBrush CompoundArrowBrush;
+
 	// Object texture brush
 	UPROPERTY(EditAnywhere, Category = "Package")
 	FSlateBrush ObjectBrush_1;

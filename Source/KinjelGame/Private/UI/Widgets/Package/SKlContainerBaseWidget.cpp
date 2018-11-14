@@ -51,21 +51,21 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 TSharedPtr<SKlContainerBaseWidget> SKlContainerBaseWidget::CreateContainer(EContainerType::Type NeedType, int WorkID)
 {
 	TSharedPtr<SKlContainerBaseWidget> ResultContainer;
-	//switch (NeedType)
-	//{
-	//case EContainerType::Output:
-	//	SAssignNew(ResultContainer, SKlContainerOutputWidget).WorkIndex(WorkID);
-	//	break;
-	//case EContainerType::Input:
-	//	SAssignNew(ResultContainer, SKlContainerInputWidget).WorkIndex(WorkID);
-	//	break;
-	//case EContainerType::Normal:
-	//	SAssignNew(ResultContainer, SKlContainerNormalWidget).WorkIndex(WorkID);
-	//	break;
-	//case EContainerType::Shortcut:
-	//	SAssignNew(ResultContainer, SKlContainerShortcutWidget).WorkIndex(WorkID);
-	//	break;
-	//}
+	switch (NeedType)
+	{
+	case EContainerType::Output:
+		SAssignNew(ResultContainer, SKlContainerOutputWidget).WorkIndex(WorkID);
+		break;
+	case EContainerType::Input:
+		SAssignNew(ResultContainer, SKlContainerInputWidget).WorkIndex(WorkID);
+		break;
+	case EContainerType::Normal:
+		SAssignNew(ResultContainer, SKlContainerNormalWidget).WorkIndex(WorkID);
+		break;
+	case EContainerType::Shortcut:
+		SAssignNew(ResultContainer, SKlContainerShortcutWidget).WorkIndex(WorkID);
+		break;
+	}
 
 	return ResultContainer;
 }
