@@ -293,3 +293,68 @@ namespace EContainerType
 		Shortcut,// Shortcut container
 	};
 }
+
+/**
+* Compound Table 
+*/
+struct CompoundTable
+{
+	/** Compound Map */
+	TArray<int> CompoundMap;
+
+	CompoundTable(TArray<int> *InsertMap)
+	{
+		for (TArray<int>::TIterator It(*InsertMap); It; ++It) {
+			CompoundMap.Add(*It);
+		}
+	}
+
+	void DetectTable(TArray<int>* IDMap, TArray<int>* NumMap, int& OutputID, int& OutputNum)
+	{
+		int TempID = CompoundMap[9];
+
+		int TempNum = 64;
+		for (int i = 0; i < 9; ++i)
+		{
+			if ((*IDMap)[i] == CompoundMap[i])
+			{
+				if ((*IDMap)[i] != 0) TempNum = (*NumMap)[i] < TempNum ? (*NumMap)[i] : TempNum;
+			}
+			else
+			{
+				TempID = TempNum = 0;
+				break;
+			}
+		}
+
+		if (TempID != 0 && TempNum != 0) {
+			OutputID = TempID;
+			OutputNum = TempNum;
+		}
+	}
+
+	bool DetectExpend(TArray<int>* TableMap, int ProductNum, TArray<int>& ExpendMap)
+	{
+		bool IsMatch = true;
+		for (int i = 0; i < 10; ++i) {
+			if ((*TableMap)[i] != CompoundMap[i])
+			{
+				IsMatch = false;
+				break;
+			}
+		}
+
+		if (IsMatch) {
+			for (int i = 0; i < 9; ++i) {
+				if (CompoundMap[i] != 0) {
+					ExpendMap.Add(ProductNum);
+				}
+				else {
+					ExpendMap.Add(0);
+				}
+			}
+		}
+
+		return IsMatch;
+	}
+};

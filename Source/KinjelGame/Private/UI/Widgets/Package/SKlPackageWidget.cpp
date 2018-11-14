@@ -14,6 +14,7 @@
 #include "Engine/GameViewportClient.h"
 #include "SKlContainerBaseWidget.h"
 #include "Data/FKlTypes.h"
+#include "KlPackageManager.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlPackageWidget::Construct(const FArguments& InArgs)
@@ -108,7 +109,7 @@ void SKlPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCu
 
 	if (bInitPackageMgr) {
 		// Update container display real time
-		// SKlPackageManager::Get()->UpdateHovered(MousePosition, AllottedGeometry);
+		KlPackageManager::Get()->UpdateHovered(MousePosition, AllottedGeometry);
 	}
 }
 
@@ -137,6 +138,6 @@ void SKlPackageWidget::InitPackageManager()
 		];
 		
 		// Register container to Package Manager 
-		// SKlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Shortcut);
+		KlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Shortcut);
 	}
 }
