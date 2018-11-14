@@ -148,6 +148,13 @@ int AKlPlayerState::GetDamageValue(EResourceType::Type ResourceType) const
 	return ObjectAttr->PlantAttack;
 }
 
+void AKlPlayerState::ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum)
+{
+	ShortcutContainerList[ShortcutID]->SetObject(ObjectID)->SetObjectNum(ObjectNum);
+
+	PlayerController->ChangeHandObject();
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

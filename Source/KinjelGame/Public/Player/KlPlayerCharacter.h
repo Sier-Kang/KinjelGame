@@ -41,6 +41,11 @@ public:
 	*/
 	void RenderHandObject(bool bIsRender);
 
+	/**
+	* Throw object
+	*/
+	void PlayerThrowObject(int ObjectID, int Num);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

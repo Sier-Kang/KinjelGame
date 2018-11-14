@@ -15,6 +15,7 @@
 #include "SKlContainerBaseWidget.h"
 #include "Data/FKlTypes.h"
 #include "KlPackageManager.h"
+#include "Data/FKlDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlPackageWidget::Construct(const FArguments& InArgs)
@@ -117,6 +118,40 @@ int32 SKlPackageWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 {
 	SCompoundWidget::OnPaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
 
+	if (!bInitPackageMgr) return LayerId;
+
+	// If Object number is not 0 in Package Manager, then rendering
+	if (GetVisibility() == EVisibility::Visible && KlPackageManager::Get()->ObjectIndex != 0 && KlPackageManager::Get()->ObjectNum != 0)
+	{
+		// Render object icon
+		FSlateDrawElement::MakeBox(
+			OutDrawElements,
+			LayerId + 30,
+			AllottedGeometry.ToPaintGeometry(MousePosition - FVector2D(32.f, 32.f), FVector2D(64.f, 64.f)),
+			FKlDataHandle::Get()->ObjectBrushList[KlPackageManager::Get()->ObjectIndex],
+			ESlateDrawEffect::None,
+			FLinearColor(1.f, 1.f, 1.f, 1.f)
+		);
+
+
+		// Get object attribute
+		TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(KlPackageManager::Get()->ObjectIndex);
+		// Render number, if it is not addable nor render
+		if (ObjectAttr->ObjectType != EObjectType::Tool && ObjectAttr->ObjectType != EObjectType::Weapon) {
+			// Render "Num" Text
+			FSlateDrawElement::MakeText(
+				OutDrawElements,
+				LayerId + 30,
+				AllottedGeometry.ToPaintGeometry(MousePosition + FVector2D(12.f, 16.f), FVector2D(16.f, 16.f)),
+				FString::FromInt(KlPackageManager::Get()->ObjectNum),
+				GameStyle->Font_Outline_16,
+				ESlateDrawEffect::None,
+				GameStyle->FontColor_Black
+			);
+		}
+
+	}
+
 	return LayerId;
 }
 
@@ -140,4 +175,37 @@ void SKlPackageWidget::InitPackageManager()
 		// Register container to Package Manager 
 		KlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Shortcut);
 	}
+
+	// Initialize Main Shortcut
+	for (int i = 0; i < 36; ++i) {
+		TSharedPtr<SKlContainerBaseWidget> NewContainer = SKlContainerBaseWidget::CreateContainer(EContainerType::Normal, i);
+
+		PackageGrid->AddSlot(i % 9, i / 9)
+		[
+			NewContainer->AsShared()
+		];
+
+		KlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Normal);
+	}
+
+	// Initialize compound input
+	for (int i = 0; i < 9; ++i) {
+		TSharedPtr<SKlContainerBaseWidget> NewContainer = SKlContainerBaseWidget::CreateContainer(EContainerType::Input, i);
+
+		CompoundGrid->AddSlot(i % 3, i / 3)
+		[
+			NewContainer->AsShared()
+		];
+
+		KlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Input);
+	}
+
+	// Initialize compound output
+	TSharedPtr<SKlContainerBaseWidget> NewContainer = SKlContainerBaseWidget::CreateContainer(EContainerType::Output, 1);
+
+	OutputBorder->SetContent(NewContainer->AsShared());
+
+	KlPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Output);
+
+	bInitPackageMgr = true;
 }

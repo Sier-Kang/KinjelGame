@@ -15,6 +15,7 @@
 #include "ConstructorHelpers.h"
 #include "Hand/KlHandObject.h"
 #include "KlHandSword.h"
+#include "KlFlobObject.h"
 
 // Sets default values
 AKlPlayerCharacter::AKlPlayerCharacter()
@@ -218,6 +219,18 @@ void AKlPlayerCharacter::RenderHandObject(bool bIsRender)
 	if (!!HandObject->GetChildActor()) return;
 
 	HandObject->GetChildActor()->SetActorHiddenInGame(!bIsRender);
+}
+
+void AKlPlayerCharacter::PlayerThrowObject(int ObjectID, int Num)
+{
+	if (GetWorld()) {
+		for (int i = 0; i < Num; ++i) {
+			// Generate Flob
+			AKlFlobObject* FlobObject = GetWorld()->SpawnActor<AKlFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 50.f), FRotator::ZeroRotator);
+
+			FlobObject->ThrowFlobObject(ObjectID, GetActorRotation().Yaw);
+		}
+	}
 }
 
 void AKlPlayerCharacter::MoveForward(float Value)

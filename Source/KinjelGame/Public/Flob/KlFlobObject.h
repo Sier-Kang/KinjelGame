@@ -22,6 +22,11 @@ public:
 	* Initialize object
 	*/
 	void CreateFlobObject(int ObjectID);
+
+	/**
+	* Throw object
+	*/
+	void ThrowFlobObject(int ObjectID, float DirYaw);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

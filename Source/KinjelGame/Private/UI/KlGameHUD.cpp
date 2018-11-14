@@ -13,6 +13,7 @@
 #include "KlPlayerController.h"
 #include "Widgets/SKlPointerWidget.h"
 #include "Widgets/SKlPlayerStateWidget.h"
+#include "Widgets/Package/SKlPackageWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -48,4 +49,7 @@ void AKlGameHUD::BeginPlay()
 	(Cast<AKlPlayerState>(GM->KlPC->PlayerState))->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SKlPlayerStateWidget::UpdateStateWidget);
 
 	GM->KlPC->ShowGameUI.BindRaw(GameHUDWidget.Get(), &SKlGameHUDWidget::ShowGameUI);
+
+	// Initialize Package Manager to Package Widget
+	GM->InitPackageManager.BindRaw(GameHUDWidget->PackageWidget.Get(), &SKlPackageWidget::InitPackageManager);
 }

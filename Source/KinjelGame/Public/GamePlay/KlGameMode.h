@@ -7,6 +7,11 @@
 #include "KlGameMode.generated.h"
 
 /**
+* Initialize Package Manager Delegate
+*/
+DECLARE_DELEGATE(FInitPackageManager)
+
+/**
  * 
  */
 UCLASS()
@@ -31,6 +36,16 @@ public:
 
 	class AKlPlayerCharacter* KlPlayerCharacter;
 
+	FInitPackageManager InitPackageManager;
+
 protected:
 	virtual void BeginPlay() override;
+
+	/**
+	* Initialize package manager
+	*/
+	void InitializePackage();
+
+private:
+	bool bInitPackageMgr;
 };

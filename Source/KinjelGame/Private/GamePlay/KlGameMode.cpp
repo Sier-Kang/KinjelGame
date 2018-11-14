@@ -9,10 +9,13 @@
 #include "Data/FKlDataHandle.h"
 #include "KlGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "KlPackageManager.h"
 
 AKlGameMode::AKlGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	bInitPackageMgr = false;
 
 	// Set defaut class
 	HUDClass = AKlGameHUD::StaticClass();
@@ -23,7 +26,7 @@ AKlGameMode::AKlGameMode()
 
 void AKlGameMode::Tick(float DeltaSeconds)
 {
-	
+	InitializePackage();
 }
 
 void AKlGameMode::InitGamePlayModule()
@@ -44,4 +47,18 @@ void AKlGameMode::BeginPlay()
 	if (!KlPC) {
 		InitGamePlayModule();
 	}
+}
+
+void AKlGameMode::InitializePackage()
+{
+	if (bInitPackageMgr) return;
+
+	//Call PackageWidget to initialize package ui
+	InitPackageManager.ExecuteIfBound();
+
+	KlPackageManager::Get()->PlayerThrowObject.BindUObject(KlPlayerCharacter, &AKlPlayerCharacter::PlayerThrowObject);
+
+	KlPackageManager::Get()->ChangeHandObject.BindUObject(KlPlayerState, &AKlPlayerState::ChangeHandObject);
+
+	bInitPackageMgr = true;
 }

@@ -185,3 +185,20 @@ void AKlFlobObject::CreateFlobObject(int ObjectID)
 	BoxCollision->AddForce((FVector(0.f, 0.f, 4.f) + ForceRot.Vector()) * 100000.f);
 }
 
+void AKlFlobObject::ThrowFlobObject(int ObjectID, float DirYaw)
+{
+	ObjectIndex = ObjectID;
+
+	RenderTexture();
+
+	FRandomStream Stream;
+
+	Stream.GenerateNewSeed();
+
+
+	DirYaw += Stream.RandRange(-30, 30);
+	FRotator ForceRot = FRotator(0.f, DirYaw, 0.f);
+
+	BoxCollision->AddForce((FVector(0.f, 0.f, 2.f) + ForceRot.Vector()) * 120000.f);
+}
+

@@ -65,6 +65,11 @@ public:
 	*/
 	int GetDamageValue(EResourceType::Type ResourceType) const;
 
+	/**
+	* Change shortcut info
+	*/
+	void ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum);
+
 public:
 	/** Player Controller */
 	class AKlPlayerController* PlayerController;
