@@ -51,14 +51,15 @@ public:
 		TArray<int32>& NormalNum, TArray<int32>& ShortcutIndex, TArray<int32>& ShortcutNum);
 
 public:
-	/** Mouse cursor object ID */
+	/** Object ID dragged by mouse cursor */
 	int ObjectIndex;
 
-	/** Mouse cursor object Quantity */
+	/** Object quantity dragged by mouse cursor */
 	int ObjectNum;
 
 	/** Delegate to bind with PlayerState's PlayerThrowObject method */
 	FThrowObject PlayerThrowObject;
+
 	/** Change shortcut info */
 	FPackShortChange ChangeHandObject;
 

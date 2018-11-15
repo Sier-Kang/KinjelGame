@@ -8,9 +8,9 @@ TSharedPtr<KlPackageManager> KlPackageManager::PackageInstance = nullptr;
 
 KlPackageManager::KlPackageManager()
 {
-	ObjectIndex = 0;
+	ObjectIndex = 3;
 
-	ObjectNum = 0;
+	ObjectNum = 5;
 }
 
 void KlPackageManager::Initialize()
@@ -55,20 +55,21 @@ void KlPackageManager::InsertContainer(TSharedPtr<class SKlContainerBaseWidget> 
 
 void KlPackageManager::UpdateHovered(FVector2D MousePos, FGeometry PackGeo)
 {
+	// Get hovered container 
 	TSharedPtr<SKlContainerBaseWidget> CurrHoveredCon = LocateContainer(MousePos, PackGeo);
 
 	if (CurrHoveredCon.IsValid())
 	{
-		//CurrHoveredCon->UpdateHovered(true);
+		CurrHoveredCon->UpdateHovered(true);
 
 		if (LastHoveredCon.IsValid() && LastHoveredCon.Get() != CurrHoveredCon.Get()) {
-			//LastHoveredCon->UpdateHovered(false);
+			LastHoveredCon->UpdateHovered(false);
 		}
 	}
 	else
 	{
 		if (LastHoveredCon.IsValid()) {
-			//LastHoveredCon->UpdateHovered(false);
+			LastHoveredCon->UpdateHovered(false);
 		}
 	}
 
@@ -81,7 +82,7 @@ void KlPackageManager::LeftOption(FVector2D MousePos, FGeometry PackGeo)
 	//If exists, run its event
 	if (ClickedContainer.IsValid())
 	{
-		//ClickedContainer->LeftOperate(ObjectIndex, ObjectNum, ObjectIndex, ObjectNum);
+		ClickedContainer->LeftOperate(ObjectIndex, ObjectNum, ObjectIndex, ObjectNum);
 	}
 
 	if (!ClickedContainer.IsValid() && ObjectIndex != 0)
@@ -97,7 +98,7 @@ void KlPackageManager::RightOption(FVector2D MousePos, FGeometry PackGeo)
 	TSharedPtr<SKlContainerBaseWidget> ClickedContainer = LocateContainer(MousePos, PackGeo);
 
 	if (ClickedContainer.IsValid()) {
-		//ClickedContainer->RightOperate(ObjectIndex, ObjectNum, ObjectIndex, ObjectNum);
+		ClickedContainer->RightOperate(ObjectIndex, ObjectNum, ObjectIndex, ObjectNum);
 	}
 }
 

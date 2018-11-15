@@ -105,7 +105,7 @@ void SKlPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCu
 	// If Package displaying and world exists, update mouse position in real time
 	if (GetVisibility() == EVisibility::Visible && GEngine) {
 		GEngine->GameViewport->GetMousePosition(MousePosition);
-		MousePosition = MousePosition / UIScaler.Get();
+		//MousePosition = MousePosition / UIScaler.Get();
 	}
 
 	if (bInitPackageMgr) {
@@ -116,11 +116,12 @@ void SKlPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCu
 
 int32 SKlPackageWidget::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
 {
+	// Super::OnPaint(...)
 	SCompoundWidget::OnPaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
 
 	if (!bInitPackageMgr) return LayerId;
 
-	// If Object number is not 0 in Package Manager, then rendering
+	// If object number is not 0 in Package Manager, then rendering object dragged by mouse cursor
 	if (GetVisibility() == EVisibility::Visible && KlPackageManager::Get()->ObjectIndex != 0 && KlPackageManager::Get()->ObjectNum != 0)
 	{
 		// Render object icon

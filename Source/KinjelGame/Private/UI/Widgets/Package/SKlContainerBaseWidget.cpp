@@ -123,6 +123,7 @@ int SKlContainerBaseWidget::GetNum() const
 
 void SKlContainerBaseWidget::LeftOperate(int InputID, int InputNum, int& OutputID, int& OutputNum)
 {
+	// Input object is the same with object in current container
 	if (InputID == ObjectIndex && MultiplyAble(ObjectIndex))
 	{
 		OutputID = (ObjectNum + InputNum <= 64) ? 0 : InputID;
@@ -143,6 +144,7 @@ void SKlContainerBaseWidget::LeftOperate(int InputID, int InputNum, int& OutputI
 
 void SKlContainerBaseWidget::RightOperate(int InputID, int InputNum, int& OutputID, int& OutputNum)
 {
+	// No dragged object.
 	if (InputID == 0)
 	{
 		OutputID = ObjectIndex;
@@ -154,6 +156,7 @@ void SKlContainerBaseWidget::RightOperate(int InputID, int InputNum, int& Output
 		return;
 	}
 
+	// Container is empty, and dragged object
 	if (ObjectIndex == 0 || (InputID == ObjectIndex && MultiplyAble(InputID)))
 	{
 		OutputNum = (ObjectNum + 1 <= 64) ? (InputNum - 1) : InputNum;

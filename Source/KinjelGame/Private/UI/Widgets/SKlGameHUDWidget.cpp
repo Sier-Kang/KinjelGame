@@ -88,8 +88,8 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Fill)
 			[
 				SAssignNew(PackageWidget, SKlPackageWidget)
-				.Visibility(EVisibility::Hidden)
 				.UIScaler(UIScaler)
+				.Visibility(EVisibility::Hidden)
 			]
 		]
 	];
