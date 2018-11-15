@@ -35,6 +35,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Kinjel")
 	void RenderHandObject(bool bIsRender);
 
+	/**
+	* Eat up object in character's package
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Kinjel")
+	void EatUpEvent();
+
 public:
 	/**
 	 * Character's speed

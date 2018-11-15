@@ -58,7 +58,7 @@ void SKlPackageWidget::Construct(const FArguments& InArgs)
 				+SOverlay::Slot()
 				.HAlign(HAlign_Fill)
 				.VAlign(VAlign_Fill)
-				.Padding(FMargin(40.f, 320.f, 40.f, 60.f))
+				.Padding(FMargin(40.f, 320.f, 40.f, 160.f))
 				[
 					SAssignNew(PackageGrid, SUniformGridPanel)
 				]
@@ -103,12 +103,14 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
 {
 	// If Package displaying and world exists, update mouse position in real time
-	if (GetVisibility() == EVisibility::Visible && GEngine) {
+	if (GetVisibility() == EVisibility::Visible && GEngine) 
+	{
 		GEngine->GameViewport->GetMousePosition(MousePosition);
-		//MousePosition = MousePosition / UIScaler.Get();
+		MousePosition = MousePosition / UIScaler.Get();
 	}
 
-	if (bInitPackageMgr) {
+	if (bInitPackageMgr) 
+	{
 		// Update container display real time
 		KlPackageManager::Get()->UpdateHovered(MousePosition, AllottedGeometry);
 	}

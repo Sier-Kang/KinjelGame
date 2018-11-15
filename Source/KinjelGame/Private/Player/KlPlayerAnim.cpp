@@ -31,6 +31,13 @@ void UKlPlayerAnim::RenderHandObject(bool bIsRender)
 	PlayerCharacter->RenderHandObject(bIsRender);
 }
 
+void UKlPlayerAnim::EatUpEvent()
+{
+	if (!PlayerCharacter) return;
+
+	PlayerCharacter->EatUpEvent();
+}
+
 void UKlPlayerAnim::InitPlayerCharacter()
 {
 	if (!PlayerCharacter)

@@ -103,7 +103,7 @@ void AKlFlobObject::DetectPlayer()
 				// Assignment
 				PlayerCharacter = Cast<AKlPlayerCharacter>(It->GetActor());
 				// Package
-				if (true)
+				if (PlayerCharacter->IsPackageFree(ObjectIndex))
 				{
 					// Pause detection
 					GetWorld()->GetTimerManager().PauseTimer(DetectTimer);
@@ -150,8 +150,8 @@ void AKlFlobObject::Tick(float DeltaTime)
 		// Distance approximate to 0
 		if (FVector::Distance(GetActorLocation(), PlayerCharacter->GetActorLocation() + FVector(0.f, 0.f, 40.f)) < 10.f)
 		{
-			if (true) {
-				//PlayerCharacter->AddPackageObject(ObjectIndex);
+			if (PlayerCharacter->IsPackageFree(ObjectIndex)) {
+				PlayerCharacter->AddPackageObject(ObjectIndex);
 				// Destroy
 				DestroyEvent();
 			}

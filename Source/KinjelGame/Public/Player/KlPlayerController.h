@@ -46,6 +46,8 @@ public:
 	/** Player controller ptr */
 	class AKlPlayerCharacter* PlayerCharacter;
 
+	class AKlPlayerState* KlPlayerState;
+
 	/** pointer insight */ 
 	FUpdatePointer UpdatePointer;
 

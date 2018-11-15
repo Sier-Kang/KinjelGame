@@ -70,6 +70,11 @@ public:
 	*/
 	void ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum);
 
+	/**
+	* Promote character's Hunger Value
+	*/
+	void PromoteHunger();
+
 public:
 	/** Player Controller */
 	class AKlPlayerController* PlayerController;

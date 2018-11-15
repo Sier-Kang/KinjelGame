@@ -46,11 +46,29 @@ public:
 	*/
 	void PlayerThrowObject(int ObjectID, int Num);
 
+	/**
+	* Is Package has free space
+	*/
+	bool IsPackageFree(int ObjectID);
+
+	/**
+	* Add object to Package
+	*/
+	void AddPackageObject(int ObjectID);
+
+	/**
+	* Eat up event
+	*/
+	void EatUpEvent();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
+	/** Player controller inst */
+	class AKlPlayerController* PlayerController;
+
 	/**
 	 * Camera Spring
 	 */

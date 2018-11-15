@@ -155,6 +155,18 @@ void AKlPlayerState::ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNu
 	PlayerController->ChangeHandObject();
 }
 
+void AKlPlayerState::PromoteHunger()
+{
+	// When overcome to 500, set it to 600
+	if (Hunger + 100 >= 500.f) {
+		Hunger = 600.f;
+		return;
+	}
+
+	// Increase 100
+	Hunger = FMath::Clamp<float>(Hunger + 100.f, 0, 600.f);
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

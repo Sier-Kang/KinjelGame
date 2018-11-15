@@ -16,6 +16,10 @@
 #include "Hand/KlHandObject.h"
 #include "KlHandSword.h"
 #include "KlFlobObject.h"
+#include "KlPackageManager.h"
+#include "KlPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/KlPlayerState.h"
 
 // Sets default values
 AKlPlayerCharacter::AKlPlayerCharacter()
@@ -123,6 +127,8 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 void AKlPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayerController = Cast<AKlPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	
 	// Bind tools to skeleton bone's socket
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale,
@@ -230,6 +236,27 @@ void AKlPlayerCharacter::PlayerThrowObject(int ObjectID, int Num)
 
 			FlobObject->ThrowFlobObject(ObjectID, GetActorRotation().Yaw);
 		}
+	}
+}
+
+bool AKlPlayerCharacter::IsPackageFree(int ObjectID)
+{
+	return KlPackageManager::Get()->SearchFreeSpace(ObjectID);
+}
+
+void AKlPlayerCharacter::AddPackageObject(int ObjectID)
+{
+	KlPackageManager::Get()->AddObject(ObjectID);
+}
+
+void AKlPlayerCharacter::EatUpEvent()
+{
+	if (!PlayerController->KlPlayerState) return;
+
+	if (KlPackageManager::Get()->EatUpEvent(PlayerController->KlPlayerState->CurrentShotcutIndex))
+	{
+		// Promote Hunger Value
+		PlayerController->KlPlayerState->PromoteHunger();
 	}
 }
 

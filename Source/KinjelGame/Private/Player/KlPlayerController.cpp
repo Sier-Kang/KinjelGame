@@ -22,6 +22,10 @@ void AKlPlayerController::BeginPlay()
 	{
 		PlayerCharacter = Cast<AKlPlayerCharacter>(GetCharacter());
 	}
+	if (!KlPlayerState)
+	{
+		KlPlayerState = Cast<AKlPlayerState>(PlayerState);
+	}
 
 	// Set UI property etc and Input mode.
 	bShowMouseCursor = false;
@@ -315,8 +319,10 @@ void AKlPlayerController::StateMachine()
 		UpdatePointer.ExecuteIfBound(false, 0);
 
 		// Right button down of the mouse
-		if (bIsRightButtonDown) {
-			Cast<AKlPickupObject>(RayCastActor)->TakePickup();
+		if (bIsRightButtonDown && 
+			PlayerCharacter->IsPackageFree(Cast<AKlPickupObject>(RayCastActor)->ObjectIndex)) 
+		{
+			PlayerCharacter->AddPackageObject(Cast<AKlPickupObject>(RayCastActor)->TakePickup());
 		}
 	}
 }

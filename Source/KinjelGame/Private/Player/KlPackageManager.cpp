@@ -8,9 +8,9 @@ TSharedPtr<KlPackageManager> KlPackageManager::PackageInstance = nullptr;
 
 KlPackageManager::KlPackageManager()
 {
-	ObjectIndex = 3;
+	ObjectIndex = 0;
 
-	ObjectNum = 5;
+	ObjectNum = 0;
 }
 
 void KlPackageManager::Initialize()
