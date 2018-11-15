@@ -11,6 +11,7 @@ FKlJsonHandle::FKlJsonHandle()
 	RecordDataFileName = FString("RecordData.json");
 	ObjectAttrFileName = FString("ObjectAttribute.json");
 	ResourceAttrFileName = FString("ResourceAttribute.json");
+	CompoundTableFileName = FString("CompoundTable.json");
 
 	RelativePath = FString("Res/ConfigData/");
 }
@@ -182,6 +183,38 @@ void FKlJsonHandle::ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>
 	else
 	{
 		FKlHelper::Debug(FString("Deserialize Failed"), 10.f);
+	}
+}
+
+void FKlJsonHandle::CompoundTableJsonRead(TArray<TSharedPtr<CompoundTable>>& CompoundTableMap)
+{
+	FString JsonValue;
+	LoadStringFromFile(CompoundTableFileName, RelativePath, JsonValue);
+
+	TArray<TSharedPtr<FJsonValue>> JsonParsed;
+	TSharedRef<TJsonReader<TCHAR>> JsonReader = TJsonReaderFactory<TCHAR>::Create(JsonValue);
+
+	if (FJsonSerializer::Deserialize(JsonReader, JsonParsed))
+	{
+
+		for (int i = 0; i < JsonParsed.Num(); ++i) {
+			TArray<TSharedPtr<FJsonValue>> ObjectAttr = JsonParsed[i]->AsObject()->GetArrayField(FString::FromInt(i));
+
+			TArray<int> CompoundTableArr;
+
+			for (int j = 0; j < 10; ++j) {
+				CompoundTableArr.Add(ObjectAttr[j]->AsObject()->GetIntegerField(FString::FromInt(j)));
+			}
+
+			TSharedPtr<CompoundTable> NewTable = MakeShareable(new CompoundTable(&CompoundTableArr));
+
+			CompoundTableMap.Add(NewTable);
+
+		}
+
+	}
+	else {
+		FKlHelper::Debug(FString("Deserialize Failed"));
 	}
 }
 

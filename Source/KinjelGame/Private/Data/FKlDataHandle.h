@@ -58,6 +58,11 @@ public:
 	*/
 	void InitializeGameData();
 
+	/**
+	* Initialize CompoundTable 
+	*/
+	void InitCompoundTableMap();
+
 public:
 	/** Culture that game use */
 	ECultureTeam CurrentCulture;
@@ -82,6 +87,9 @@ public:
 
 	/** Object texture resources */
 	TArray<const FSlateBrush*> ObjectBrushList;
+
+	/** Compound Table Map */
+	TArray<TSharedPtr<CompoundTable>> CompoundTableMap;
 
 private:
 	FKlDataHandle();

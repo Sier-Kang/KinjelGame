@@ -115,11 +115,18 @@ void FKlDataHandle::InitializeGameData()
 	// Initialize object attribute
 	InitObjectAttr();
 
-	FKlHelper::Debug(FString("FKlDataHandle::InitResourceAttr runs.", 30.f));
 	// Initialize resource attribute
 	InitResourceAttr();
 
+	// Initialize compound table attribute
+	InitCompoundTableMap();
+
 	// Initialize game audio data
+}
+
+void FKlDataHandle::InitCompoundTableMap()
+{
+	FKlSingleton<FKlJsonHandle>::Get()->CompoundTableJsonRead(CompoundTableMap);
 }
 
 void FKlDataHandle::Initialize() 

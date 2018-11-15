@@ -161,22 +161,22 @@ void KlPackageManager::CompoundOutput(int ObjectID, int Num)
 
 	TArray<int> TableMap;
 	for (TArray<TSharedPtr<SKlContainerBaseWidget>>::TIterator It(InputContainerList); It; ++It) {
-		//TableMap.Add((*It)->GetIndex());
+		TableMap.Add((*It)->GetIndex());
 	}
 	TableMap.Add(ObjectID);
 
 	TArray<int> ExpendMap;
-// 	for (TArray<TSharedPtr<CompoundTable>>::TIterator It(FKlDataHandle::Get()->CompoundTableMap); It; ++It) {
-// 		if ((*It)->DetectExpend(&TableMap, Num, ExpendMap)) break;
-// 	}
+	for (TArray<TSharedPtr<CompoundTable>>::TIterator It(FKlDataHandle::Get()->CompoundTableMap); It; ++It) {
+		if ((*It)->DetectExpend(&TableMap, Num, ExpendMap)) break;
+	}
 
 	if (ExpendMap.Num() != 9) return;
 
 	for (int i = 0; i < 9; ++i) {
-		//int InputID = (InputContainerList[i]->GetNum() - ExpendMap[i] <= 0) ? 0 : InputContainerList[i]->GetIndex();
-		//int InputNum = (InputID == 0) ? 0 : (InputContainerList[i]->GetNum() - ExpendMap[i]);
+		int InputID = (InputContainerList[i]->GetNum() - ExpendMap[i] <= 0) ? 0 : InputContainerList[i]->GetIndex();
+		int InputNum = (InputID == 0) ? 0 : (InputContainerList[i]->GetNum() - ExpendMap[i]);
 
-		//InputContainerList[i]->ResetContainerPara(InputID, InputNum);
+		InputContainerList[i]->ResetContainerPara(InputID, InputNum);
 	}
 }
 
@@ -185,23 +185,23 @@ void KlPackageManager::CompoundInput()
 	TArray<int> IDMap;
 	TArray<int> NumMap;
 	for (TArray<TSharedPtr<SKlContainerBaseWidget>>::TIterator It(InputContainerList); It; ++It) {
-		//IDMap.Add((*It)->GetIndex());
-		//NumMap.Add((*It)->GetNum());
+		IDMap.Add((*It)->GetIndex());
+		NumMap.Add((*It)->GetNum());
 	}
 
 	int OutputIndex = 0;
 	int OutputNum = 0;
 
-	//for (TArray<TSharedPtr<CompoundTable>>::TIterator It(FKlDataHandle::Get()->CompoundTableMap); It; ++It) {
-	//	(*It)->DetectTable(&IDMap, &NumMap, OutputIndex, OutputNum);
-	//	if (OutputIndex != 0 && OutputNum != 0) break;
-	//}
+	for (TArray<TSharedPtr<CompoundTable>>::TIterator It(FKlDataHandle::Get()->CompoundTableMap); It; ++It) {
+		(*It)->DetectTable(&IDMap, &NumMap, OutputIndex, OutputNum);
+		if (OutputIndex != 0 && OutputNum != 0) break;
+	}
 
 	if (MultiplyAble(OutputIndex)) {
-		//OutputContainer->ResetContainerPara(OutputIndex, OutputNum);
+		OutputContainer->ResetContainerPara(OutputIndex, OutputNum);
 	}
 	else {
-		//OutputContainer->ResetContainerPara(OutputIndex, 1);
+		OutputContainer->ResetContainerPara(OutputIndex, 1);
 	}
 }
 
@@ -226,31 +226,31 @@ bool KlPackageManager::SearchFreeSpace(int ObjectID, TSharedPtr<SKlContainerBase
 
 	for (TArray<TSharedPtr<SKlContainerBaseWidget>>::TIterator It(ShortcutContainerList); It; ++It) {
 		if (!EmptyContainer.IsValid()) {
-			//if ((*It)->IsEmpty()) EmptyContainer = *It;
+			if ((*It)->IsEmpty()) EmptyContainer = *It;
 		}
 
 		if (!FreeContainer.IsValid())
 		{
-			//if ((*It)->RemainSpace(ObjectID))
-			//{
-			//	FreeContainer = *It;
-			//	return true;
-			//}
+			if ((*It)->RemainSpace(ObjectID))
+			{
+				FreeContainer = *It;
+				return true;
+			}
 		}
 	}
 
 	for (TArray<TSharedPtr<SKlContainerBaseWidget>>::TIterator It(NormalContainerList); It; ++It) {
 		if (!EmptyContainer.IsValid()) {
-			//if ((*It)->IsEmpty()) EmptyContainer = *It;
+			if ((*It)->IsEmpty()) EmptyContainer = *It;
 		}
 
 		if (!FreeContainer.IsValid())
 		{
-			//if ((*It)->RemainSpace(ObjectID))
-			//{
-			//	FreeContainer = *It;
-			//	return true;
-			//}
+			if ((*It)->RemainSpace(ObjectID))
+			{
+				FreeContainer = *It;
+				return true;
+			}
 		}
 	}
 
@@ -274,24 +274,24 @@ void KlPackageManager::AddObject(int ObjectID)
 	TSharedPtr<SKlContainerBaseWidget> FreeContainer;
 
 	if (SearchFreeSpace(ObjectID, FreeContainer)) {
-		//FreeContainer->AddObject(ObjectID);
+		FreeContainer->AddObject(ObjectID);
 	}
 }
 
 bool KlPackageManager::EatUpEvent(int ShortcutID)
 {
-	//TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ShortcutContainerList[ShortcutID]->GetIndex());
+	TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ShortcutContainerList[ShortcutID]->GetIndex());
 
-	//if (ObjectAttr->ObjectType == EObjectType::Food)
-	//{
-	//	int NewNum = (ShortcutContainerList[ShortcutID]->GetNum() - 1) < 0 ? 0 : (ShortcutContainerList[ShortcutID]->GetNum() - 1);
+	if (ObjectAttr->ObjectType == EObjectType::Food)
+	{
+		int NewNum = (ShortcutContainerList[ShortcutID]->GetNum() - 1) < 0 ? 0 : (ShortcutContainerList[ShortcutID]->GetNum() - 1);
 
-	//	int NewIndex = NewNum == 0 ? 0 : ShortcutContainerList[ShortcutID]->GetIndex();
+		int NewIndex = NewNum == 0 ? 0 : ShortcutContainerList[ShortcutID]->GetIndex();
 
-	//	//ShortcutContainerList[ShortcutID]->ResetContainerPara(NewIndex, NewNum);
+		ShortcutContainerList[ShortcutID]->ResetContainerPara(NewIndex, NewNum);
 
-	//	return true;
-	//}
+		return true;
+	}
 
 	return false;
 }
@@ -300,15 +300,18 @@ void KlPackageManager::LoadRecord(TArray<int32>* InputIndex, TArray<int32>* Inpu
 {
 	for (int i = 0; i < InputContainerList.Num(); ++i)
 	{
-		//if ((*InputIndex)[i] != 0) InputContainerList[i]->ResetContainerPara((*InputIndex)[i], (*InputNum)[i]);
+		if ((*InputIndex)[i] != 0) 
+			InputContainerList[i]->ResetContainerPara((*InputIndex)[i], (*InputNum)[i]);
 	}
 
 	for (int i = 0; i < NormalContainerList.Num(); ++i) {
-		//if ((*NormalIndex)[i] != 0) NormalContainerList[i]->ResetContainerPara((*NormalIndex)[i], (*NormalNum)[i]);
+		if ((*NormalIndex)[i] != 0) 
+			NormalContainerList[i]->ResetContainerPara((*NormalIndex)[i], (*NormalNum)[i]);
 	}
 
 	for (int i = 0; i < ShortcutContainerList.Num(); ++i) {
-		//if ((*ShortcutIndex)[i] != 0) ShortcutContainerList[i]->ResetContainerPara((*ShortcutIndex)[i], (*ShortcutNum)[i]);
+		if ((*ShortcutIndex)[i] != 0) 
+			ShortcutContainerList[i]->ResetContainerPara((*ShortcutIndex)[i], (*ShortcutNum)[i]);
 	}
 }
 
@@ -316,18 +319,18 @@ void KlPackageManager::SaveData(TArray<int32>& InputIndex, TArray<int32>& InputN
 {
 	for (int i = 0; i < InputContainerList.Num(); ++i)
 	{
-		//InputIndex.Add(InputContainerList[i]->GetIndex());
-		//InputNum.Add(InputContainerList[i]->GetNum());
+		InputIndex.Add(InputContainerList[i]->GetIndex());
+		InputNum.Add(InputContainerList[i]->GetNum());
 	}
 
 	for (int i = 0; i < NormalContainerList.Num(); ++i) {
-		//NormalIndex.Add(NormalContainerList[i]->GetIndex());
-		//NormalNum.Add(NormalContainerList[i]->GetNum());
+		NormalIndex.Add(NormalContainerList[i]->GetIndex());
+		NormalNum.Add(NormalContainerList[i]->GetNum());
 	}
 
 	for (int i = 0; i < ShortcutContainerList.Num(); ++i) {
-		//ShortcutIndex.Add(ShortcutContainerList[i]->GetIndex());
-		//ShortcutNum.Add(ShortcutContainerList[i]->GetNum());
+		ShortcutIndex.Add(ShortcutContainerList[i]->GetIndex());
+		ShortcutNum.Add(ShortcutContainerList[i]->GetNum());
 	}
 }
 

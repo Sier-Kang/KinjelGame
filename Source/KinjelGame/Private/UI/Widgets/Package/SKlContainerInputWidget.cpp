@@ -12,3 +12,13 @@ void SKlContainerInputWidget::Construct(const FArguments& InArgs)
 	);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SKlContainerInputWidget::ResetContainerPara(int ObjectID, int Num)
+{
+	bool IsChanged = false;
+	if (ObjectIndex != ObjectID || ObjectNum != Num) IsChanged = true;
+
+	SKlContainerBaseWidget::ResetContainerPara(ObjectID, Num);
+
+	if (IsChanged) CompoundInput.ExecuteIfBound();
+}

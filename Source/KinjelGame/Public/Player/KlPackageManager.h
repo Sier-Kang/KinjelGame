@@ -13,6 +13,7 @@ class KINJELGAME_API KlPackageManager
 {
 public:
 	KlPackageManager();
+
 	
 	static void Initialize();
 

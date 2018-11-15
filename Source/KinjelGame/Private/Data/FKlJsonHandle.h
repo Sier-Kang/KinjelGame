@@ -48,6 +48,11 @@ public:
 	* Parse Resource attribute information
 	*/
 	void ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>>& ResourceAttrMap);
+
+	/**
+	* Parse compound table 
+	*/
+	void CompoundTableJsonRead(TArray<TSharedPtr<CompoundTable>>& CompoundTableMap);
 private:
 	/**
 	* Read json file to string.
@@ -97,6 +102,9 @@ private:
 
 	// Resource attribute file name
 	FString ResourceAttrFileName;
+
+	// Compound Table file name
+	FString CompoundTableFileName;
 
 	// Relative path
 	FString RelativePath;

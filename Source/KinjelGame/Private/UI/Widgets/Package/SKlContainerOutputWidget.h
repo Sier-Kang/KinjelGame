@@ -21,4 +21,14 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	/**
+	* Left operation override
+	*/
+	virtual void LeftOperate(int InputID, int InputNum, int& OutputID, int& OutputNum) override;
+
+	/**
+	* Right operation override
+	*/
+	virtual void RightOperate(int InputID, int InputNum, int& OutputID, int& OutputNum) override;
 };
