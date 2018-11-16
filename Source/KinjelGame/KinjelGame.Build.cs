@@ -16,7 +16,10 @@ public class KinjelGame : ModuleRules
             "Slate",
             "SlateCore",
             "Json",
-            "JsonUtilities"
+            "JsonUtilities",
+            "UMG",
+            "AIModule",
+            "GameplayTasks"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
