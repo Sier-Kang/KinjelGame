@@ -14,7 +14,6 @@ class KINJELGAME_API UKlEnemyBlackboard : public UBlackboardData
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	virtual void PostLoad() override;
 };

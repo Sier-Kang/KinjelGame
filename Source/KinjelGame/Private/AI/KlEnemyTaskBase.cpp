@@ -5,3 +5,7 @@
 
 
 
+bool UKlEnemyTaskBase::InitEnemyElement(UBehaviorTreeComponent& OwnerComp)
+{
+	return true;
+}

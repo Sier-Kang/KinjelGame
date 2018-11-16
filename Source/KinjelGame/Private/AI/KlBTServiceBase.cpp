@@ -2,6 +2,7 @@
 
 #include "KlBTServiceBase.h"
 
+void UKlBTServiceBase::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+{
 
-
-
+}

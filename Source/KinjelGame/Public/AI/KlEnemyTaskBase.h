@@ -14,7 +14,16 @@ class KINJELGAME_API UKlEnemyTaskBase : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+protected:
+	/**
+	* Initialize controller and character
+	* @param OwnerComp
+	* @return initialize success or not
+	*/
+	bool InitEnemyElement(UBehaviorTreeComponent& OwnerComp);
+
+protected:
+	class AKlEnemyController* EnemyController;
+
+	class AKlEnemyCharacter* EnemyCharacter;
 };

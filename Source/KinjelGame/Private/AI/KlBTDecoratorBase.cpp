@@ -2,6 +2,7 @@
 
 #include "KlBTDecoratorBase.h"
 
-
-
-
+bool UKlBTDecoratorBase::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+{
+	return true;
+}

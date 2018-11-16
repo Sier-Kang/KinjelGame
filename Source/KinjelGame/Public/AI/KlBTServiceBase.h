@@ -14,7 +14,9 @@ class KINJELGAME_API UKlBTServiceBase : public UBTService
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+protected:
+	/**
+	* Tick Node
+	*/
+	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 };

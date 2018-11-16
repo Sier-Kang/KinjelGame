@@ -14,7 +14,9 @@ class KINJELGAME_API UKlBTDecoratorBase : public UBTDecorator
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+protected:
+	/**
+	* Calculate Raw Condition Value
+	*/
+	virtual bool CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
 };
