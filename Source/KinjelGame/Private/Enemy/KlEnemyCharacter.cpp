@@ -14,7 +14,7 @@
 #include "KlPlayerCharacter.h"
 #include "Enemy/KlEnemyAnim.h"
 #include "Enemy/KlEnemyController.h"
-
+#include "Perception/PawnSensingComponent.h"
 
 // Sets default values
 AKlEnemyCharacter::AKlEnemyCharacter()
@@ -55,6 +55,9 @@ AKlEnemyCharacter::AKlEnemyCharacter()
 	// Set HP Bar Widget
 	HPBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBar"));
 	HPBar->SetupAttachment(RootComponent);
+
+	// Set pawn sensing component
+	EnemySense = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("EnemySense"));
 }
 
 // Called when the game starts or when spawned
@@ -78,6 +81,7 @@ void AKlEnemyCharacter::BeginPlay()
 	WeaponSocket->SetChildActorClass(AKlEnemyTool::SpawnEnemyWeapon());
 	ShieldSocket->SetChildActorClass(AKlEnemyTool::SpawnEnemyShield());
 
+	// Set HP Bar Slate widget
 	SAssignNew(HPBarWidget, SKlEnemyHPWidget);
 	HPBar->SetSlateWidget(HPBarWidget);
 	HPBar->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
@@ -85,12 +89,22 @@ void AKlEnemyCharacter::BeginPlay()
 
 	HP = 200.f;
 	HPBarWidget->ChangeHP(HP / 200.f);
+
+	// Set enemy sense component
+	EnemySense->HearingThreshold = 0.f;
+	EnemySense->LOSHearingThreshold = 0.f;
+	EnemySense->SightRadius = 1000.f;
+	EnemySense->SetPeripheralVisionAngle(55.f);
+	EnemySense->bHearNoises = false;
+
+	FScriptDelegate OnSeePlayerDelegate;
+	OnSeePlayerDelegate.BindUFunction(this, "OnSeePlayer");
+	EnemySense->OnSeePawn.Add(OnSeePlayerDelegate);
 }
 
 void AKlEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
 {
 	if (Cast<AKlPlayerCharacter>(PlayerChar)) {
-
 		// Notify the controller OnSeePlayer event
 		if (EnemyController) EnemyController->OnSeePlayer();
 	}
@@ -108,6 +122,14 @@ void AKlEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AKlEnemyCharacter::UpdateHPBarRotation(FVector PlayerLocation)
+{
+	FVector StartPos(GetActorLocation().X, GetActorLocation().Y, 0);
+	FVector TargetPos(PlayerLocation.X, PlayerLocation.Y, 0.f);
+
+	HPBar->SetWorldRotation(FRotationMatrix::MakeFromX(TargetPos - StartPos).Rotator());
 }
 
 void AKlEnemyCharacter::SetMaxSpeed(float Speed)

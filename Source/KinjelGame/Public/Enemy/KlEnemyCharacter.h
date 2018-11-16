@@ -22,6 +22,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/**
+	* Update HP Bar's Orientation to player, invoked by Controller
+	*/
+	void UpdateHPBarRotation(FVector PlayerLocation);
+
+	/**
 	* Set max speed 
 	*/
 	void SetMaxSpeed(float Speed);

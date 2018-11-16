@@ -14,6 +14,12 @@ AKlEnemyController::AKlEnemyController()
 void AKlEnemyController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// Update enemy's HP Bar's orientation
+	if (PlayerCharacter && EnemyCharacter)
+	{
+		EnemyCharacter->UpdateHPBarRotation(PlayerCharacter->GetActorLocation());
+	}
 }
 
 void AKlEnemyController::OnSeePlayer()
