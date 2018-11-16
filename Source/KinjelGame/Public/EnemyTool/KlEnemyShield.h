@@ -14,7 +14,6 @@ class KINJELGAME_API AKlEnemyShield : public AKlEnemyTool
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	AKlEnemyShield();
 };

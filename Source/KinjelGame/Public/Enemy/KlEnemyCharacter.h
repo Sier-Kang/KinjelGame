@@ -15,7 +15,6 @@ public:
 	// Sets default values for this character's properties
 	AKlEnemyCharacter();
 
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -26,6 +25,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+protected:
+	/** Weapon slot */
+	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
+	class UChildActorComponent* WeaponSocket;
 
-	
+	/** Shield slot */
+	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
+	class UChildActorComponent* ShieldSocket;
 };
