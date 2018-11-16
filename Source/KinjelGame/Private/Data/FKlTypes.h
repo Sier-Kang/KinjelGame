@@ -358,3 +358,14 @@ struct CompoundTable
 		return IsMatch;
 	}
 };
+
+/**
+* Enemy attack state 
+*/
+UENUM(BlueprintType)
+enum class EEnemyAttackType : uint8
+{
+	EA_Normal   UMETA(DisplayName = "Normal"),
+	EA_Dash     UMETA(DisplayName = "Dash"),
+	EA_Pursuit  UMETA(DisplayName = "Pursuit")
+};

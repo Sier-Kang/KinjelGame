@@ -7,6 +7,14 @@
 #include "Engine/SkeletalMesh.h"
 #include "Animation/AnimInstance.h"
 #include "Components/ChildActorComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "EnemyTool/KlEnemyTool.h"
+#include "UI/Widgets/SKlEnemyHPWidget.h"
+#include "Components/WidgetComponent.h"
+#include "KlPlayerCharacter.h"
+#include "Enemy/KlEnemyAnim.h"
+#include "Enemy/KlEnemyController.h"
+
 
 // Sets default values
 AKlEnemyCharacter::AKlEnemyCharacter()
@@ -43,13 +51,49 @@ AKlEnemyCharacter::AKlEnemyCharacter()
 	WeaponSocket = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponSocket"));
 
 	ShieldSocket = CreateDefaultSubobject<UChildActorComponent>(TEXT("SheildSocket"));
+
+	// Set HP Bar Widget
+	HPBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBar"));
+	HPBar->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void AKlEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Get reference
+	EnemyController = Cast<AKlEnemyController>(GetController());
+
+	EnemyAnimInst = Cast<UKlEnemyAnim>(GetMesh()->GetAnimInstance());
 	
+	// Bind enemy tool to skeletal mesh sockets
+	WeaponSocket->AttachToComponent(GetMesh(), 
+		FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
+
+	ShieldSocket->AttachToComponent(GetMesh(), 
+		FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("LHSocket"));
+
+	// Add tool to socket
+	WeaponSocket->SetChildActorClass(AKlEnemyTool::SpawnEnemyWeapon());
+	ShieldSocket->SetChildActorClass(AKlEnemyTool::SpawnEnemyShield());
+
+	SAssignNew(HPBarWidget, SKlEnemyHPWidget);
+	HPBar->SetSlateWidget(HPBarWidget);
+	HPBar->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
+	HPBar->SetDrawSize(FVector2D(100.f, 10.f));
+
+	HP = 200.f;
+	HPBarWidget->ChangeHP(HP / 200.f);
+}
+
+void AKlEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
+{
+	if (Cast<AKlPlayerCharacter>(PlayerChar)) {
+
+		// Notify the controller OnSeePlayer event
+		if (EnemyController) EnemyController->OnSeePlayer();
+	}
 }
 
 // Called every frame
@@ -64,5 +108,10 @@ void AKlEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AKlEnemyCharacter::SetMaxSpeed(float Speed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = Speed;
 }
 

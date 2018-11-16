@@ -21,6 +21,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	/**
+	* Set max speed 
+	*/
+	void SetMaxSpeed(float Speed);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,4 +38,33 @@ protected:
 	/** Shield slot */
 	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
 	class UChildActorComponent* ShieldSocket;
+
+	/**
+	 * HP Bar
+	 */
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	class UWidgetComponent* HPBar;
+
+	/**
+	 * Enemy Sensing
+	 */
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	class UPawnSensingComponent* EnemySense;
+
+private:
+	UFUNCTION()
+	void OnSeePlayer(APawn* PlayerChar);
+
+private:
+	/** AI Controller */
+	class AKlEnemyController* EnemyController;
+
+	/** Character Animation Inst */
+	class UKlEnemyAnim* EnemyAnimInst;
+
+	/** HPBar Widget */
+	TSharedPtr<class SKlEnemyHPWidget> HPBarWidget;
+
+	/** HP */
+	float HP;
 };
