@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "EngineMinimal.h"
 #include "BehaviorTree/BlackboardData.h"
 #include "KlEnemyBlackboard.generated.h"
 

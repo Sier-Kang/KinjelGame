@@ -23,7 +23,7 @@ void UKlEnemyBlackboard::PostLoad()
 	FBlackboardEntry EnemyState;
 	EnemyState.EntryName = FName("EnemyState");
 	UBlackboardKeyType_Enum* EnemyStateKeyType = NewObject<UBlackboardKeyType_Enum>();
-	//EnemyStateKeyType->EnumType = FindObject<UEnum>(ANY_PACKAGE, *FString("EEnemyAIState"), true);
+	EnemyStateKeyType->EnumType = FindObject<UEnum>(ANY_PACKAGE, *FString("EEnemyAIState"), true);
 	EnemyStateKeyType->EnumName = FString("EEnemyAIState");
 	EnemyState.KeyType = EnemyStateKeyType;
 
@@ -36,7 +36,7 @@ void UKlEnemyBlackboard::PostLoad()
 	FBlackboardEntry AttackType;
 	AttackType.EntryName = FName("AttackType");
 	UBlackboardKeyType_Enum* AttackTypeKeyType = NewObject<UBlackboardKeyType_Enum>();
-	//AttackTypeKeyType->EnumType = FindObject<UEnum>(ANY_PACKAGE, *FString("EEnemyAttackType"), true);
+	AttackTypeKeyType->EnumType = FindObject<UEnum>(ANY_PACKAGE, *FString("EEnemyAttackType"), true);
 	AttackTypeKeyType->EnumName = FString("EEnemyAttackType");
 	AttackType.KeyType = AttackTypeKeyType;
 
