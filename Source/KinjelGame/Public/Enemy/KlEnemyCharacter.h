@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Data/FKlTypes.h"
+
 #include "KlEnemyCharacter.generated.h"
 
 UCLASS()
@@ -37,6 +39,9 @@ public:
 	* @return Wait time
 	*/
 	float GetIdleWaitTime();
+
+	/** Play Attack action */
+	float PlayAttackAction(EEnemyAttackType AttackType);
 
 protected:
 	// Called when the game starts or when spawned

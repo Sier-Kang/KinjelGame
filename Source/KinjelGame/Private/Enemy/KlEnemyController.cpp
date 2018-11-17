@@ -111,6 +111,11 @@ void AKlEnemyController::LoosePlayer()
 	IsLockPlayer = false;
 }
 
+void AKlEnemyController::ResetProcess(bool IsFinish)
+{
+	BlackboardComp->SetValueAsBool("ProcessFinish", IsFinish);
+}
+
 bool AKlEnemyController::IsPlayerDead()
 {
 	if (PlayerCharacter)

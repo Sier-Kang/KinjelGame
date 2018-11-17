@@ -14,7 +14,11 @@ class KINJELGAME_API UKlEnemyTaskAttackNormal : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
+protected:
+	/** Blackboard Key Selector - WaitTime */
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	struct FBlackboardKeySelector WaitTime;
 	
-	
-	
+private:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

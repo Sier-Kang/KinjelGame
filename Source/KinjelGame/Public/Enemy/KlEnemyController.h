@@ -33,6 +33,9 @@ public:
 	/** Loose player */
 	void LoosePlayer();
 
+	/** Animation finished */
+	void ResetProcess(bool IsFinish);
+
 	/** Is player dead */
 	bool IsPlayerDead();
 

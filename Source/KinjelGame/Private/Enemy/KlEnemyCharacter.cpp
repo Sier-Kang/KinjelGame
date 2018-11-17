@@ -153,3 +153,11 @@ float AKlEnemyCharacter::GetIdleWaitTime()
 	return AnimLength * AnimCount;
 }
 
+float AKlEnemyCharacter::PlayAttackAction(EEnemyAttackType AttackType)
+{
+	if (!EnemyAnimInst) 
+		return 0.f;
+
+	return EnemyAnimInst->PlayAttackAction(AttackType);
+}
+

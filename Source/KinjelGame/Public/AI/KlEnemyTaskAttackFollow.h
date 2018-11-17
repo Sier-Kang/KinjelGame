@@ -14,7 +14,10 @@ class KINJELGAME_API UKlEnemyTaskAttackFollow : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
+protected:
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	struct FBlackboardKeySelector Destination;
 	
-	
-	
+private:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };
