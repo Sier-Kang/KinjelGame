@@ -98,7 +98,7 @@ void AKlEnemyCharacter::BeginPlay()
 	EnemySense->bHearNoises = false;
 
 	FScriptDelegate OnSeePlayerDelegate;
-	OnSeePlayerDelegate.BindUFunction(this, "OnSeePlayer");
+	OnSeePlayerDelegate.BindUFunction(this, FName("OnSeePlayer"));
 	EnemySense->OnSeePawn.Add(OnSeePlayerDelegate);
 }
 
