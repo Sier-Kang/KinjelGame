@@ -28,8 +28,15 @@ public:
 
 	/**
 	* Set max speed 
+	* @param Speed New Speed
 	*/
 	void SetMaxSpeed(float Speed);
+
+	/**
+	* Get Idle Animation played time
+	* @return Wait time
+	*/
+	float GetIdleWaitTime();
 
 protected:
 	// Called when the game starts or when spawned

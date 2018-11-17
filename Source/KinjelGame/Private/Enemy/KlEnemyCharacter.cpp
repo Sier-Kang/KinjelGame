@@ -137,3 +137,19 @@ void AKlEnemyCharacter::SetMaxSpeed(float Speed)
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
 }
 
+float AKlEnemyCharacter::GetIdleWaitTime()
+{
+	// If Animation Inst isn't exists, return 3 s
+	if (!EnemyAnimInst) return 3.f;
+	
+	// Generate random seed
+	FRandomStream Stream;
+	Stream.GenerateNewSeed();
+	int IdleTpye = Stream.RandRange(0, 2);
+	float AnimLength = EnemyAnimInst->SetIdleType(IdleTpye);
+	Stream.GenerateNewSeed();
+	int AnimCount = Stream.RandRange(1, 3);
+
+	return AnimLength * AnimCount;
+}
+

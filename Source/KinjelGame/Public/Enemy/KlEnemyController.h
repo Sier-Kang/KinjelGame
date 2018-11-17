@@ -18,6 +18,12 @@ public:
 	AKlEnemyController();
 
 	virtual void Tick(float DeltaTime) override;
+	
+	/** Possess */
+	virtual void Possess(APawn* InPawn) override;
+
+	/** Unpossess */
+	virtual void UnPossess() override;
 
 	/**
 	* On See Player event, invoked by enemy character
@@ -44,4 +50,10 @@ private:
 
 	/** Character Inst */
 	class AKlEnemyCharacter* EnemyCharacter;
+
+	/** Behavior Tree Comp */
+	class UBehaviorTreeComponent* BehaviorComp;
+
+	/** Blackboard Data Comp */
+	class UBlackboardComponent* BlackboardComp;
 };

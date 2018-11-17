@@ -360,17 +360,6 @@ struct CompoundTable
 };
 
 /**
-* Enemy attack state 
-*/
-UENUM(BlueprintType)
-enum class EEnemyAttackType : uint8
-{
-	EA_Normal   UMETA(DisplayName = "Normal"),
-	EA_Dash     UMETA(DisplayName = "Dash"),
-	EA_Pursuit  UMETA(DisplayName = "Pursuit")
-};
-
-/**
 * Enemy AI State
 */
 UENUM(BlueprintType)
@@ -384,3 +373,27 @@ enum class EEnemyAIState : uint8
 	ES_Defence UMETA(DisplayName = "Defence"),
 	ES_Dead    UMETA(DisplayName = "Dead")
 };
+
+/**
+* Enemy attack state 
+*/
+UENUM(BlueprintType)
+enum class EEnemyAttackType : uint8
+{
+	EA_Normal   UMETA(DisplayName = "Normal"),
+	EA_Dash     UMETA(DisplayName = "Dash"),
+	EA_Pursuit  UMETA(DisplayName = "Pursuit")
+};
+
+/**
+* MiniMap Scaling State
+*/
+namespace EMiniMapSizeMode
+{
+	enum Type
+	{
+		None,
+		Add,
+		Reduce
+	};
+}
