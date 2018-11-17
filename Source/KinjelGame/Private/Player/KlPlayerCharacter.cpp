@@ -260,6 +260,14 @@ void AKlPlayerCharacter::EatUpEvent()
 	}
 }
 
+bool AKlPlayerCharacter::IsPlayerDead()
+{
+	if (PlayerController->KlPlayerState)
+		return PlayerController->KlPlayerState->IsPlayerDead();
+
+	return false;
+}
+
 void AKlPlayerCharacter::MoveForward(float Value)
 {
 	if (IsInputLocked) return;

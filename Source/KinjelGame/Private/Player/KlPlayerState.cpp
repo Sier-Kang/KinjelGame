@@ -167,6 +167,11 @@ void AKlPlayerState::PromoteHunger()
 	Hunger = FMath::Clamp<float>(Hunger + 100.f, 0, 600.f);
 }
 
+bool AKlPlayerState::IsPlayerDead()
+{
+	return HP <= 0.f;
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

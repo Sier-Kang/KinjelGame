@@ -4,29 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "AI/KlEnemyTaskBase.h"
-#include "KlEnemyTaskWander.generated.h"
+#include "KlEnemyTaskChaseSwitch.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class KINJELGAME_API UKlEnemyTaskWander : public UKlEnemyTaskBase
+class KINJELGAME_API UKlEnemyTaskChaseSwitch : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
 protected:
-	/**
-	 * Blackboard Selector
-	 */
+	/** Enemy State in blackboard */
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	struct FBlackboardKeySelector Destination;
-
-	/**
-	* Change Wait Time	
-	*/
-	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector WaitTime;
-
+	struct FBlackboardKeySelector EnemyState;
+	
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

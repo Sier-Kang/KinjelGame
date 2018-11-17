@@ -4,29 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "AI/KlEnemyTaskBase.h"
-#include "KlEnemyTaskWander.generated.h"
+#include "KlEnemyTaskLocaSP.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class KINJELGAME_API UKlEnemyTaskWander : public UKlEnemyTaskBase
+class KINJELGAME_API UKlEnemyTaskLocaSP : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
 protected:
-	/**
-	 * Blackboard Selector
-	 */
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
 	struct FBlackboardKeySelector Destination;
-
-	/**
-	* Change Wait Time	
-	*/
-	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector WaitTime;
-
+	
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

@@ -94,11 +94,29 @@ void AKlEnemyController::UnPossess()
 
 void AKlEnemyController::OnSeePlayer()
 {
+	if (IsLockPlayer || IsPlayerDead())
+		return;
+
 	// Set Lock player
 	IsLockPlayer = true;
 
+	BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Chase);
+
 	// Change character's max speed
 	EnemyCharacter->SetMaxSpeed(300.f);
+}
+
+void AKlEnemyController::LoosePlayer()
+{
+	IsLockPlayer = false;
+}
+
+bool AKlEnemyController::IsPlayerDead()
+{
+	if (PlayerCharacter)
+		return PlayerCharacter->IsPlayerDead();
+
+	return false;
 }
 
 FVector AKlEnemyController::GetPlayerLocation() const

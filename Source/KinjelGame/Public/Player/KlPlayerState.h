@@ -75,6 +75,9 @@ public:
 	*/
 	void PromoteHunger();
 
+	/** Is player dead */
+	bool IsPlayerDead();
+
 public:
 	/** Player Controller */
 	class AKlPlayerController* PlayerController;

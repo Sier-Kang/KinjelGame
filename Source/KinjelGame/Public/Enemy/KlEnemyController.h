@@ -30,6 +30,12 @@ public:
 	*/
 	void OnSeePlayer();
 
+	/** Loose player */
+	void LoosePlayer();
+
+	/** Is player dead */
+	bool IsPlayerDead();
+
 	/**
 	* Get Player's position
 	*/
