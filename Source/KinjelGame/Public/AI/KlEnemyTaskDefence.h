@@ -14,7 +14,28 @@ class KINJELGAME_API UKlEnemyTaskDefence : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+protected:
+	/** Delegate event */
+	void OnAnimationTimerDone();
+
+protected:
+	/**
+	 * Blackboard Key IsDefenceFinish
+	 */
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	struct FBlackboardKeySelector IsDefenceFinish;
+
+	/**
+	 * Blackboard Key PlayerPawn
+	 */
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	FBlackboardKeySelector PlayerPawn;
+
+	/** Delegate event of attack action finished */
+	FTimerHandle TimerHandle;
+
+private:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

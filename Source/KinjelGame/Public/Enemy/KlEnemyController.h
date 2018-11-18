@@ -39,10 +39,28 @@ public:
 	/** Is player dead */
 	bool IsPlayerDead();
 
+	/** Player go away */
+	bool IsPlayerAway();
+
+	/** Get Player Pawn */
+	UObject* GetPlayerPawn();
+
 	/**
 	* Get Player's position
 	*/
 	FVector GetPlayerLocation() const;
+
+	/** Update Damage Ratio */
+	void UpdateDamageRatio(float HPRatioVal);
+
+	/** Complete hurt state */
+	void FinishStateHurt();
+
+	/** Complete defense state */
+	void FinishStateDefence();
+
+	/** Enemy dead */
+	void EnemyDead();
 
 public:
 	/**
@@ -52,6 +70,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	/** Update state parameters */
+	void UpdateStatePama();
 
 private:
 	/** Player Inst */
@@ -65,4 +87,18 @@ private:
 
 	/** Blackboard Data Comp */
 	class UBlackboardComponent* BlackboardComp;
+
+	/**Distance list to current player, every 0.5s save once, 8 counts */
+	TArray<float> EPDisList;
+
+	FTimerHandle EPDisHandle;
+
+	/** HP Ratio */
+	float HPRatio;
+
+	/**Allow to display hurt state */
+	bool IsAllowHurt;
+
+	/**Hurt state timer */
+	float HurtTimeCount;
 };

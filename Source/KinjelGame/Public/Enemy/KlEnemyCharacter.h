@@ -43,6 +43,15 @@ public:
 	/** Play Attack action */
 	float PlayAttackAction(EEnemyAttackType AttackType);
 
+	/** Play hurt action */
+	float PlayHurtAction();
+
+	/** Start Defense */
+	void StartDefence();
+
+	/** Stop Defense */
+	void StopDefence();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

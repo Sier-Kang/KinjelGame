@@ -161,3 +161,22 @@ float AKlEnemyCharacter::PlayAttackAction(EEnemyAttackType AttackType)
 	return EnemyAnimInst->PlayAttackAction(AttackType);
 }
 
+float AKlEnemyCharacter::PlayHurtAction()
+{
+	if (!EnemyAnimInst) return 0.f;
+
+	return EnemyAnimInst->PlayHurtAction();
+}
+
+void AKlEnemyCharacter::StartDefence()
+{
+	if (EnemyAnimInst)
+		EnemyAnimInst->IsDefence = true;
+}
+
+void AKlEnemyCharacter::StopDefence()
+{
+	if (EnemyAnimInst)
+		EnemyAnimInst->IsDefence = false;
+}
+

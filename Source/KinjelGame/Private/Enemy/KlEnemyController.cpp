@@ -124,6 +124,26 @@ bool AKlEnemyController::IsPlayerDead()
 	return false;
 }
 
+bool AKlEnemyController::IsPlayerAway()
+{
+	if (!IsLockPlayer || !PlayerCharacter || EPDisList.Num() < 6 || IsPlayerDead()) return false;
+	int BiggerNum = 0;
+	float LastDis = -1.f;
+
+	for (TArray<float>::TIterator It(EPDisList); It; ++It)
+	{
+		if (*It > LastDis) BiggerNum += 1;
+		LastDis = *It;
+	}
+
+	return BiggerNum > 3;
+}
+
+UObject* AKlEnemyController::GetPlayerPawn()
+{
+	return PlayerCharacter;
+}
+
 FVector AKlEnemyController::GetPlayerLocation() const
 {
 	if (PlayerCharacter)
@@ -132,6 +152,88 @@ FVector AKlEnemyController::GetPlayerLocation() const
 	}
 
 	return FVector::ZeroVector;
+}
+
+void AKlEnemyController::UpdateDamageRatio(float HPRatioVal)
+{
+	HPRatio = HPRatioVal;
+
+	if (IsAllowHurt) 
+		BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Hurt);
+
+	IsAllowHurt = false;
+}
+
+void AKlEnemyController::FinishStateHurt()
+{
+	if (!IsLockPlayer) 
+		IsLockPlayer = true;
+
+	if (HPRatio < 0.2f)
+	{
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+
+		int ActionRatio = Stream.RandRange(0, 10);
+		if (ActionRatio < 4) {
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+		}
+		else
+		{
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
+		}
+	}
+	else
+	{
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+
+		int ActionRatio = Stream.RandRange(0, 10);
+		if (ActionRatio < 4) {
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+		}
+		else
+		{
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
+		}
+	}
+}
+
+void AKlEnemyController::FinishStateDefence()
+{
+	ResetProcess(true);
+
+	EnemyCharacter->StopDefence();
+
+	float SEToSP = FVector::Distance(EnemyCharacter->GetActorLocation(), GetPlayerLocation());
+
+	if (PlayerCharacter->IsAttack && SEToSP < 200.f)
+	{
+		BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+	}
+	else
+	{
+		//如果血值小于0.2,逃跑
+		if (HPRatio < 0.2f)
+		{
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
+		}
+		else
+		{
+			//跳到攻击状态
+			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
+		}
+	}
+
+}
+
+void AKlEnemyController::EnemyDead()
+{
+	if (BehaviorComp) 
+		BehaviorComp->StopTree(EBTStopMode::Safe);
+
+	if (EPDisHandle.IsValid()) 
+		GetWorld()->GetTimerManager().ClearTimer(EPDisHandle);
 }
 
 void AKlEnemyController::BeginPlay()
@@ -144,4 +246,38 @@ void AKlEnemyController::BeginPlay()
 	PlayerCharacter = Cast<AKlPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	EnemyCharacter = Cast<AKlEnemyCharacter>(GetPawn());
+
+	IsLockPlayer = false;
+
+	FTimerDelegate EPDisDele = FTimerDelegate::CreateUObject(this, &AKlEnemyController::UpdateStatePama);
+	GetWorld()->GetTimerManager().SetTimer(EPDisHandle, EPDisDele, 0.3f, true);
+
+	HPRatio = 1;
+
+	IsAllowHurt = false;
+	HurtTimeCount = 0.f;
+}
+
+void AKlEnemyController::UpdateStatePama()
+{
+	if (EPDisList.Num() < 6)
+	{
+		EPDisList.Push(FVector::Distance(EnemyCharacter->GetActorLocation(), GetPlayerLocation()));
+	}
+	else
+	{
+		EPDisList.RemoveAt(0);
+		EPDisList.Push(FVector::Distance(EnemyCharacter->GetActorLocation(), GetPlayerLocation()));
+	}
+
+	if (HurtTimeCount < 6.f)
+	{
+		HurtTimeCount += 0.3f;
+	}
+	else
+	{
+		HurtTimeCount = 0.f;
+
+		IsAllowHurt = true;
+	}
 }

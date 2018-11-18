@@ -14,7 +14,6 @@ class KINJELGAME_API UKlEnemyTaskRotate : public UKlEnemyTaskBase
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+private:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

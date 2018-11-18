@@ -101,6 +101,9 @@ public:
 
 	/** Input locked flag */
 	bool IsInputLocked;
+
+	/** Flag of attack */
+	bool IsAttack;
 private:
 	/**
 	* Character's action

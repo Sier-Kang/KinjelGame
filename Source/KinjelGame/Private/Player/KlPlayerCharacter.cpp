@@ -37,6 +37,8 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 
 	IsInputLocked = false;
 
+	IsAttack = false;
+
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 
 	// Set capsule component's collision property
@@ -218,6 +220,8 @@ void AKlPlayerCharacter::ChangeHandObjectDetection(bool IsOpen)
 	{
 		HandObjectClass->ChangeOverlayDetect(IsOpen);
 	}
+
+	IsAttack = IsOpen;
 }
 
 void AKlPlayerCharacter::RenderHandObject(bool bIsRender)
