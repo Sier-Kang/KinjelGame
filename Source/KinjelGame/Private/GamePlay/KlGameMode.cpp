@@ -10,6 +10,10 @@
 #include "KlGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "KlPackageManager.h"
+#include "KlSceneCapture2D.h"
+#include "Player/KlPlayerController.h"
+#include "Player/KlPlayerCharacter.h"
+#include "KlEnemyCharacter.h"
 
 AKlGameMode::AKlGameMode()
 {
@@ -17,7 +21,7 @@ AKlGameMode::AKlGameMode()
 
 	bInitPackageMgr = false;
 
-	// Set defaut class
+	// Set default class
 	HUDClass = AKlGameHUD::StaticClass();
 	PlayerControllerClass = AKlPlayerController::StaticClass();
 	PlayerStateClass = AKlPlayerState::StaticClass();
@@ -26,6 +30,10 @@ AKlGameMode::AKlGameMode()
 
 void AKlGameMode::Tick(float DeltaSeconds)
 {
+	// Initialize mini map system and update
+	InitializeMiniMapCamera();
+
+	// Initialize package system and update 
 	InitializePackage();
 }
 
@@ -61,4 +69,40 @@ void AKlGameMode::InitializePackage()
 	KlPackageManager::Get()->ChangeHandObject.BindUObject(KlPlayerState, &AKlPlayerState::ChangeHandObject);
 
 	bInitPackageMgr = true;
+}
+
+void AKlGameMode::InitializeMiniMapCamera()
+{
+	if (!IsCreateMiniMap && GetWorld())
+	{
+		MiniMapCamera = GetWorld()->SpawnActor<AKlSceneCapture2D>(AKlSceneCapture2D::StaticClass());
+
+		RegisterMiniMap.ExecuteIfBound(MiniMapCamera->GetMiniMapTex());
+
+		KlPC->UpdateMiniMapWidth.BindUObject(MiniMapCamera, &AKlSceneCapture2D::UpdateMiniMapWidth);
+
+		IsCreateMiniMap = true;
+	}
+
+
+	if (IsCreateMiniMap)
+	{
+		MiniMapCamera->UpdateTransform(KlPlayerCharacter->GetActorLocation(), KlPlayerCharacter->GetActorRotation());
+
+		TArray<FVector2D> EnemyPosList;
+		TArray<bool> EnemyLockList;
+		TArray<float> EnemyRotateList;
+
+		for (TActorIterator<AKlEnemyCharacter> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
+		{
+			FVector EnemyPos = FVector((*EnemyIt)->GetActorLocation().X - KlPlayerCharacter->GetActorLocation().X, (*EnemyIt)->GetActorLocation().Y - KlPlayerCharacter->GetActorLocation().Y, 0.f);
+			EnemyPos = FQuat(FVector::UpVector, FMath::DegreesToRadians(-KlPlayerCharacter->GetActorRotation().Yaw - 90.f)) * EnemyPos;
+			EnemyPosList.Add(FVector2D(EnemyPos.X, EnemyPos.Y));
+
+			EnemyLockList.Add((*EnemyIt)->IsLockPlayer());
+			EnemyRotateList.Add((*EnemyIt)->GetActorRotation().Yaw - KlPlayerCharacter->GetActorRotation().Yaw);
+		}
+
+		UpdateMapData.ExecuteIfBound(KlPlayerCharacter->GetActorRotation(), MiniMapCamera->GetMapSize(), &EnemyPosList, &EnemyLockList, &EnemyRotateList);
+	}
 }

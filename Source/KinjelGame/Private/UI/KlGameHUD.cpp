@@ -14,6 +14,7 @@
 #include "Widgets/SKlPointerWidget.h"
 #include "Widgets/SKlPlayerStateWidget.h"
 #include "Widgets/Package/SKlPackageWidget.h"
+#include "Widgets/SKlMiniMapWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -52,4 +53,10 @@ void AKlGameHUD::BeginPlay()
 
 	// Initialize Package Manager to Package Widget
 	GM->InitPackageManager.BindRaw(GameHUDWidget->PackageWidget.Get(), &SKlPackageWidget::InitPackageManager);
+
+	// Bind register mini map delegate
+	GM->RegisterMiniMap.BindRaw(GameHUDWidget->MiniMapWidget.Get(), &SKlMiniMapWidget::RegisterMiniMap);
+
+	// Bind update map data delegate
+	GM->UpdateMapData.BindRaw(GameHUDWidget->MiniMapWidget.Get(), &SKlMiniMapWidget::UpdateMapData);
 }

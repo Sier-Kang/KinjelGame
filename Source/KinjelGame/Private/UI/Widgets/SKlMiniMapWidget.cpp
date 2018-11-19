@@ -169,8 +169,6 @@ void SKlMiniMapWidget::UpdateMapData(const FRotator PlayerRotator, const float M
 	SouthLocation = FVector2D(FMath::Sin(FMath::DegreesToRadians(YawDir + 180.f)), FMath::Cos(FMath::DegreesToRadians(YawDir + 180.f)))*150.f + FVector2D(160.f, 160.f);
 	WestLocation = FVector2D(FMath::Sin(FMath::DegreesToRadians(YawDir + 270.f)), FMath::Cos(FMath::DegreesToRadians(YawDir + 270.f)))*150.f + FVector2D(160.f, 160.f);
 
-
-
 	MapSize = MiniMapSize;
 
 	EnemyPos.Empty();

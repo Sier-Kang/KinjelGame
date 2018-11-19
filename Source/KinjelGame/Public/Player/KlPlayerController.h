@@ -13,6 +13,9 @@ DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
 /** Switch game ui delegate */
 DECLARE_DELEGATE_TwoParams(FShowGameUI, EGameUIType::Type, EGameUIType::Type)
 
+/** Change mini map's view(width)*/
+DECLARE_DELEGATE_OneParam(FUpdateMiniMapWidth, int)
+
 /**
  * 
  */
@@ -57,6 +60,7 @@ public:
 	/** Switch game ui delegate */
 	FShowGameUI ShowGameUI;
 
+	FUpdateMiniMapWidth UpdateMiniMapWidth;
 protected:
 	/**
 	* Begin play
@@ -130,6 +134,18 @@ private:
 	*/
 	void LockedInput(bool bLockedInput);
 
+	/** Add/Reduce Mini map's size event */
+	void AddMapSizeStart();
+
+	void AddMapSizeStop();
+
+	void ReduceMapSizeStart();
+
+	void ReduceMapSizeStop();
+
+	/** Update Mini map data in Tick() */
+	void TickMiniMap();
+
 	/** Dead time event */
 	void DeadTimeOut();
 
@@ -150,6 +166,9 @@ private:
 
 	/** Current Game UI Type */
 	EGameUIType::Type CurrentUIType;
+
+	/** Mini map size mode */
+	EMiniMapSizeMode::Type MiniMapSizeMode;
 
 	FTimerHandle DeadHandle;
 };

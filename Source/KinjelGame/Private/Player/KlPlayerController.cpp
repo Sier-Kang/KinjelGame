@@ -52,6 +52,9 @@ void AKlPlayerController::Tick(float DeltaSeconds)
 
 	// Update state machine
 	StateMachine();
+
+	// Update mini map
+	TickMiniMap();
 }
 
 void AKlPlayerController::SetupInputComponent()
@@ -76,6 +79,12 @@ void AKlPlayerController::SetupInputComponent()
 
 	// Bind  ChatRoom Event
 	InputComponent->BindAction("ChatRoomEvent", IE_Pressed, this, &AKlPlayerController::ChatRoomEvent);
+
+	// Bind change mini map's size Event
+	InputComponent->BindAction("AddMapSize", IE_Pressed, this, &AKlPlayerController::AddMapSizeStart);
+	InputComponent->BindAction("AddMapSize", IE_Released, this, &AKlPlayerController::AddMapSizeStop);
+	InputComponent->BindAction("ReduceMapSize", IE_Pressed, this, &AKlPlayerController::ReduceMapSizeStart);
+	InputComponent->BindAction("ReduceMapSize", IE_Released, this, &AKlPlayerController::ReduceMapSizeStop);
 }
 
 void AKlPlayerController::ChangeHandObject()
@@ -444,6 +453,49 @@ void AKlPlayerController::SwitchInputMode(bool bIsGameOnly)
 void AKlPlayerController::LockedInput(bool bLockedInput)
 {
 	PlayerCharacter->IsInputLocked = bLockedInput;
+}
+
+void AKlPlayerController::AddMapSizeStart()
+{
+	if (PlayerCharacter->IsInputLocked) return;
+
+	MiniMapSizeMode = EMiniMapSizeMode::Add;
+}
+
+void AKlPlayerController::AddMapSizeStop()
+{
+	if (PlayerCharacter->IsInputLocked) return;
+
+	MiniMapSizeMode = EMiniMapSizeMode::None;
+}
+
+void AKlPlayerController::ReduceMapSizeStart()
+{
+	if (PlayerCharacter->IsInputLocked) return;
+
+	MiniMapSizeMode = EMiniMapSizeMode::Reduce;
+}
+
+void AKlPlayerController::ReduceMapSizeStop()
+{
+	if (PlayerCharacter->IsInputLocked) return;
+
+	MiniMapSizeMode = EMiniMapSizeMode::None;
+}
+
+void AKlPlayerController::TickMiniMap()
+{
+	switch (MiniMapSizeMode)
+	{
+	case EMiniMapSizeMode::Add:
+		UpdateMiniMapWidth.ExecuteIfBound(5);
+
+		break;
+	case EMiniMapSizeMode::Reduce:
+		UpdateMiniMapWidth.ExecuteIfBound(-5);
+
+		break;
+	}
 }
 
 void AKlPlayerController::DeadTimeOut()
