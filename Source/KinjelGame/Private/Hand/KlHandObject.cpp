@@ -15,6 +15,10 @@
 #include "KlHandHammer.h"
 #include "KlHandSword.h"
 #include "FKlHelper.h"
+#include "KlEnemyCharacter.h"
+#include "Data/FKlDataHandle.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundWave.h"
 
 
 // Sets default values
@@ -47,6 +51,13 @@ AKlHandObject::AKlHandObject()
 	FScriptDelegate OverlayEnd;
 	OverlayEnd.BindUFunction(this, FName("OnOverlayEnd"));
 	AffectCollision->OnComponentEndOverlap.Add(OverlayEnd);
+
+	// By default, fist sound effect 
+	static ConstructorHelpers::FObjectFinder<USoundWave> StaticSound(
+		TEXT("SoundWave'/Game/Res/Sound/GameSound/Punch.Punch'")
+	);
+
+	OverlaySound = StaticSound.Object;
 }
 
 // Called when the game starts or when spawned
@@ -59,6 +70,15 @@ void AKlHandObject::BeginPlay()
 void AKlHandObject::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	FKlHelper::Debug(FString("OverlayBegin"), 3.f);
+	if (Cast<AKlEnemyCharacter>(OtherActor))
+	{
+		TSharedPtr<ObjectAttribute> ObjectAttr = *FKlDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+
+		Cast<AKlEnemyCharacter>(OtherActor)->AcceptDamage(ObjectAttr->AnimalAttack);
+	}
+
+	if (OverlaySound) 
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), OverlaySound, OtherActor->GetActorLocation());
 }
 
 void AKlHandObject::OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

@@ -18,6 +18,7 @@ EBTNodeResult::Type UKlEnemyTaskAttackSwitch::ExecuteTask(UBehaviorTreeComponent
 	OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerPawn.SelectedKeyName, EnemyController->GetPlayerPawn());
 	if (EnemyController->IsPlayerDead())
 	{
+		// Loose player and change state to patrol
 		EnemyController->LoosePlayer();
 
 		OwnerComp.GetBlackboardComponent()->SetValueAsEnum(EnemyState.SelectedKeyName, (uint8)EEnemyAIState::ES_Patrol);
@@ -28,6 +29,7 @@ EBTNodeResult::Type UKlEnemyTaskAttackSwitch::ExecuteTask(UBehaviorTreeComponent
 	float EPDistance = FVector::Distance(EnemyCharacter->GetActorLocation(), EnemyController->GetPlayerLocation());
 	if (EPDistance < 200.f)
 	{
+		// Normal attack
 		OwnerComp.GetBlackboardComponent()->SetValueAsEnum(AttackType.SelectedKeyName, (uint8)EEnemyAttackType::EA_Normal);
 
 		return EBTNodeResult::Succeeded;
@@ -35,6 +37,7 @@ EBTNodeResult::Type UKlEnemyTaskAttackSwitch::ExecuteTask(UBehaviorTreeComponent
 
 	if (EPDistance < 300.f && EnemyController->IsPlayerAway())
 	{
+		// Pursuit player
 		OwnerComp.GetBlackboardComponent()->SetValueAsEnum(AttackType.SelectedKeyName, (uint8)EEnemyAttackType::EA_Pursuit);
 
 		return EBTNodeResult::Succeeded;

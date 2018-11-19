@@ -126,10 +126,11 @@ bool AKlEnemyController::IsPlayerDead()
 
 bool AKlEnemyController::IsPlayerAway()
 {
-	if (!IsLockPlayer || !PlayerCharacter || EPDisList.Num() < 6 || IsPlayerDead()) return false;
+	if (!IsLockPlayer || !PlayerCharacter || EPDisList.Num() < 6 || IsPlayerDead()) 
+		return false;
+
 	int BiggerNum = 0;
 	float LastDis = -1.f;
-
 	for (TArray<float>::TIterator It(EPDisList); It; ++It)
 	{
 		if (*It > LastDis) BiggerNum += 1;
@@ -213,14 +214,12 @@ void AKlEnemyController::FinishStateDefence()
 	}
 	else
 	{
-		//如果血值小于0.2,逃跑
 		if (HPRatio < 0.2f)
 		{
 			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
 		}
 		else
 		{
-			//跳到攻击状态
 			BlackboardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
 		}
 	}

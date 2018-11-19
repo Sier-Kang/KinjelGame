@@ -78,6 +78,15 @@ public:
 	/** Is player dead */
 	bool IsPlayerDead();
 
+	/** Accept damage */
+	void AcceptDamage(int DamageVal);
+
+	/** Load Hp and hunger */
+	void LoadState(float HPVal, float HungerVal);
+
+	/** Save player's HP and Hunger */
+	void SaveState(float& HPVal, float HungerVal);
+
 public:
 	/** Player Controller */
 	class AKlPlayerController* PlayerController;

@@ -66,4 +66,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Kinjel")
 	class UBoxComponent* AffectCollision;
 
+	/**Sound when hti something */
+	class USoundWave* OverlaySound;
 };

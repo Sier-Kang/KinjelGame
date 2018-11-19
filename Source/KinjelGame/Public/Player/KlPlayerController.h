@@ -42,6 +42,9 @@ public:
 	*/
 	void ChangeHandObject();
 
+	/** Player dead */
+	void PlayerDead();
+
 public:
 	/** Player controller ptr */
 	class AKlPlayerCharacter* PlayerCharacter;
@@ -127,6 +130,9 @@ private:
 	*/
 	void LockedInput(bool bLockedInput);
 
+	/** Dead time event */
+	void DeadTimeOut();
+
 private:
 	/** Left pre action */
 	EUpperBody::Type LeftUpperType;
@@ -144,4 +150,6 @@ private:
 
 	/** Current Game UI Type */
 	EGameUIType::Type CurrentUIType;
+
+	FTimerHandle DeadHandle;
 };

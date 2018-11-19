@@ -4,6 +4,7 @@
 #include "ConstructorHelpers.h"
 #include "Engine/StaticMesh.h"
 #include "Components/BoxComponent.h"
+#include "Sound/SoundWave.h"
 
 AKlHandHammer::AKlHandHammer()
 {
@@ -43,5 +44,5 @@ void AKlHandHammer::BeginPlay()
 	ObjectIndex = 6;
 
 	// Add hammer sound
-	//OverlaySound = LoadObject<USoundWave>(NULL, TEXT("SoundWave'/Game/Res/Sound/GameSound/Hammer.Hammer'"));
+	OverlaySound = LoadObject<USoundWave>(NULL, TEXT("SoundWave'/Game/Res/Sound/GameSound/Hammer.Hammer'"));
 }

@@ -64,6 +64,15 @@ public:
 	/** Is player dead */
 	bool IsPlayerDead();
 
+	/** Accept damage */
+	void AcceptDamage(int DamageVal);
+
+	/** Get position of the camera */
+	FVector GetCameraPos();
+
+	/** Play dead animation */
+	float PlayDeadAnim();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -143,4 +152,7 @@ private:
 	float BaseLookUpRate;
 
 	float BaseTurnRate;
+
+	/** Dead animation asset */
+	class UAnimationAsset* AnimDead;
 };

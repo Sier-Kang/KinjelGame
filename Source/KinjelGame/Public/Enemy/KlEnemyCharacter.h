@@ -52,9 +52,39 @@ public:
 	/** Stop Defense */
 	void StopDefence();
 
+	/** Take damage, here do not override APawn::TakeDamage() funciton */
+	void AcceptDamage(int DamageVal);
+
+	/** Destroy Event */
+	void DestroyEvent();
+
+	/** Get Object Information */
+	FText GetInfoText() const;
+
+	/** Change hand object detection */
+	void ChangeWeaponDetect(bool IsOpen);
+
+	/** Is Lock Player */
+	bool IsLockPlayer();
+
+	/** Load HP */
+	void LoadHP(float HPVal);
+
+	/** Get HP */
+	float GetHP();
+
+public:
+	/** Resource ID */
+	int ResourceIndex;
+
+	/** Flag of weather destroy itself in next frame */
+	bool IsDestroyNextTick;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	/** Create flob object event */
+	void CreateFlobObject();
 
 protected:
 	/** Weapon slot */
@@ -93,4 +123,12 @@ private:
 
 	/** HP */
 	float HP;
+
+	/** Dead animation */
+	UAnimationAsset* AnimDead_I;
+
+	UAnimationAsset* AnimDead_II;
+
+	/** Delegate of enemy dead */
+	FTimerHandle DeadHandle;
 };

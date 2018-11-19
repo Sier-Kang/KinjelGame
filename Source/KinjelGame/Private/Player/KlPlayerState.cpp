@@ -42,7 +42,8 @@ void AKlPlayerState::Tick(float DeltaSeconds)
 	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
 
 	if (HP == 0.f && !IsDead) {
-		//if (PlayerController)SPController->PlayerDead();
+		if (PlayerController) 
+			PlayerController->PlayerDead();
 
 		IsDead = true;
 	}
@@ -170,6 +171,21 @@ void AKlPlayerState::PromoteHunger()
 bool AKlPlayerState::IsPlayerDead()
 {
 	return HP <= 0.f;
+}
+
+void AKlPlayerState::AcceptDamage(int DamageVal)
+{
+	HP = FMath::Clamp<float>(HP - DamageVal, 0.f, 500.f);
+
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+
+	if (HP == 0 && !IsDead)
+	{
+		if (PlayerController) 
+			PlayerController->PlayerDead();
+
+		IsDead = true;
+	}
 }
 
 FText AKlPlayerState::GetShotcutInfoText() const

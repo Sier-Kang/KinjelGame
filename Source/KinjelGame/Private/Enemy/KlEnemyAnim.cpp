@@ -204,5 +204,5 @@ void UKlEnemyAnim::StopAllAction()
 
 void UKlEnemyAnim::ChangeDetection(bool IsOpen)
 {
-	//if (EnemyCharacter) EnemyCharacter->ChangeWeaponDetect(IsOpen);
+	if (EnemyCharacter) EnemyCharacter->ChangeWeaponDetect(IsOpen);
 }

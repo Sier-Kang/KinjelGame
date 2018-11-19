@@ -4,6 +4,7 @@
 #include "ConstructorHelpers.h"
 #include "Engine/StaticMesh.h"
 #include "Components/BoxComponent.h"
+#include "Sound/SoundWave.h"
 
 AKlHandAxe::AKlHandAxe()
 {
@@ -28,4 +29,7 @@ void AKlHandAxe::BeginPlay()
 
 	// Define Object index
 	ObjectIndex = 5;
+
+	// Axe sound effect
+	OverlaySound = LoadObject<USoundWave>(NULL, TEXT("SoundWave'/Game/Res/Sound/GameSound/Axe.Axe'"));
 }

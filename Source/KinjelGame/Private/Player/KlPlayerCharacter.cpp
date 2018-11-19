@@ -123,6 +123,8 @@ AKlPlayerCharacter::AKlPlayerCharacter()
 	GetMesh()->SetOwnerNoSee(false);
 
 	HandObject = CreateDefaultSubobject<UChildActorComponent>(TEXT("HandObject"));
+
+	AnimDead = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), NULL, *FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/Player_Death.Player_Death'")));
 }
 
 // Called when the game starts or when spawned
@@ -270,6 +272,35 @@ bool AKlPlayerCharacter::IsPlayerDead()
 		return PlayerController->KlPlayerState->IsPlayerDead();
 
 	return false;
+}
+
+void AKlPlayerCharacter::AcceptDamage(int DamageVal)
+{
+	if (PlayerController->KlPlayerState)
+	{
+		PlayerController->KlPlayerState->AcceptDamage(DamageVal);
+	}
+}
+
+FVector AKlPlayerCharacter::GetCameraPos()
+{
+	switch (CharacterViewMode)
+	{
+	case EGameViewMode::First:
+		return FirstCamera->K2_GetComponentLocation();
+
+	case EGameViewMode::Third:
+		return ThirdCamera->K2_GetComponentLocation();
+	}
+
+	return FirstCamera->K2_GetComponentLocation();
+}
+
+float AKlPlayerCharacter::PlayDeadAnim()
+{
+	GetMesh()->PlayAnimation(AnimDead, false);
+
+	return AnimDead->GetMaxCurrentTime();
 }
 
 void AKlPlayerCharacter::MoveForward(float Value)

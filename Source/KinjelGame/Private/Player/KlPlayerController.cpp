@@ -87,6 +87,20 @@ void AKlPlayerController::ChangeHandObject()
 	);
 }
 
+void AKlPlayerController::PlayerDead()
+{
+	// Change to third person view
+	PlayerCharacter->ChangeView(EGameViewMode::Third);
+
+	float DeadDuration = PlayerCharacter->PlayDeadAnim();
+
+	LockedInput(true);
+
+	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &AKlPlayerController::DeadTimeOut);
+
+	GetWorld()->GetTimerManager().SetTimer(DeadHandle, TimerDelegate, DeadDuration, false);
+}
+
 void AKlPlayerController::ChangeView()
 {
 	if (!PlayerCharacter) return;
@@ -430,5 +444,18 @@ void AKlPlayerController::SwitchInputMode(bool bIsGameOnly)
 void AKlPlayerController::LockedInput(bool bLockedInput)
 {
 	PlayerCharacter->IsInputLocked = bLockedInput;
+}
+
+void AKlPlayerController::DeadTimeOut()
+{
+	SetPause(true);
+
+	SwitchInputMode(false);
+
+	ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Lose);
+
+	CurrentUIType = EGameUIType::Lose;
+
+	LockedInput(true);
 }
 

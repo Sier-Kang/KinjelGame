@@ -21,5 +21,6 @@ EBTNodeResult::Type UKlEnemyTaskChaseSwitch::ExecuteTask(UBehaviorTreeComponent&
 
 		OwnerComp.GetBlackboardComponent()->SetValueAsEnum(EnemyState.SelectedKeyName, (uint8)EEnemyAIState::ES_Patrol);
 	}
+
 	return EBTNodeResult::Succeeded;
 }

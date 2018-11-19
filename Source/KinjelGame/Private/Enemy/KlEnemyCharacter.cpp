@@ -15,6 +15,10 @@
 #include "Enemy/KlEnemyAnim.h"
 #include "Enemy/KlEnemyController.h"
 #include "Perception/PawnSensingComponent.h"
+#include "FKlHelper.h"
+#include "Data/FKlDataHandle.h"
+#include "KlFlobObject.h"
+#include "Data/FKlTypes.h"
 
 // Sets default values
 AKlEnemyCharacter::AKlEnemyCharacter()
@@ -58,6 +62,19 @@ AKlEnemyCharacter::AKlEnemyCharacter()
 
 	// Set pawn sensing component
 	EnemySense = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("EnemySense"));
+
+	// Add dead asset
+	AnimDead_I = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), 
+		NULL, 
+		*FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/Enemy_Dead_I.Enemy_Dead_I'"))
+	);
+
+	AnimDead_II = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), 
+		NULL, 
+		*FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/Enemy_Dead_II.Enemy_Dead_II'"))
+	);
+
+	IsDestroyNextTick = false;
 }
 
 // Called when the game starts or when spawned
@@ -100,6 +117,34 @@ void AKlEnemyCharacter::BeginPlay()
 	FScriptDelegate OnSeePlayerDelegate;
 	OnSeePlayerDelegate.BindUFunction(this, FName("OnSeePlayer"));
 	EnemySense->OnSeePawn.Add(OnSeePlayerDelegate);
+
+	ResourceIndex = 3;
+}
+
+void AKlEnemyCharacter::CreateFlobObject()
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	for (TArray<TArray<int>>::TIterator It(ResourceAttr->FlobObjectInfo); It; ++It)
+	{
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		int Num = Stream.RandRange((*It)[1], (*It)[2]);
+
+		if (GetWorld())
+		{
+			for (int i = 0; i < Num; ++i)
+			{
+				// Spawn flob objects
+				AKlFlobObject* FlobObject = GetWorld()->SpawnActor<AKlFlobObject>(
+					GetActorLocation() + FVector(0.f, 0.f, 40.f), 
+					FRotator::ZeroRotator
+				);
+
+				FlobObject->CreateFlobObject((*It)[0]);
+			}
+		}
+	}
 }
 
 void AKlEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
@@ -107,6 +152,7 @@ void AKlEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
 	if (Cast<AKlPlayerCharacter>(PlayerChar)) {
 		// Notify the controller OnSeePlayer event
 		if (EnemyController) EnemyController->OnSeePlayer();
+		FKlHelper::Debug(FString("Enemy see player."), 3.f);
 	}
 }
 
@@ -178,5 +224,99 @@ void AKlEnemyCharacter::StopDefence()
 {
 	if (EnemyAnimInst)
 		EnemyAnimInst->IsDefence = false;
+}
+
+void AKlEnemyCharacter::AcceptDamage(int DamageVal)
+{
+	// If enemy is in defense state, return immediately
+	if (EnemyAnimInst && EnemyAnimInst->IsDefence) 
+		return;
+
+	HP = FMath::Clamp<float>(HP - DamageVal, 0.f, 500.f);
+	HPBarWidget->ChangeHP(HP / 200.f);
+
+	if (HP == 0.f && !DeadHandle.IsValid())
+	{
+		EnemyController->EnemyDead();
+
+		EnemyAnimInst->StopAllAction();
+
+		float DeadDuration = 0.f;
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		int SelectIndex = Stream.RandRange(0, 1);
+		if (SelectIndex == 0)
+		{
+			GetMesh()->PlayAnimation(AnimDead_I, false);
+			DeadDuration = AnimDead_I->GetMaxCurrentTime() * 2;
+		}
+		else
+		{
+			GetMesh()->PlayAnimation(AnimDead_II, false);
+			DeadDuration = AnimDead_II->GetMaxCurrentTime() * 2;
+		}
+
+		CreateFlobObject();
+
+		FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &AKlEnemyCharacter::DestroyEvent);
+		GetWorld()->GetTimerManager().SetTimer(DeadHandle, TimerDelegate, DeadDuration, false);
+	}
+	else
+	{
+		if (EnemyController) EnemyController->UpdateDamageRatio(HP / 200.f);
+	}
+}
+
+void AKlEnemyCharacter::DestroyEvent()
+{
+	if (DeadHandle.IsValid()) GetWorld()->GetTimerManager().ClearTimer(DeadHandle);
+
+	GetWorld()->DestroyActor(this);
+}
+
+FText AKlEnemyCharacter::GetInfoText() const
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *FKlDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+	switch (FKlDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ResourceAttr->EN;
+
+		break;
+	case ECultureTeam::ZH:
+		return ResourceAttr->ZH;
+
+		break;
+	}
+
+	return ResourceAttr->ZH;
+}
+
+void AKlEnemyCharacter::ChangeWeaponDetect(bool IsOpen)
+{
+	AKlEnemyTool* WeaponClass = Cast<AKlEnemyTool>(WeaponSocket->GetChildActor());
+
+	if (WeaponClass) 
+		WeaponClass->ChangeOverlapDetect(IsOpen);
+}
+
+bool AKlEnemyCharacter::IsLockPlayer()
+{
+	if (EnemyController) 
+		return EnemyController->IsLockPlayer;
+
+	return false;
+}
+
+void AKlEnemyCharacter::LoadHP(float HPVal)
+{
+	HP = HPVal;
+
+	HPBarWidget->ChangeHP(HP / 200.f);
+}
+
+float AKlEnemyCharacter::GetHP()
+{
+	return HP;
 }
 

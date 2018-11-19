@@ -45,6 +45,7 @@ EBTNodeResult::Type UKlEnemyTaskAttackDash::ExecuteTask(UBehaviorTreeComponent& 
 
 EBTNodeResult::Type UKlEnemyTaskAttackDash::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	// Unload TimerHandle
 	if (!InitEnemyElement(OwnerComp) || !TimerHandle.IsValid()) 
 		return EBTNodeResult::Aborted;
 

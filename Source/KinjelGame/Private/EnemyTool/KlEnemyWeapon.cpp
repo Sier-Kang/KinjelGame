@@ -26,6 +26,6 @@ void AKlEnemyWeapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AA
 {
 	if (Cast<AKlPlayerCharacter>(OtherActor))
 	{
-		//Cast<AKlPlayerCharacter>(OtherActor)->AcceptDamage(20.f);
+		Cast<AKlPlayerCharacter>(OtherActor)->AcceptDamage(20.f);
 	}
 }
