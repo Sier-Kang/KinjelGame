@@ -13,6 +13,7 @@
 #include "Package/SKlPackageWidget.h"
 #include "SKlChatRoomWidget.h"
 #include "SKlGameMenuWidget.h"
+#include "SKlMiniMapWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlGameHUDWidget::Construct(const FArguments& InArgs)
@@ -73,6 +74,14 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 			[
 				SAssignNew(GameMenuWidget, SKlGameMenuWidget)
 				.Visibility(EVisibility::Hidden)
+			]
+
+			// Mini Map widget 
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(MiniMapWidget, SKlMiniMapWidget)
 			]
 			// Chat Room Widget
 			+SOverlay::Slot()

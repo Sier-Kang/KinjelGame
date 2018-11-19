@@ -51,6 +51,9 @@ public:
 
 	/** Package Widget */
 	TSharedPtr<class SKlPackageWidget> PackageWidget;
+
+	/** Mini Map Widget */
+	TSharedPtr<class SKlMiniMapWidget> MiniMapWidget;
 private:
 	/**
 	* Get screen size

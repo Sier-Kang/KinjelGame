@@ -79,10 +79,13 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = "RayCast")
 	FSlateBrush PointerBrush;
 
-	// Character icon in minimap
+	/** MiniMap background brush */
+	UPROPERTY(EditAnywhere, Category = "MiniMap")
+	FSlateBrush MiniMapBGBrush;
+
+	// Character icon in mini map
 	UPROPERTY(EditAnywhere, Category = "MiniMap")
 	FSlateBrush PawnPointBrush;
-
 
 	// Player state background
 	UPROPERTY(EditAnywhere, Category = "PlayerState")
