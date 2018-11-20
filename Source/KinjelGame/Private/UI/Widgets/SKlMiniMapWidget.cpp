@@ -72,7 +72,7 @@ int32 SKlMiniMapWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 		OutDrawElements,
 		LayerId + 10,
 		AllottedGeometry.ToPaintGeometry(NorthLocation - FVector2D(8.f, 8.f), FVector2D(16.f, 16.f)),
-		NSLOCTEXT("SlAiGame", "N", "N"),
+		NSLOCTEXT("KlGame", "N", "N"),
 		GameStyle->Font_16,
 		ESlateDrawEffect::None,
 		FLinearColor(1.f, 1.f, 1.f, 1.f)
@@ -81,7 +81,7 @@ int32 SKlMiniMapWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 		OutDrawElements,
 		LayerId + 10,
 		AllottedGeometry.ToPaintGeometry(SouthLocation - FVector2D(8.f, 8.f), FVector2D(16.f, 16.f)),
-		NSLOCTEXT("SlAiGame", "S", "S"),
+		NSLOCTEXT("KlGame", "S", "S"),
 		GameStyle->Font_16,
 		ESlateDrawEffect::None,
 		FLinearColor(1.f, 1.f, 1.f, 1.f)
@@ -90,7 +90,7 @@ int32 SKlMiniMapWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 		OutDrawElements,
 		LayerId + 10,
 		AllottedGeometry.ToPaintGeometry(EastLocation - FVector2D(8.f, 8.f), FVector2D(16.f, 16.f)),
-		NSLOCTEXT("SlAiGame", "E", "E"),
+		NSLOCTEXT("KlGame", "E", "E"),
 		GameStyle->Font_16,
 		ESlateDrawEffect::None,
 		FLinearColor(1.f, 1.f, 1.f, 1.f)
@@ -99,7 +99,7 @@ int32 SKlMiniMapWidget::OnPaint(const FPaintArgs& Args, const FGeometry& Allotte
 		OutDrawElements,
 		LayerId + 10,
 		AllottedGeometry.ToPaintGeometry(WestLocation - FVector2D(8.f, 8.f), FVector2D(16.f, 16.f)),
-		NSLOCTEXT("SlAiGame", "W", "W"),
+		NSLOCTEXT("KlGame", "W", "W"),
 		GameStyle->Font_16,
 		ESlateDrawEffect::None,
 		FLinearColor(1.f, 1.f, 1.f, 1.f)

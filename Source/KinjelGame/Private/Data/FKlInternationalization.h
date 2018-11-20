@@ -42,4 +42,25 @@ FKlInternationalization::Register(LOCTEXT("Sound", "Sound")); // 音效
 /** Public */
 FKlInternationalization::Register(LOCTEXT("GoBack", "GoBack")); // 返回
 
-#endif LOCTEXT_NAMESPACE
+#undef LOCTEXT_NAMESPACE
+
+#define LOCTEXT_NAMESPACE "KlGame"
+
+FKlInternationalization::Register("E", "E"); // 方向: 东
+FKlInternationalization::Register("S", "S"); // 方向: 南
+FKlInternationalization::Register("W", "W"); // 方向: 西
+FKlInternationalization::Register("N", "N"); // 方向: 北
+
+FKlInternationalization::Register(LOCTEXT("Player", "Player")); // 玩家
+FKlInternationalization::Register(LOCTEXT("Enemy", "Enemy")); // 敌人
+
+FKlInternationalization::Register(LOCTEXT("EnemyDialogue", ": Fight with me !")); // 敌人的对话
+FKlInternationalization::Register(LOCTEXT("Send", "Send")); // 发送
+
+FKlInternationalization::Register(LOCTEXT("GameOption", "GameOption")); // 游戏设置
+FKlInternationalization::Register(LOCTEXT("SaveGame", "SaveGame")); // 保存游戏
+FKlInternationalization::Register(LOCTEXT("SaveCompleted", "SaveCompleted")); // 保存完毕
+FKlInternationalization::Register(LOCTEXT("QuitGame", "QuitGame")); // 退出游戏
+FKlInternationalization::Register(LOCTEXT("GoBack", "GoBack")); // 返回
+
+#undef LOCTEXT_NAMESPACE
