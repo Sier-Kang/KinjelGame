@@ -35,6 +35,9 @@ public:
 	*/
 	void InitGamePlayModule();
 
+	/** Save Game */
+	void SaveGame();
+
 public:
 	class AKlPlayerController* KlPC;
 
@@ -61,6 +64,12 @@ protected:
 	*/
 	void InitializeMiniMapCamera();
 
+	/** Load game saved record */
+	void LoadRecord();
+
+	/**Load record for character package, runs in second frame for it will go well */
+	void LoadRecordPackage();
+
 private:
 	bool bInitPackageMgr;
 
@@ -68,4 +77,9 @@ private:
 	bool IsCreateMiniMap;
 
 	class AKlSceneCapture2D* MiniMapCamera;
+
+	/** Game saved record */
+	bool IsNeedLoadRecord;
+
+	class UKlSaveGame* GameRecord;
 };

@@ -107,6 +107,10 @@ struct FKlGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = "PlayerState")
 	FSlateBrush PlayerHeadBrush;
 
+	// Chat room background image
+	UPROPERTY(EditAnywhere, Category = "ChatRoom")
+	FSlateBrush ChatRoomBGBrush;
+
 	/*
 	* Font of 60
 	*/

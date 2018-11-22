@@ -15,6 +15,7 @@
 #include "Widgets/SKlPlayerStateWidget.h"
 #include "Widgets/Package/SKlPackageWidget.h"
 #include "Widgets/SKlMiniMapWidget.h"
+#include "Widgets/SKlGameMenuWidget.h"
 
 AKlGameHUD::AKlGameHUD()
 {
@@ -59,4 +60,7 @@ void AKlGameHUD::BeginPlay()
 
 	// Bind update map data delegate
 	GM->UpdateMapData.BindRaw(GameHUDWidget->MiniMapWidget.Get(), &SKlMiniMapWidget::UpdateMapData);
+
+	// Bind save game delegate
+	GameHUDWidget->GameMenuWidget->SaveGameDele.BindUObject(GM, &AKlGameMode::SaveGame);
 }

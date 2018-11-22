@@ -14,6 +14,7 @@
 #include "SKlChatRoomWidget.h"
 #include "SKlGameMenuWidget.h"
 #include "SKlMiniMapWidget.h"
+#include "SKlChatShowWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SKlGameHUDWidget::Construct(const FArguments& InArgs)
@@ -53,6 +54,14 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Top)
 			[
 				SAssignNew(PlayerStateWidget, SKlPlayerStateWidget)
+			]
+			// Chat show widget
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Left)
+			.VAlign(VAlign_Bottom)
+			.Padding(FMargin(20.f, 0.f, 0.f, 15.f))
+			[
+				SAssignNew(ChatShowWidget, SKlChatShowWidget)
 			]
 			// Black Mask, placed between Event UI and Game UI.
 			+SOverlay::Slot()
@@ -106,6 +115,21 @@ void SKlGameHUDWidget::Construct(const FArguments& InArgs)
 	// Initialize UIMap
 	InitUIMap();
 }
+
+void SKlGameHUDWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	// Add message to chat show widget every 5 s.
+	if (MessageTimeCount < 5.f) {
+		MessageTimeCount += InDeltaTime;
+	}
+	else
+	{
+		ChatShowWidget->AddMessage(NSLOCTEXT("KlGame", "Enemy", "Enemy"), NSLOCTEXT("KlGame", "EnemyDialogue", ": Fight with me !"));
+		ChatRoomWidget->AddMessage(NSLOCTEXT("KlGame", "Enemy", "Enemy"), NSLOCTEXT("KlGame", "EnemyDialogue", ": Fight with me !"));
+		MessageTimeCount = 0.f;
+	}
+}
+
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 float SKlGameHUDWidget::GetUIScaler() const
 {
@@ -135,11 +159,11 @@ void SKlGameHUDWidget::ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type Nex
 		// Show game ui that current consistent to current game ui type
 		UIMap.Find(NextUI)->Get()->SetVisibility(EVisibility::Visible);
 
-		//if (NextUI == EGameUIType::ChatRoom) ChatRoomWidget->ScrollToEnd();
+		if (NextUI == EGameUIType::ChatRoom) ChatRoomWidget->ScrollToEnd();
 
-		//if (NextUI == EGameUIType::Lose) GameMenuWidget->GameLose();
+		if (NextUI == EGameUIType::Lose) GameMenuWidget->GameLose();
 
-		//if (NextUI == EGameUIType::Pause) GameMenuWidget->ResetMenu();
+		if (NextUI == EGameUIType::Pause) GameMenuWidget->ResetMenu();
 	}
 }
 
@@ -164,7 +188,7 @@ void SKlGameHUDWidget::InitUIMap()
 	UIMap.Add(EGameUIType::Lose, GameMenuWidget);
 
 	// Bind delegate
-	//ChatRoomWidget->PushMessage.BindRaw(ChatShowWidget.Get(), &SSlAiChatShowWidget::AddMessage);
+	ChatRoomWidget->PushMessage.BindRaw(ChatShowWidget.Get(), &SKlChatShowWidget::AddMessage);
 	// Initialize timer time to 0
-	//MessageTimeCount = 0.f;
+	MessageTimeCount = 0.f;
 }

@@ -10,86 +10,60 @@
 #include "SBorder.h"
 #include "STextBlock.h"
 #include "SMultiLineEditableText.h"
+#include "SScrollBox.h"
+#include "SEditableTextBox.h"
+#include "SButton.h"
+#include "STextBlock.h"
 
-/**
-* Item of ChatRoom widget 
-*/
-struct ChatShowItem
+struct ChatMessItem
 {
-	// Transparency
-	float Alpha;
-
-	// Horizontal component
+	// Horizontal control
 	TSharedPtr<SHorizontalBox> CSBox;
 
-	// Name 
 	TSharedPtr<STextBlock> CSName;
 
-	// Message content border
 	TSharedPtr<SBorder> CSBorder;
 
-	// Message content
 	TSharedPtr<SMultiLineEditableText> CSContent;
 
-	// Struct constructor
-	ChatShowItem(const FSlateBrush* EmptyBrush, const FSlateFontInfo FontInfo)
+	ChatMessItem(const FSlateBrush* EmptyBrush, const FSlateFontInfo FontInfo)
 	{
-		Alpha = 0.f;
-		// Instanced component
 		SAssignNew(CSBox, SHorizontalBox)
 
-		+ SHorizontalBox::Slot()
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Fill)
-		.AutoWidth()
-		[
-			SAssignNew(CSName, STextBlock)
-			.Font(FontInfo)
-			.ColorAndOpacity(FSlateColor(FLinearColor(0.f, 1.f, 0.f, 1.f)))
-		]
-
-		+ SHorizontalBox::Slot()
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Fill)
-		.FillWidth(1.f)
-		[
-			SAssignNew(CSBorder, SBorder)
-			.BorderImage(EmptyBrush)
+			+ SHorizontalBox::Slot()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
+			.AutoWidth()
 			[
-				SAssignNew(CSContent, SMultiLineEditableText)
-				.WrappingPolicy(ETextWrappingPolicy::AllowPerCharacterWrapping)
-				.AutoWrapText(true)
+				SAssignNew(CSName, STextBlock)
 				.Font(FontInfo)
+				.ColorAndOpacity(TAttribute<FSlateColor>(FSlateColor(FLinearColor(0.f, 1.f, 0.f, 1.f))))
 			]
-		];
+
+			+ SHorizontalBox::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			.FillWidth(1.f)
+			[
+				SAssignNew(CSBorder, SBorder)
+				.BorderImage(EmptyBrush)
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Fill)
+				[
+					SAssignNew(CSContent, SMultiLineEditableText)
+					.WrappingPolicy(ETextWrappingPolicy::AllowPerCharacterWrapping)
+					.AutoWrapText(true)
+					.Font(FontInfo)
+				]
+			];
 	}
 
-	// Active component
 	TSharedPtr<SHorizontalBox> ActiveItem(FText NewName, FText NewContent)
 	{
 		CSName->SetText(NewName);
 		CSContent->SetText(NewContent);
-		Alpha = 1.f;
-		CSName->SetColorAndOpacity(FSlateColor(FLinearColor(0.f, 1.f, 0.f, Alpha)));
-		CSBorder->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, Alpha));
 		return CSBox;
 	}
-
-	// Faded, return bActive
-	bool DeltaDisappear(float DeltaTime)
-	{
-		Alpha = FMath::Clamp<float>(Alpha - DeltaTime * 0.05f, 0.f, 1.f);
-		CSName->SetColorAndOpacity(FSlateColor(FLinearColor(0.f, 1.f, 0.f, Alpha)));
-		CSBorder->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, Alpha));
-		if (Alpha == 0.f)
-		{
-			return true;
-		}
-		return false;
-	}
-
 };
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -97,76 +71,132 @@ void SKlChatRoomWidget::Construct(const FArguments& InArgs)
 {
 	//Get GameStyle
 	GameStyle = &KlStyle::Get().GetWidgetStyle<FKlGameStyle>("BPKlGameStyle");
-	
+
 	ChildSlot
 	[
+
 		SNew(SBox)
-		.WidthOverride(500.f)
-		.HeightOverride(600.f)
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Bottom)
+		.WidthOverride(600.f)
+		.HeightOverride(1080.f)
 		[
-			SAssignNew(ChatBox, SVerticalBox)
+			SNew(SBorder)
+			.BorderImage(&GameStyle->ChatRoomBGBrush)
+			[
+				SNew(SOverlay)
+
+				+ SOverlay::Slot()
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Bottom)
+				.Padding(FMargin(0.f, 0.f, 0.f, 80.f))
+				[
+					SAssignNew(ScrollBox, SScrollBox)
+				]
+
+				+ SOverlay::Slot()
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Fill)
+				.Padding(FMargin(0.f, 1000.f, 0.f, 0.f))
+				[
+
+					SNew(SOverlay)
+	
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Fill)
+					.VAlign(VAlign_Fill)
+					.Padding(FMargin(0.f, 0.f, 120.f, 0.f))
+					[
+						SAssignNew(EditTextBox, SEditableTextBox)
+						.Font(GameStyle->Font_30)
+						.OnTextCommitted(this, &SKlChatRoomWidget::SubmitEvent)
+					]
+
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Fill)
+					.VAlign(VAlign_Fill)
+					.Padding(FMargin(480.f, 0.f, 0.f, 0.f))
+					[
+						SNew(SButton)
+						.HAlign(HAlign_Center)
+						.VAlign(VAlign_Center)
+						.OnClicked(this, &SKlChatRoomWidget::SendEvent)
+						[
+							SNew(STextBlock)
+							.Font(GameStyle->Font_30)
+							.Text(NSLOCTEXT("KlGame", "Send", "Send"))
+						]
+					]
+				]
+			]
 		]
 	];
-
-	// Initialize chat widget items
-	InitializeItem();
-}
-
-void SKlChatRoomWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
-{
-	TArray<TSharedPtr<ChatShowItem>> TempList;
-
-	for (TArray<TSharedPtr<ChatShowItem>>::TIterator It(ActiveList); It; ++It)
-	{
-		if ((*It)->DeltaDisappear(InDeltaTime))
-		{
-			ChatBox->RemoveSlot((*It)->CSBox->AsShared());
-
-			TempList.Push(*It);
-		}
-	}
-
-	for (int i = 0; i < TempList.Num(); ++i) {
-		ActiveList.Remove(TempList[i]);
-		UnActiveList.Push(TempList[i]);
-	}
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
+void SKlChatRoomWidget::SubmitEvent(const FText& SubmitText, ETextCommit::Type CommitType)
+{
+	FString MessageStr = EditTextBox->GetText().ToString();
+
+	if (MessageStr.IsEmpty())
+		return;
+
+	MessageStr = FString(": ") + MessageStr;
+	AddMessage(NSLOCTEXT("KlGame", "Player", "Player"), FText::FromString(MessageStr));
+
+	EditTextBox->SetText(FText::FromString(""));
+	PushMessage.ExecuteIfBound(NSLOCTEXT("KlGame", "Player", "Player"), FText::FromString(MessageStr));
+}
+
+FReply SKlChatRoomWidget::SendEvent()
+{
+	FString MessageStr = EditTextBox->GetText().ToString();
+
+	if (MessageStr.IsEmpty())
+		return FReply::Handled();
+
+	MessageStr = FString(": ") + MessageStr;
+	AddMessage(NSLOCTEXT("KlGame", "Player", "Player"), FText::FromString(MessageStr));
+
+	EditTextBox->SetText(FText::FromString(""));
+	PushMessage.ExecuteIfBound(NSLOCTEXT("KlGame", "Player", "Player"), FText::FromString(MessageStr));
+
+	return FReply::Handled();
+}
+
 void SKlChatRoomWidget::AddMessage(FText NewName, FText NewContent)
 {
-	TSharedPtr<ChatShowItem> InsertItem;
+	TSharedPtr<ChatMessItem> InsertItem;
 
-	if (UnActiveList.Num() > 0) {
-		InsertItem = UnActiveList[0];
-		UnActiveList.RemoveAt(0);
+	if (MessageList.Num() < 30)
+	{
+		// Create new widget 
+		InsertItem = MakeShareable(new ChatMessItem(&GameStyle->EmptyBrush, GameStyle->Font_30));
+		MessageList.Add(InsertItem);
+		ScrollBox->AddSlot()
+		[
+			InsertItem->ActiveItem(NewName, NewContent)->AsShared()
+		];
 	}
 	else
 	{
-		// Get first item in ActvieList
-		InsertItem = ActiveList[0];
-		ActiveList.RemoveAt(0);
+		InsertItem = MessageList[0];
 
-		ChatBox->RemoveSlot(InsertItem->CSBox->AsShared());
+		MessageList.Remove(InsertItem);
+		ScrollBox->RemoveSlot(InsertItem->CSBox->AsShared());
+
+		ScrollBox->AddSlot()
+		[
+			InsertItem->ActiveItem(NewName, NewContent)->AsShared()
+		];
+
+		MessageList.Push(InsertItem);
 	}
 
-	ChatBox->AddSlot()
-	.HAlign(HAlign_Fill)
-	.VAlign(VAlign_Fill)
-	.FillHeight(1.f)
-	[
-		InsertItem->ActiveItem(NewName, NewContent)->AsShared()
-	];
-
-	ActiveList.Push(InsertItem);
+	ScrollBox->ScrollToEnd();
 }
 
-void SKlChatRoomWidget::InitializeItem()
+void SKlChatRoomWidget::ScrollToEnd()
 {
-	for (int i = 0; i < 10; ++i) {
-		UnActiveList.Add(MakeShareable(new ChatShowItem(&GameStyle->EmptyBrush, GameStyle->Font_16)));
-	}
+	ScrollBox->ScrollToEnd();
 }
+

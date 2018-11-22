@@ -34,6 +34,8 @@ public:
 	// Resource ID
 	int ResourceIndex;
 
+	bool IsDestroyNextTick;
+
 	/**
 	* Get Pickup object's name
 	*/

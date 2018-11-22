@@ -36,6 +36,8 @@ void AKlPickupObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsDestroyNextTick)
+		GetWorld()->DestroyActor(this);
 }
 
 FText AKlPickupObject::GetInfoText() const

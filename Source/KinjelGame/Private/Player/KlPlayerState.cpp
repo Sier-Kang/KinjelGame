@@ -188,6 +188,21 @@ void AKlPlayerState::AcceptDamage(int DamageVal)
 	}
 }
 
+void AKlPlayerState::LoadState(float HPVal, float HungerVal)
+{
+	HP = HPVal;
+	Hunger = HungerVal;
+
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+}
+
+void AKlPlayerState::SaveState(float& HPVal, float HungerVal)
+{
+	HPVal = HP;
+
+	HungerVal = Hunger;
+}
+
 FText AKlPlayerState::GetShotcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;

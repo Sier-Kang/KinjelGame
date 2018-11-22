@@ -6,9 +6,9 @@
 #include "SlateBasics.h"
 #include "Widgets/SCompoundWidget.h"
 
-struct ChatShowItem;
+struct ChatMessItem;
 
-class SVerticalBox;
+DECLARE_DELEGATE_TwoParams(FPushMessage, FText, FText)
 
 /**
  * 
@@ -22,29 +22,31 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+	
+	/** Submit event */
+	void SubmitEvent(const FText& SubmitText, ETextCommit::Type CommitType);
 
-	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+	/** Send button  trigger event */
+	FReply SendEvent();
 
-	/**
-	* Add chat message
-	*/
+	/** Add message event */
 	void AddMessage(FText NewName, FText NewContent);
 
-private:
-	/**
-	* Initialize content in chat room widget
-	*/
-	void InitializeItem();
+	void ScrollToEnd();
+
+public:
+	FPushMessage PushMessage;
 
 private:
-	/** Game style */
-	const struct FKlGameStyle* GameStyle;
+	/** Game Style */
+	const struct FKlGameStyle *GameStyle;
 
-	TSharedPtr<SVerticalBox> ChatBox;
+	/** Scroll control */
+	TSharedPtr<class SScrollBox> ScrollBox;
 
-	// Actived Items
-	TArray<TSharedPtr<ChatShowItem>> ActiveList;
+	/** Edit text control */
+	TSharedPtr<class SEditableTextBox> EditTextBox;
 
-	// Unactived items
-	TArray<TSharedPtr<ChatShowItem>> UnActiveList;
+	/** Message list */
+	TArray<TSharedPtr<ChatMessItem>> MessageList;
 };

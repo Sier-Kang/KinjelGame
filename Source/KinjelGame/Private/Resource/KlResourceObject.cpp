@@ -74,6 +74,8 @@ void AKlResourceObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsDestroyNextTick)
+		GetWorld()->DestroyActor(this);
 }
 
 FText AKlResourceObject::GetInfoText() const

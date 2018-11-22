@@ -20,6 +20,8 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
 	/** Bind to UIScaler */
 	float GetUIScaler() const;
 
@@ -54,6 +56,8 @@ public:
 
 	/** Mini Map Widget */
 	TSharedPtr<class SKlMiniMapWidget> MiniMapWidget;
+
+	TSharedPtr<class SKlChatShowWidget> ChatShowWidget;
 private:
 	/**
 	* Get screen size
@@ -74,4 +78,7 @@ private:
 
 	/** UI Map */
 	TMap<EGameUIType::Type, TSharedPtr<SCompoundWidget>> UIMap;
+
+	/** Message timer */
+	float MessageTimeCount;
 };

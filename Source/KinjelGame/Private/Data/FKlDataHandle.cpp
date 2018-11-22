@@ -10,6 +10,10 @@
 #include "UI/Style/KlGameWidgetStyle.h"
 #include "Sound/SoundCue.h"
 
+#include "AudioDevice.h"
+#include "Sound/SoundMix.h"
+#include "Sound/SoundClass.h"
+
 TSharedPtr<FKlDataHandle> FKlDataHandle::DataInstance = nullptr;
 
 void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
@@ -29,6 +33,24 @@ void FKlDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 		MusicVolume, 
 		SoundVolume, 
 		&RecordDataList);
+}
+
+void FKlDataHandle::ResetGameVolume(float MusicVol, float SoundVol)
+{
+	if (MusicVol > 0)
+	{
+		MusicVolume = MusicVol;
+
+		AudioDevice->SetSoundMixClassOverride(KlSoundMix, KlMusicClass, MusicVolume, 1.f, 0.2f, false);
+	}
+	if (SoundVol > 0)
+	{
+		SoundVolume = SoundVol;
+
+		AudioDevice->SetSoundMixClassOverride(KlSoundMix, KlSoundClass, SoundVolume, 1.f, 0.2f, false);
+	}
+
+	FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
 void FKlDataHandle::InitRecordData()
@@ -122,11 +144,37 @@ void FKlDataHandle::InitializeGameData()
 	InitCompoundTableMap();
 
 	// Initialize game audio data
+	InitializeGameAudio();
 }
 
 void FKlDataHandle::InitCompoundTableMap()
 {
 	FKlSingleton<FKlJsonHandle>::Get()->CompoundTableJsonRead(CompoundTableMap);
+}
+
+void FKlDataHandle::InitializeGameAudio()
+{
+	KlSoundMix = LoadObject<USoundMix>(NULL, TEXT("SoundMix'/Game/Blueprint/Sound/KlSoundMix.KlSoundMix'"));
+	KlMusicClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/Blueprint/Sound/KlMusicClass.KlMusicClass'"));
+	KlSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/Blueprint/Sound/KlSoundClass.KlSoundClass'"));
+
+	AudioDevice = GEngine->GetMainAudioDevice();
+
+	AudioDevice->PushSoundMixModifier(KlSoundMix);
+
+	ResetGameVolume(MusicVolume, SoundVolume);
+}
+
+void FKlDataHandle::AddNewRecord()
+{
+	RecordDataList.Add(RecordName);
+
+	FKlSingleton<FKlJsonHandle>::Get()->UpdateRecordData(
+		GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), 
+		MusicVolume,
+		SoundVolume, 
+		&RecordDataList
+	);
 }
 
 void FKlDataHandle::Initialize() 

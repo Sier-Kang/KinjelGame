@@ -26,6 +26,8 @@ public:
 	// Pickup object ID
 	int ObjectIndex;
 
+	bool IsDestroyNextTick;
+
 	/** 
 	* Get Pickup object's name 
 	*/

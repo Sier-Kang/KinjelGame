@@ -25,7 +25,7 @@ void AKlEnemyController::Tick(float DeltaTime)
 	// Update enemy's HP Bar's orientation
 	if (PlayerCharacter && EnemyCharacter)
 	{
-		EnemyCharacter->UpdateHPBarRotation(PlayerCharacter->GetActorLocation());
+		EnemyCharacter->UpdateHPBarRotation(PlayerCharacter->GetCameraPos());
 	}
 }
 

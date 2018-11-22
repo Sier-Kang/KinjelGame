@@ -161,6 +161,9 @@ void AKlEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// If destroys next frame 
+	if (IsDestroyNextTick)
+		DestroyEvent();
 }
 
 // Called to bind functionality to input

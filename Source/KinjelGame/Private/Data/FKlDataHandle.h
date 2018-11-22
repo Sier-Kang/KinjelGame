@@ -32,6 +32,13 @@ public:
 	void ResetMenuVolume(float MusicVol, float SoundVol);
 
 	/**
+	* Change current music and sound
+	* @param MusicVol SoundVol
+	* @return void
+	*/
+	void ResetGameVolume(float MusicVol, float SoundVol);
+
+	/**
 	* Initialize record data
 	* @param
 	* @return
@@ -62,6 +69,14 @@ public:
 	* Initialize CompoundTable 
 	*/
 	void InitCompoundTableMap();
+
+	/**
+	* Initialize game audio
+	*/
+	void InitializeGameAudio();
+
+	/** Add new record */
+	void AddNewRecord();
 
 public:
 	/** Culture that game use */
@@ -116,6 +131,15 @@ private:
 
 	// Audio control
 	TMap<FString, TArray<USoundCue*>> MenuAudioResource;
+
+	/** Music components */
+	class USoundMix* KlSoundMix;
+
+	class USoundClass* KlMusicClass;
+
+	USoundClass* KlSoundClass;
+
+	class FAudioDevice* AudioDevice;
 };
 
 
